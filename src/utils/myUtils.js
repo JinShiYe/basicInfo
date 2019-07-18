@@ -49,30 +49,6 @@ const myUtils = {
         params.sign = signT;
         postTest(url,params,flag,callback);
     },
-    // POST 请求公共方法（同步请求）
-    async asyncPost (flag,requestUrl, params) {
-        let url = "";
-        if (flag == 0) {
-            url = storekeyname.INTERFACEZENG + requestUrl;
-        } else if (flag == 2) {
-            url = storekeyname.INTERFACEMENG + requestUrl;
-        } else if (flag == 1) {
-            url = storekeyname.INTERFACEKONG + requestUrl;
-            params.uuid=myUtils.uid();
-            params.appid=storekeyname.APPID;
-            params.token=store.get(storekeyname.TOKEN);
-        }else if (flag == 3) {
-            url = storekeyname.INTERFACEGU + requestUrl;
-        }else {
-            url = requestUrl;
-        }
-        let signTemp = myUtils.sortParams(params);
-        let signT = HmacSHA1(signTemp, storekeyname.sha1key).toString(enc.Base64);
-        params.sign = signT;
-        let res = await axios.post(url, params)
-        res = res.data
-        return res
-    },
     //数组排序
     sortParams: (params) => {
         let arr1 = [];
@@ -169,11 +145,12 @@ const myUtils = {
         let value=desEncrypt(desKey, JSON.stringify(params))
         return value;
     },
+
 };
 
 function postTest(url,params,flag,callback) {
-    console.log("requestUrl: %c \n" + url,"color:#fff")
-    console.log("requestParams: %c \n" + JSON.stringify(params),"color:#ff0000")
+    KL.debug("requestUrl: %c \n" + url,"color:#fff")
+    KL.debug("requestParams: %c \n" + JSON.stringify(params),"color:#ff0000")
     let data=params;
     if(flag==1){
         data=JSON.stringify(params)
@@ -188,4 +165,23 @@ function postTest(url,params,flag,callback) {
         console.log(error)
     })
 }
+
+function KK(){
+    function Info(text,style) {
+        if(storekeyname.debug){
+            console.info(text,style)
+        }
+    }
+    function Log(text,style) {
+        if(storekeyname.debug){
+            console.log(text,style)
+        }
+    }
+    return {
+        debug:Log,
+        info:Info
+    }
+}
+let KL=KK();
+export {KL};
 export default myUtils;
