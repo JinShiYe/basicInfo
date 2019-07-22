@@ -5,6 +5,7 @@ import uuid from 'node-uuid';
 import RSAKey from './encrypt/rsa'
 import desEncrypt from "./encrypt/des";
 import store from "./store";
+import {message} from "antd";
 const myUtils = {
     // 获取url params参数
     getUrlSearch: () => {
@@ -28,18 +29,11 @@ const myUtils = {
     // POST 请求公共方法
     post: (flag, requestUrl, params, callback) => {
         axios.defaults.timeout = storekeyname.timeout;
-        // axios.defaults.headers = {'Content-type': 'application/json'}
+        axios.defaults.headers = {'Content-type': 'application/json'}
         let url = "";
         if (flag == 0) {
             url = storekeyname.INTERFACEZENG + requestUrl;
-        } else if (flag == 2) {
-            url = storekeyname.INTERFACEMENG + requestUrl;
-        } else if (flag == 1) {
-            url = storekeyname.INTERFACEKONG + requestUrl;
-            params.uuid=myUtils.uid();
-            params.appid=storekeyname.APPID;
-            params.token=store.get(storekeyname.TOKEN);
-        }else if (flag == 3) {
+        }else if (flag == 1) {
             url = storekeyname.INTERFACEGU + requestUrl;
         }else {
             url = requestUrl;
@@ -47,7 +41,23 @@ const myUtils = {
         let signTemp = myUtils.sortParams(params);
         let signT = HmacSHA1(signTemp, storekeyname.sha1key).toString(enc.Base64);
         params.sign = signT;
-        postTest(url,params,flag,callback);
+        let data=params;
+        console.log("requestUrl: %c \n" + url,"color:#fff")
+        console.log("requestParams: %c \n" + JSON.stringify(params),"color:#ff0000")
+        axios({
+            url: url,
+            method: 'post',
+            data: data,
+        }).then(function (res) {
+            callback(res.data);
+        }).catch(function (error) {
+            console.log(error)
+            let res ={
+                code:-1,
+                msg:"网络错误，请稍后重试"
+            }
+            callback(res);
+        })
     },
     //数组排序
     sortParams: (params) => {
@@ -147,41 +157,67 @@ const myUtils = {
     },
 
 };
-
-function postTest(url,params,flag,callback) {
-    KL.debug("requestUrl: %c \n" + url,"color:#fff")
-    KL.debug("requestParams: %c \n" + JSON.stringify(params),"color:#ff0000")
-    let data=params;
-    if(flag==1){
-        data=JSON.stringify(params)
-    }
-    axios({
-        url: url,
-        method: 'post',
-        data: data,
-    }).then(function (res) {
-        callback(res.data);
-    }).catch(function (error) {
-        console.log(error)
-    })
+//获取列表数据通用请求
+let getTableData=(interfaceName,that,pagesize,page)=>{
+    let personal=store.get(storekeyname.PERSONALINFO);
+    let utoken =store.get(storekeyname.TOKEN);
+    let params = {
+        platform_code:personal.platform_code,
+        app_code:personal.app_code,
+        pagesize:pagesize,
+        pageindex:page,
+        access_token: utoken,
+    };
+    myUtils.post(1, interfaceName, params, res => {
+        console.log("res:"+JSON.stringify(res))
+        if(res.code==0){
+            let datas=[];
+            res.data.list.map((item,index)=>{
+                item.xh=index+1;
+                datas.push(item)
+            });
+            that.setState({
+                data:datas,
+                loading:false,
+                total: res.data.pagerowc,
+            });
+        }else{
+            that.setState({
+                data:[],
+                loading:false,
+                total: 0,
+            });
+            message.error(res.msg)
+        }
+    });
 }
 
-function KK(){
-    function Info(text,style) {
-        if(storekeyname.debug){
-            console.info(text,style)
+//添加 编辑通用请求
+let add_editData=(interfaceName,requestData,callback)=>{
+    let personal=store.get(storekeyname.PERSONALINFO);
+    let utoken =store.get(storekeyname.TOKEN);
+    requestData.platform_code=personal.platform_code;
+    requestData.app_code=personal.app_code;
+    requestData.access_token=utoken;
+    myUtils.post(1, interfaceName, requestData, res => {
+        console.log("res:"+JSON.stringify(res))
+        if(res.code==0){
+            message.success(res.msg)
+            callback("success");
+        }else{
+            message.error(res.msg)
         }
-    }
-    function Log(text,style) {
-        if(storekeyname.debug){
-            console.log(text,style)
-        }
-    }
-    return {
-        debug:Log,
-        info:Info
-    }
+    });
 }
-let KL=KK();
-export {KL};
+
+['log', 'info', 'warn', 'error'].forEach(function(method) {
+    if( storekeyname.debug){
+        console[method] = console[method].bind(
+            console
+        );
+    }else{
+        console[method] = ()=>{}
+    }
+});
+export {getTableData,add_editData}
 export default myUtils;

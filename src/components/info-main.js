@@ -3,29 +3,41 @@ import React, {Component} from 'react';
 import {HashRouter, Route,  Switch, Redirect} from 'react-router-dom';
 import {message} from 'antd';
 import store from '../utils/store';
-import myUtils,{KL} from '../utils/myUtils';
+import myUtils from '../utils/myUtils';
 import storekeyname from '../utils/storeKeyName';
 import GrdAndCls from './grd-cls';
-
+import CollegeDep from './college_department';
+import Major from './major';
+import Subject from './subject';
+import TeachingEdition from  './teaching_edition'
+import Fascicle from  './fascicle'
+import Semester from  './semester'
+import SubjectType from './subject_type'
+import EquipmentType from './equipment_type'
+import Test from './test';
 //路由
 class SchInfoMain extends Component {
 
+    constructor(props){
+        super(props)
+    }
 
 
-    componentDidMount() {
+    componentWillMount() {
         window.addEventListener('message', function(ev) {
-            let data = ev.data;
-            KL.debug(ev)
-            KL.info('message from parent page:', data);
+
         }, false);
         async function getUserInfo(utoken){
             let paramsUserInfo = {
                 access_token: utoken,
             };
             await  myUtils.post(0, "api/user/currentUserInfo", paramsUserInfo, res => {
-                KL.debug(JSON.stringify(res))
+                console.log(JSON.stringify(res))
                 if (res.code == 0) {
                     let personal = res.data;
+                    if(personal.app_code==""){
+                        personal.app_code="aaabbbccc"
+                    }
                     store.set(storekeyname.PERSONALINFO, personal);
                 }
             });
@@ -63,7 +75,7 @@ class SchInfoMain extends Component {
                 access_token: utoken //用户令牌
             };
             await myUtils.post(0, "api/acl/permissionByPosition", paramsPermissions, res => {
-                KL.debug(JSON.stringify(res))
+                console.log(JSON.stringify(res))
                 if (res.code == 0) {
                     let rspList = res.data.split(",");
                     let permissionsObj = new Map();
@@ -87,28 +99,30 @@ class SchInfoMain extends Component {
             utoken=search.access_token;
             store.set(storekeyname.TOKEN, utoken);
         }else{
-            utoken="MzZhY2VjNmYtOGU5ZS00N2VlLTg3ZGEtNmRhY2UwMTg3Mzli";
+            utoken="MzAwZDVjYTktY2IxNi00YjA4LWI5MGUtZGZmNDQ5MzQzYWI0";
             store.set(storekeyname.TOKEN, utoken);
         }
         getUserInfo(utoken);
         permissionByPosition()
     }
 
+
     render() {
         return (
             <div>
                 <HashRouter>
-                    <Switch>
-                        <Route exact path='/grd_cls' component={GrdAndCls}/>{/*学段及年级*/}
-                        <Route exact path='/college_department' component={GrdAndCls}/>{/*院系*/}
-                        <Route exact path='/major' component={GrdAndCls}/>{/*专业*/}
-                        <Route exact path='/subject' component={GrdAndCls}/>{/*科目*/}
-                        <Route exact path='/teaching_edition' component={GrdAndCls}/>{/*教版*/}
-                        <Route exact path='/fascicle' component={GrdAndCls}/>{/*教材分册*/}
-                        <Route exact path='/semester' component={GrdAndCls}/>{/*季期*/}
-                        <Route exact path='/subject_type' component={GrdAndCls}/>{/*分科*/}
-                        <Route exact path='/equipment_type' component={GrdAndCls}/>{/*设备类型*/}
-                    </Switch>
+                    {/*<Switch>*/}
+                    <Route exact path='/' component={Test}/>{/*学段及年级*/}
+                    <Route  path='/grd_cls' component={GrdAndCls}/>{/*学段及年级*/}
+                    <Route  path='/college_department' component={CollegeDep}/>{/*院系*/}
+                    <Route  path='/major' component={Major}/>{/*专业*/}
+                    <Route  path='/subject' component={Subject}/>{/*科目*/}
+                    <Route  path='/teaching_edition' component={TeachingEdition}/>{/*教版*/}
+                    <Route  path='/fascicle' component={Fascicle}/>{/*教材分册*/}
+                    <Route  path='/semester' component={Semester}/>{/*季期*/}
+                    <Route  path='/subject_type' component={SubjectType}/>{/*分科*/}
+                    <Route  path='/equipment_type' component={EquipmentType}/>{/*设备类型*/}
+                    {/*</Switch>*/}
                 </HashRouter>
             </div>
         )
