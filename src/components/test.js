@@ -2,15 +2,31 @@ import '../themes/schinfo.css';
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {Link} from 'react-router-dom';
-import {Button} from 'antd';
+import {Button,Input,message} from 'antd';
+import store from '../utils/store';
+import storekeyname from '../utils/storeKeyName';
 //路由
 class Test extends Component {
     componentDidMount() {
     }
 
+    saveToken=token=>{
+        store.set(storekeyname.TOKEN, token);
+        message.success("token： "+token+"   保存成功")
+    }
+
     render() {
         return (
             <div>
+                <br/><br/><br/>
+                <Input.Search
+                    placeholder="token"
+                    enterButton="保存"
+                    size="large"
+                    style={{width:350}}
+                    onSearch={this.saveToken}
+                />
+                <br/><br/><br/>
                 <Link to={`/grd_cls`}>
                     <Button className="create-notice-btn" type="primary" icon="form">学段及年级</Button>
                 </Link>

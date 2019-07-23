@@ -46,23 +46,11 @@ class SchInfoMain extends Component {
             let personal=store.get(storekeyname.PERSONALINFO);
             //1.9: 查询权限符（前端调用，判断按钮是否显示）
             let permissions = [
-                storekeyname.grd_cls_add, storekeyname.grd_cls_edit,
-                storekeyname.college_department_add, storekeyname.college_department_edit,
-                storekeyname.major_add, storekeyname.major_edit,
-                storekeyname.subject_add, storekeyname.subject_edit,
-                storekeyname.teaching_edition_add, storekeyname.teaching_edition_edit,
-                storekeyname.fascicle_add, storekeyname.fascicle_edit,
-                storekeyname.semester_add, storekeyname.semester_edit,
-                storekeyname.subject_type_add, storekeyname.subject_type_edit,
-                storekeyname.equipment_type_add, storekeyname.equipment_type_edit
+                storekeyname.common_add, storekeyname.common_edit,
             ]
-            let access = "";
-            permissions.map((item, index) => {
-                if (index == permissions.length - 1) {
-                    access += personal.app_code + item
-                } else {
-                    access += personal.app_code + item + ","
-                }
+            let access = [];
+            permissions.map(item => {
+                access.push(personal.app_code + item)
             });
             let paramsPermissions = {
                 platform_code: personal.platform_code, //平台代码
@@ -71,7 +59,7 @@ class SchInfoMain extends Component {
                 cls_id: 0, //班级id，年级下全部班级则传-1，不需要判断班级则传0
                 stu_id: 0, //学生id，全部学生则传-1，不需要判断学生则传0
                 sub_code: 0, //科目代码，全部科目则传“-1”，不需要判断年级则传“0”
-                access: access, //权限符，需要判断权限的权限符，多个则用逗号拼接
+                access: access.join(","), //权限符，需要判断权限的权限符，多个则用逗号拼接
                 access_token: utoken //用户令牌
             };
             await myUtils.post(0, "api/acl/permissionByPosition", paramsPermissions, res => {
@@ -94,12 +82,12 @@ class SchInfoMain extends Component {
             });
         }
         let search=myUtils.getUrlSearch();
-        let utoken="";
+        let utoken= "";
         if(search){
             utoken=search.access_token;
             store.set(storekeyname.TOKEN, utoken);
         }else{
-            utoken="MzAwZDVjYTktY2IxNi00YjA4LWI5MGUtZGZmNDQ5MzQzYWI0";
+            utoken="YjVhZWIxN2QtZjZiYy00ODg2LTg0YWItNGU1NmZlN2M4ZDd";
             store.set(storekeyname.TOKEN, utoken);
         }
         getUserInfo(utoken);

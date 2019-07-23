@@ -249,8 +249,8 @@ class Major extends Component {
             pagesize:10,//每页显示条数
             pageindex:1,//默认当前页
             total:0,//数据总数
-            add:map.get(storekeyname.major_add),//增加权限
-            edit:map.get(storekeyname.major_edit),//修改权限
+            add:map.get(storekeyname.common_add),//增加权限
+            edit:map.get(storekeyname.common_edit),//修改权限
             rowData:"",//点击的行数据
         }
     }
