@@ -11,14 +11,14 @@ const storeKeyName={
     PERMISSIONSWHYNOTALLOW:'permissionsWHY',//权限 存储的变量名 得到的是个msp string 需转换为json
 
     //权限
-    common_add:"support#Baseinfo:PerGrd:Index:add",//学段及年级 添加
-    common_edit:"support#Baseinfo:PerGrd:Index:edit",//学段及年级 编辑
+    common_add:"support#Baseinfo:add",//添加
+    common_edit:"support#Baseinfo:edit",//编辑
 };
 switch (key) {
     case 0:
         break;
     case 1:
-        storeKeyName.INTERFACEZENG="http://139.129.252.49:8080/sup/";//广西接口
+        storeKeyName.INTERFACEZENG="http://139.129.252.49:8080/sup2/";//广西接口
         storeKeyName.INTERFACEGU = 'http://jsypay.jiaobaowang.net/nwifbaseapi/api/Data/'; //顾工接口
             break;
     default:

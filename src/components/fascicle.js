@@ -4,7 +4,7 @@ import store from '../utils/store';
 import storekeyname from '../utils/storeKeyName';
 import myUtils,{getTableData,add_editData} from '../utils/myUtils';
 import {getColumns} from '../utils/commom-colums';
-import {Table,Modal,Button,Icon, Form, Input, Select,} from 'antd';
+import {Table, Modal, Button, Icon, Form, Input, Select, message,} from 'antd';
 import {withRouter} from 'react-router-dom';
 
 //新增学段年级组件
@@ -240,7 +240,6 @@ class Fascicle extends Component {
 
     constructor(props) {
         super(props);
-        let map=myUtils.Json2Map(store.get(storekeyname.PERMISSIONSWHYNOTALLOW));
         this.state = {
             data: [],//列表数据
             loading:true,//正在加载中
@@ -249,8 +248,8 @@ class Fascicle extends Component {
             pagesize:10,//每页显示条数
             pageindex:1,//默认当前页
             total:0,//数据总数
-            add:map.get(storekeyname.common_add),//增加权限
-            edit:map.get(storekeyname.common_edit),//修改权限
+            add:false,//增加权限
+            edit:false,//修改权限
             rowData:"",//点击的行数据
         }
     }
@@ -286,7 +285,59 @@ class Fascicle extends Component {
     }
 
     componentDidMount() {
-        getTableData("SysFascP",this,this.state.pagesize,this.state.pageindex)
+        let utoken =store.get(storekeyname.TOKEN);
+        let paramsUserInfo = {
+            access_token: utoken,
+        };
+        myUtils.post(0, "api/user/currentUserInfo", paramsUserInfo, res => {
+            console.log(JSON.stringify(res))
+            if (res.code == 0) {
+                let personal = res.data;
+                if(personal.app_code==""){
+                    personal.app_code="aaabbbccc"
+                }
+                store.set(storekeyname.PERSONALINFO, personal);
+                //1.9: 查询权限符（前端调用，判断按钮是否显示）
+                let permissions = [
+                    storekeyname.common_add, storekeyname.common_edit,
+                ]
+                let access = [];
+                permissions.map(item => {
+                    access.push(personal.app_code + item)
+                });
+                let paramsPermissions = {
+                    platform_code: personal.platform_code, //平台代码
+                    app_code: personal.app_code, //应用系统代码
+                    grd_id: 0, //年级id，全部年级则传-1,不需要判断年级则传0
+                    cls_id: 0, //班级id，年级下全部班级则传-1，不需要判断班级则传0
+                    stu_id: 0, //学生id，全部学生则传-1，不需要判断学生则传0
+                    sub_code: 0, //科目代码，全部科目则传“-1”，不需要判断年级则传“0”
+                    access: access.join(","), //权限符，需要判断权限的权限符，多个则用逗号拼接
+                    access_token: utoken //用户令牌
+                };
+                myUtils.post(0, "api/acl/permissionByPosition", paramsPermissions, res => {
+                    console.log(JSON.stringify(res))
+                    if (res.code == 0) {
+                        let rspList = res.data.split(",");
+                        let permissionsObj = new Map();
+                        rspList.map((item, index) => {
+                            if (item == 1) {
+                                permissionsObj.set(permissions[index], true);
+                            } else {
+                                permissionsObj.set(permissions[index], false);
+                            }
+                        });
+                        this.setState({
+                            add:permissionsObj.get(storekeyname.common_add),
+                            edit:permissionsObj.get(storekeyname.common_edit)
+                        })
+                        getTableData("SysFascP",this,this.state.pagesize,this.state.pageindex)
+                    } else {
+                        message.error(res.msg)
+                    }
+                });
+            }
+        });
     }
 
     render() {
