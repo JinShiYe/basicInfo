@@ -131,7 +131,7 @@ class AddComponent extends Component {
         for(let i=0;i<this.state.grdNum;i++){
             let style=null
             if(i==this.state.grdNum-1){
-                style={marginBottom:50}
+                style={marginBottom:80}
             }
            let domObj=<Form.Item label={this.getChinese(i)+"年级"} key={i} hasFeedback style={style}>
                 {getFieldDecorator('grd'+i, {
@@ -392,7 +392,7 @@ class EditComponent extends Component {
         for(let i=0;i<this.state.grdNum;i++){
             let style=null
             if(i==this.state.grdNum-1){
-                style={marginBottom:50}
+                style={marginBottom:80}
             }
             let domObj=<Form.Item label={this.getChinese(i)+"年级"} key={i} hasFeedback style={style}>
                 {getFieldDecorator('grd'+i, {
@@ -619,7 +619,8 @@ class GrdAndCls extends Component {
                        pagination={{
                            onChange: page => {
                                this.setState({
-                                   loading:true
+                                   loading:true,
+                                   pageindex:page
                                })
                                getTableData("SysPerP",this,this.state.pagesize,page)
                            },

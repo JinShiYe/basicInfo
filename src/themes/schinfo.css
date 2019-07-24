@@ -20,7 +20,7 @@ body{
     display: none;
 }
 .info{
-    margin-top: 50px;
+    margin:15px 15px 0 15px;
 }
 .info-button{
     float: right;
@@ -32,10 +32,10 @@ body{
 }
 .ant-table-thead > tr> th,.even{
     /*background: #f3f3f3 !important;*/
-    background: #f3f3f3 !important;
+    background: #fff !important;
 }
 .even{
-    background: #f5f5f5 !important;
+    /*background: #f5f5f5 !important;*/
 }
 .odd{
     background: #ffffff !important;

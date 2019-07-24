@@ -371,7 +371,8 @@ class Semester extends Component {
                        pagination={{
                            onChange: page => {
                                this.setState({
-                                   loading:true
+                                   loading:true,
+                                   pageindex:page
                                })
                                getTableData("SysTermP",this,this.state.pagesize,page)
                            },

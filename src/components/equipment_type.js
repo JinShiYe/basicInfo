@@ -371,7 +371,8 @@ class EquipmentType extends Component {
                        pagination={{
                            onChange: page => {
                                this.setState({
-                                   loading:true
+                                   loading:true,
+                                   pageindex:page
                                })
                                getTableData("SysMcTypeP",this,this.state.pagesize,page)
                            },

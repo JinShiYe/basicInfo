@@ -370,7 +370,8 @@ class Subject extends Component {
                        pagination={{
                            onChange: page => {
                                this.setState({
-                                   loading:true
+                                   loading:true,
+                                   pageindex:page
                                })
                                getTableData("SysSubP",this,this.state.pagesize,page)
                            },

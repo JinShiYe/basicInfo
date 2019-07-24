@@ -8,24 +8,25 @@ import React from "react";
                         key: 'xh',
                         align:"center",
                         dataIndex: 'xh',
-                        width:80,
+                        width:30,
                     },
                     {
                         title: '学段编号',
                         key: 'code',
                         dataIndex: 'code',
-                        width: 100,
+                        width: 30,
                     },
                     {
                         title: '学段名称',
                         key: 'name',
                         dataIndex: 'name',
+                        width: 100,
                     },
                     {
                         title: '年制',
                         key: 'pyear',
                         dataIndex: 'pyear',
-                        width: 80,
+                        width: 100,
                         align:"center",
                         render: (pyear) => (<span>{pyear} 年制</span>),
                     },
@@ -33,6 +34,7 @@ import React from "react";
                         title: '包含年级',
                         key: 'sonnames',
                         dataIndex: 'sonnames',
+                        width: 200,
                     },
                     {
                         title: '状态',
@@ -51,7 +53,7 @@ import React from "react";
                         key: 'xh',
                         align:"center",
                         dataIndex: 'xh',
-                        width:80,
+                        width:30,
                     },
                     {
                         title: '编号',
@@ -63,6 +65,7 @@ import React from "react";
                         title: '名称',
                         key: 'name',
                         dataIndex: 'name',
+                        width: 180,
                     },
                     {
                         title: '状态',

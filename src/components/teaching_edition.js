@@ -371,7 +371,8 @@ class TeachingEdition extends Component {
                        pagination={{
                            onChange: page => {
                                this.setState({
-                                   loading:true
+                                   loading:true,
+                                   pageindex:page
                                })
                                getTableData("SysMaterP",this,this.state.pagesize,page)
                            },
