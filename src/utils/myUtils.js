@@ -9,7 +9,7 @@ import {message} from "antd";
 const myUtils = {
     // 获取url params参数
     getUrlSearch: () => {
-        var urlcan = decodeURIComponent(window.location.search);
+        var urlcan = decodeURIComponent(window.location);
         urlcan = urlcan.split("?")[1];//数组
         if (urlcan) {
             urlcan = urlcan.replace(/\s/g, "");

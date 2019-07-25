@@ -336,6 +336,8 @@ class Fascicle extends Component {
                         message.error(res.msg)
                     }
                 });
+            }else{
+                message.error(res.msg)
             }
         });
     }
@@ -368,6 +370,7 @@ class Fascicle extends Component {
                        loading={this.state.loading}
                        rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
                        locale={{emptyText: '暂无数据'}}
+                       rowKey={record=>record.id}
                        pagination={{
                            onChange: page => {
                                this.setState({

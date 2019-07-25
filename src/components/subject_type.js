@@ -336,6 +336,8 @@ class SubjectType extends Component {
                         message.error(res.msg)
                     }
                 });
+            }else{
+                message.error(res.msg)
             }
         });
     }
@@ -366,6 +368,7 @@ class SubjectType extends Component {
                        dataSource={this.state.data}
                        bordered
                        loading={this.state.loading}
+                       rowKey={record=>record.id}
                        rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
                        locale={{emptyText: '暂无数据'}}
                        pagination={{

@@ -336,6 +336,8 @@ class CollegeDep extends Component {
                         message.error(res.msg)
                     }
                 });
+            }else{
+                message.error(res.msg)
             }
         });
     }
@@ -365,6 +367,7 @@ class CollegeDep extends Component {
                        columns={columns}
                        dataSource={this.state.data}
                        bordered
+                       rowKey={record=>record.id}
                        loading={this.state.loading}
                        rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
                        locale={{emptyText: '暂无数据'}}
