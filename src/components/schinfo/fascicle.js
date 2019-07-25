@@ -1,9 +1,9 @@
-import '../themes/schinfo.css';
+import '../../themes/schinfo.css';
 import React, {Component} from 'react';
-import store from '../utils/store';
-import storekeyname from '../utils/storeKeyName';
-import myUtils,{getTableData,add_editData} from '../utils/myUtils';
-import {getColumns} from '../utils/commom-colums';
+import store from '../../utils/store';
+import storekeyname from '../../utils/storeKeyName';
+import myUtils,{getTableData,add_editData} from '../../utils/myUtils';
+import {getColumns} from '../../utils/commom-colums';
 import {Table, Modal, Button, Icon, Form, Input, Select, message,} from 'antd';
 import {withRouter} from 'react-router-dom';
 
@@ -24,7 +24,7 @@ class AddComponent extends Component {
                     name:values.name,
                     stat:parseInt(values.stat)
                 };
-                add_editData("SysSubAorE",params,msg=>{
+                add_editData("SysFascAorE",params,msg=>{
                     if(msg==="success"){
                         this.handleSuccess();
                     }
@@ -154,7 +154,7 @@ class EditComponent extends Component {
                     stat:parseInt(values.stat)
                 };
                 console.log(params)
-                add_editData("SysSubAorE",params,msg=>{
+                add_editData("SysFascAorE",params,msg=>{
                     if(msg==="success"){
                         this.handleSuccess();
                     }
@@ -236,7 +236,7 @@ const _EditComponent = Form.create({ name: 'edit' })(EditComponent);
 
 
 //学段年级组件
-class Subject extends Component {
+class Fascicle extends Component {
 
     constructor(props) {
         super(props);
@@ -281,8 +281,9 @@ class Subject extends Component {
     };
     //刷新表格
     onRefreshTable=()=>{
-        getTableData("SysSubP",this,this.state.pagesize,this.state.pageindex)
+        getTableData("SysFascP",this,this.state.pagesize,this.state.pageindex)
     }
+
     componentDidMount() {
         let utoken =store.get(storekeyname.TOKEN);
         let paramsUserInfo = {
@@ -330,7 +331,7 @@ class Subject extends Component {
                             add:permissionsObj.get(storekeyname.common_add),
                             edit:permissionsObj.get(storekeyname.common_edit)
                         })
-                        getTableData("SysSubP",this,this.state.pagesize,this.state.pageindex)
+                        getTableData("SysFascP",this,this.state.pagesize,this.state.pageindex)
                     } else {
                         message.error(res.msg)
                     }
@@ -367,16 +368,16 @@ class Subject extends Component {
                        dataSource={this.state.data}
                        bordered
                        loading={this.state.loading}
-                       rowKey={record=>record.id}
                        rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
                        locale={{emptyText: '暂无数据'}}
+                       rowKey={record=>record.id}
                        pagination={{
                            onChange: page => {
                                this.setState({
                                    loading:true,
                                    pageindex:page
                                })
-                               getTableData("SysSubP",this,this.state.pagesize,page)
+                               getTableData("SysFascP",this,this.state.pagesize,page)
                            },
                            pageSize: this.state.pagesize,
                            hideOnSinglePage:true,
@@ -384,7 +385,7 @@ class Subject extends Component {
                        }}
                 />
                 <Modal
-                    title="添加科目"
+                    title="添加教材分册"
                     visible={this.state.visible_add}
                     maskClosable={false}
                     footer={null}
@@ -396,7 +397,7 @@ class Subject extends Component {
                     <_AddComponent onCancelModel={this.handleCancel_add} onRefreshTable={this.onRefreshTable}/>
                 </Modal>
                 <Modal
-                    title="修改科目"
+                    title="修改教材分册"
                     visible={this.state.visible_edit}
                     maskClosable={false}
                     footer={null}
@@ -412,5 +413,5 @@ class Subject extends Component {
     }
 }
 
-let _Subject = withRouter(Subject)
-export default _Subject;
+let _Fascicle = withRouter(Fascicle)
+export default _Fascicle;

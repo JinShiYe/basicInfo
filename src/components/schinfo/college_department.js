@@ -1,9 +1,9 @@
-import '../themes/schinfo.css';
+import '../../themes/schinfo.css';
 import React, {Component} from 'react';
-import store from '../utils/store';
-import storekeyname from '../utils/storeKeyName';
-import myUtils,{getTableData,add_editData} from '../utils/myUtils';
-import {getColumns} from '../utils/commom-colums';
+import store from '../../utils/store';
+import storekeyname from '../../utils/storeKeyName';
+import myUtils,{getTableData,add_editData} from '../../utils/myUtils';
+import {getColumns} from '../../utils/commom-colums';
 import {Table, Modal, Button, Icon, Form, Input, Select, message,} from 'antd';
 import {withRouter} from 'react-router-dom';
 
@@ -24,7 +24,7 @@ class AddComponent extends Component {
                     name:values.name,
                     stat:parseInt(values.stat)
                 };
-                add_editData("SysTermAorE",params,msg=>{
+                add_editData("SysCollAorE",params,msg=>{
                     if(msg==="success"){
                         this.handleSuccess();
                     }
@@ -80,7 +80,7 @@ class AddComponent extends Component {
                         rules: [
                             {
                                 required: true,
-                                message: '请输入学段名称',
+                                message: '请输入名称',
                             },
                         ],
                     })(<Input />)}
@@ -154,7 +154,7 @@ class EditComponent extends Component {
                     stat:parseInt(values.stat)
                 };
                 console.log(params)
-                add_editData("SysTermAorE",params,msg=>{
+                add_editData("SysCollAorE",params,msg=>{
                     if(msg==="success"){
                         this.handleSuccess();
                     }
@@ -199,7 +199,7 @@ class EditComponent extends Component {
                         rules: [
                             {
                                 required: true,
-                                message: '请输入学段名称',
+                                message: '请输入名称',
                             },
                         ],
                     })(<Input />)}
@@ -236,7 +236,7 @@ const _EditComponent = Form.create({ name: 'edit' })(EditComponent);
 
 
 //学段年级组件
-class Semester extends Component {
+class CollegeDep extends Component {
 
     constructor(props) {
         super(props);
@@ -281,7 +281,7 @@ class Semester extends Component {
     };
     //刷新表格
     onRefreshTable=()=>{
-        getTableData("SysTermP",this,this.state.pagesize,this.state.pageindex)
+        getTableData("SysCollP",this,this.state.pagesize,this.state.pageindex)
     }
 
     componentDidMount() {
@@ -331,7 +331,7 @@ class Semester extends Component {
                             add:permissionsObj.get(storekeyname.common_add),
                             edit:permissionsObj.get(storekeyname.common_edit)
                         })
-                        getTableData("SysTermP",this,this.state.pagesize,this.state.pageindex)
+                        getTableData("SysCollP",this,this.state.pagesize,this.state.pageindex)
                     } else {
                         message.error(res.msg)
                     }
@@ -367,17 +367,17 @@ class Semester extends Component {
                        columns={columns}
                        dataSource={this.state.data}
                        bordered
+                       rowKey={record=>record.id}
                        loading={this.state.loading}
                        rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
                        locale={{emptyText: '暂无数据'}}
-                       rowKey={record=>record.id}
                        pagination={{
                            onChange: page => {
                                this.setState({
                                    loading:true,
                                    pageindex:page
                                })
-                               getTableData("SysTermP",this,this.state.pagesize,page)
+                               getTableData("SysCollP",this,this.state.pagesize,page)
                            },
                            pageSize: this.state.pagesize,
                            hideOnSinglePage:true,
@@ -385,7 +385,7 @@ class Semester extends Component {
                        }}
                 />
                 <Modal
-                    title="添加季期"
+                    title="添加院系"
                     visible={this.state.visible_add}
                     maskClosable={false}
                     footer={null}
@@ -397,7 +397,7 @@ class Semester extends Component {
                     <_AddComponent onCancelModel={this.handleCancel_add} onRefreshTable={this.onRefreshTable}/>
                 </Modal>
                 <Modal
-                    title="修改季期"
+                    title="修改院系"
                     visible={this.state.visible_edit}
                     maskClosable={false}
                     footer={null}
@@ -413,5 +413,5 @@ class Semester extends Component {
     }
 }
 
-let _Semester = withRouter(Semester)
-export default _Semester;
+let _CollegeDep = withRouter(CollegeDep)
+export default _CollegeDep;

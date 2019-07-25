@@ -27,6 +27,18 @@ class Test extends Component {
                     onSearch={this.saveToken}
                 />
                 <br/><br/><br/>
+                <Link to={`/basic_info`}>
+                    <Button className="create-notice-btn" type="primary" icon="form">基础信息</Button>
+                </Link>
+                <br/><br/><br/>
+                <Link to={`/system_name_icon`}>
+                    <Button className="create-notice-btn" type="primary" icon="form">学校系统名称与图标</Button>
+                </Link>
+                <br/><br/><br/>
+                <Link to={`/grd_cls_sub`}>
+                    <Button className="create-notice-btn" type="primary" icon="form">学段年级与科目</Button>
+                </Link>
+                <br/><br/><br/>
                 <Link to={`/grd_cls`}>
                     <Button className="create-notice-btn" type="primary" icon="form">学段及年级</Button>
                 </Link>

@@ -1,9 +1,9 @@
-import '../themes/schinfo.css';
+import '../../themes/schinfo.css';
 import React, {Component} from 'react';
-import store from '../utils/store';
-import storekeyname from '../utils/storeKeyName';
-import myUtils,{getTableData,add_editData} from '../utils/myUtils';
-import {getColumns} from '../utils/commom-colums';
+import store from '../../utils/store';
+import storekeyname from '../../utils/storeKeyName';
+import myUtils,{getTableData,add_editData} from '../../utils/myUtils';
+import {getColumns} from '../../utils/commom-colums';
 import {Table, Modal, Button, Icon, Form, Input, Select, message,} from 'antd';
 import {withRouter} from 'react-router-dom';
 
@@ -24,7 +24,7 @@ class AddComponent extends Component {
                     name:values.name,
                     stat:parseInt(values.stat)
                 };
-                add_editData("SysMajorAorE",params,msg=>{
+                add_editData("SysMaterAorE",params,msg=>{
                     if(msg==="success"){
                         this.handleSuccess();
                     }
@@ -154,7 +154,7 @@ class EditComponent extends Component {
                     stat:parseInt(values.stat)
                 };
                 console.log(params)
-                add_editData("SysMajorAorE",params,msg=>{
+                add_editData("SysMaterAorE",params,msg=>{
                     if(msg==="success"){
                         this.handleSuccess();
                     }
@@ -236,7 +236,7 @@ const _EditComponent = Form.create({ name: 'edit' })(EditComponent);
 
 
 //学段年级组件
-class Major extends Component {
+class TeachingEdition extends Component {
 
     constructor(props) {
         super(props);
@@ -281,7 +281,7 @@ class Major extends Component {
     };
     //刷新表格
     onRefreshTable=()=>{
-        getTableData("SysMajorP",this,this.state.pagesize,this.state.pageindex)
+        getTableData("SysMaterP",this,this.state.pagesize,this.state.pageindex)
     }
 
     componentDidMount() {
@@ -331,7 +331,7 @@ class Major extends Component {
                             add:permissionsObj.get(storekeyname.common_add),
                             edit:permissionsObj.get(storekeyname.common_edit)
                         })
-                        getTableData("SysMajorP",this,this.state.pagesize,this.state.pageindex)
+                        getTableData("SysMaterP",this,this.state.pagesize,this.state.pageindex)
                     } else {
                         message.error(res.msg)
                     }
@@ -367,8 +367,8 @@ class Major extends Component {
                        columns={columns}
                        dataSource={this.state.data}
                        bordered
-                       rowKey={record=>record.id}
                        loading={this.state.loading}
+                       rowKey={record=>record.id}
                        rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
                        locale={{emptyText: '暂无数据'}}
                        pagination={{
@@ -377,7 +377,7 @@ class Major extends Component {
                                    loading:true,
                                    pageindex:page
                                })
-                               getTableData("SysMajorP",this,this.state.pagesize,page)
+                               getTableData("SysMaterP",this,this.state.pagesize,page)
                            },
                            pageSize: this.state.pagesize,
                            hideOnSinglePage:true,
@@ -385,7 +385,7 @@ class Major extends Component {
                        }}
                 />
                 <Modal
-                    title="添加专业"
+                    title="添加教版"
                     visible={this.state.visible_add}
                     maskClosable={false}
                     footer={null}
@@ -397,7 +397,7 @@ class Major extends Component {
                     <_AddComponent onCancelModel={this.handleCancel_add} onRefreshTable={this.onRefreshTable}/>
                 </Modal>
                 <Modal
-                    title="修改专业"
+                    title="修改教版"
                     visible={this.state.visible_edit}
                     maskClosable={false}
                     footer={null}
@@ -413,5 +413,5 @@ class Major extends Component {
     }
 }
 
-let _Major = withRouter(Major)
-export default _Major;
+let _TeachingEdition = withRouter(TeachingEdition)
+export default _TeachingEdition;

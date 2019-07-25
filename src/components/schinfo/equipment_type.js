@@ -1,9 +1,9 @@
-import '../themes/schinfo.css';
+import '../../themes/schinfo.css';
 import React, {Component} from 'react';
-import store from '../utils/store';
-import storekeyname from '../utils/storeKeyName';
-import myUtils,{getTableData,add_editData} from '../utils/myUtils';
-import {getColumns} from '../utils/commom-colums';
+import store from '../../utils/store';
+import storekeyname from '../../utils/storeKeyName';
+import myUtils,{getTableData,add_editData} from '../../utils/myUtils';
+import {getColumns} from '../../utils/commom-colums';
 import {Table, Modal, Button, Icon, Form, Input, Select, message,} from 'antd';
 import {withRouter} from 'react-router-dom';
 
@@ -24,7 +24,7 @@ class AddComponent extends Component {
                     name:values.name,
                     stat:parseInt(values.stat)
                 };
-                add_editData("SysArtsAorE",params,msg=>{
+                add_editData("SysMcTypeAorE",params,msg=>{
                     if(msg==="success"){
                         this.handleSuccess();
                     }
@@ -154,7 +154,7 @@ class EditComponent extends Component {
                     stat:parseInt(values.stat)
                 };
                 console.log(params)
-                add_editData("SysArtsAorE",params,msg=>{
+                add_editData("SysMcTypeAorE",params,msg=>{
                     if(msg==="success"){
                         this.handleSuccess();
                     }
@@ -236,7 +236,7 @@ const _EditComponent = Form.create({ name: 'edit' })(EditComponent);
 
 
 //学段年级组件
-class SubjectType extends Component {
+class EquipmentType extends Component {
 
     constructor(props) {
         super(props);
@@ -281,7 +281,7 @@ class SubjectType extends Component {
     };
     //刷新表格
     onRefreshTable=()=>{
-        getTableData("SysArtsP",this,this.state.pagesize,this.state.pageindex)
+        getTableData("SysMcTypeP",this,this.state.pagesize,this.state.pageindex)
     }
 
     componentDidMount() {
@@ -331,7 +331,7 @@ class SubjectType extends Component {
                             add:permissionsObj.get(storekeyname.common_add),
                             edit:permissionsObj.get(storekeyname.common_edit)
                         })
-                        getTableData("SysArtsP",this,this.state.pagesize,this.state.pageindex)
+                        getTableData("SysMcTypeP",this,this.state.pagesize,this.state.pageindex)
                     } else {
                         message.error(res.msg)
                     }
@@ -377,7 +377,7 @@ class SubjectType extends Component {
                                    loading:true,
                                    pageindex:page
                                })
-                               getTableData("SysArtsP",this,this.state.pagesize,page)
+                               getTableData("SysMcTypeP",this,this.state.pagesize,page)
                            },
                            pageSize: this.state.pagesize,
                            hideOnSinglePage:true,
@@ -385,7 +385,7 @@ class SubjectType extends Component {
                        }}
                 />
                 <Modal
-                    title="添加分科"
+                    title="添加设备类型"
                     visible={this.state.visible_add}
                     maskClosable={false}
                     footer={null}
@@ -397,7 +397,7 @@ class SubjectType extends Component {
                     <_AddComponent onCancelModel={this.handleCancel_add} onRefreshTable={this.onRefreshTable}/>
                 </Modal>
                 <Modal
-                    title="修改分科"
+                    title="修改设备类型"
                     visible={this.state.visible_edit}
                     maskClosable={false}
                     footer={null}
@@ -413,5 +413,5 @@ class SubjectType extends Component {
     }
 }
 
-let _SubjectType = withRouter(SubjectType)
-export default _SubjectType;
+let _EquipmentType = withRouter(EquipmentType)
+export default _EquipmentType;

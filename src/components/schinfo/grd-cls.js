@@ -1,9 +1,9 @@
-import '../themes/schinfo.css';
+import '../../themes/schinfo.css';
 import React, {Component} from 'react';
-import store from '../utils/store';
-import storekeyname from '../utils/storeKeyName';
-import myUtils,{getTableData,add_editData} from '../utils/myUtils';
-import {getColumns} from '../utils/commom-colums';
+import store from '../../utils/store';
+import storekeyname from '../../utils/storeKeyName';
+import myUtils,{getTableData,add_editData} from '../../utils/myUtils';
+import {getColumns} from '../../utils/commom-colums';
 import {Table, Modal, Button, Icon, Form, Input, Select, message,} from 'antd';
 import {withRouter} from 'react-router-dom';
 
@@ -12,6 +12,9 @@ const { Option } = Select;
 class AddComponent extends Component {
     constructor(props) {
         super(props);
+        this.state={
+            grdNum:0,//年级数量
+        }
     }
     //提交表单数据
     handleSubmit = e => {
@@ -19,18 +22,33 @@ class AddComponent extends Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                let num =this.state.grdNum;
+                let grdStr=[];
+                for (let i = 0; i < num; i++) {
+                    let key='grd'+i;
+                    grdStr.push(values[key])
+                }
                 let params = {
                     id:0,
                     name:values.name,
+                    pyear:parseInt(values.pyear),
+                    sonnames:grdStr.join(","),
                     stat:parseInt(values.stat)
                 };
-                add_editData("SysCollAorE",params,msg=>{
+                add_editData("SysPerAorE",params,msg=>{
                     if(msg==="success"){
                         this.handleSuccess();
                     }
                 })
             }
         });
+    };
+    //年级选择事件
+    handleCurrencyChange = currency => {
+        console.log(currency)
+        this.setState({
+            grdNum:currency
+        })
     };
 
     //提交成功回调方法
@@ -46,6 +64,42 @@ class AddComponent extends Component {
         this.setState({grdNum:0})
         this.props.form.resetFields();
         this.props.onCancelModel();
+    }
+    //检察是否含有英文“ ,”
+    checkDH=(rule, value, callback)=>{
+        if(value.indexOf(",")!=-1){
+            callback(-1)
+        }
+        callback()
+    }
+
+    getChinese=i=>{
+        switch (++i) {
+            case 1:
+                return "一";
+            case 2:
+                return "二";
+            case 3:
+                return "三";
+            case 4:
+                return "四";
+            case 5:
+                return "五";
+            case 6:
+                return "六";
+            case 7:
+                return "七";
+            case 8:
+                return "八";
+            case 9:
+                return "九";
+            case 10:
+                return "十";
+            case 11:
+                return "十一";
+            case 12:
+                return "十二";
+        }
     }
 
     render() {
@@ -73,14 +127,36 @@ class AddComponent extends Component {
             },
         };
 
+        let grdList=[];
+        for(let i=0;i<this.state.grdNum;i++){
+            let style=null
+            if(i==this.state.grdNum-1){
+                style={marginBottom:80}
+            }
+           let domObj=<Form.Item label={this.getChinese(i)+"年级"} key={i} hasFeedback style={style}>
+                {getFieldDecorator('grd'+i, {
+                    rules: [
+                        {
+                            required: true,
+                            message: '请填写年级名称',
+                        },
+                        {
+                            validator:this.checkDH,
+                            message: '禁止输入英文逗号',
+                        }
+                    ],
+                })(<Input />)}
+            </Form.Item>
+            grdList.push(domObj);
+        }
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-                <Form.Item label="名称" hasFeedback>
+                <Form.Item label="学段名称" hasFeedback>
                     {getFieldDecorator('name', {
                         rules: [
                             {
                                 required: true,
-                                message: '请输入名称',
+                                message: '请输入学段名称',
                             },
                         ],
                     })(<Input />)}
@@ -100,6 +176,32 @@ class AddComponent extends Component {
                         </Select>
                     )}
                 </Form.Item>
+                <Form.Item label="学年制" hasFeedback>
+                    {getFieldDecorator('pyear', {
+                        rules: [
+                            {
+                                required: true,
+                                message: '请选择学年',
+                            },
+                        ],
+                    })(
+                        <Select onChange={this.handleCurrencyChange}>
+                            <Option value={1}>1</Option>
+                            <Option value={2}>2</Option>
+                            <Option value={3}>3</Option>
+                            <Option value={4}>4</Option>
+                            <Option value={5}>5</Option>
+                            <Option value={6}>6</Option>
+                            <Option value={7}>7</Option>
+                            <Option value={8}>8</Option>
+                            <Option value={9}>9</Option>
+                            <Option value={10}>10</Option>
+                            <Option value={11}>11</Option>
+                            <Option value={12}>12</Option>
+                        </Select>
+                    )}
+                </Form.Item>
+                {grdList}
                 <Form.Item {...tailFormItemLayout} className={"modal-footer"}>
                     <Button type="primary" htmlType="submit">
                         添加
@@ -120,12 +222,50 @@ class EditComponent extends Component {
         super(props);
         this.state={
             rowData:this.props.rowData,//表格行数据
+            grdNum:0,//年级数量
+            names:[]//年级名称
         }
     }
+    componentDidMount() {
+        let str=this.props.rowData.sonnames;
+        let num=0;
+        let names=[];
+        if(str!=""){
+            num=str.split(",").length;
+            names=str.split(",");
+        }else{
+            num=this.props.rowData.pyear;
+            for (let i = 0; i <num ; i++) {
+                let name=this.getChinese(i)+"年级"
+                names.push(name);
+            }
+        }
+        this.setState({
+            rowData:this.props.rowData,//表格行数据
+            grdNum:num,//年级数量
+            names:names
+        })
+    }
+
     componentWillReceiveProps(nextProps, nextContext) {
         if(this.props.rowData===nextProps.rowData){}else{
+            let str=nextProps.rowData.sonnames;
+            let num=0;
+            let names=[];
+            if(str!=""){
+                num=str.split(",").length;
+                names=str.split(",");
+            }else{
+                num=nextProps.rowData.pyear;
+                for (let i = 0; i <num; i++) {
+                    let name=this.getChinese(i)+"年级"
+                    names.push(name);
+                }
+            }
             this.setState({
                 rowData:nextProps.rowData,//表格行数据
+                grdNum:num,//年级数量
+                names:names
             })
         }
     }
@@ -137,10 +277,30 @@ class EditComponent extends Component {
         this.props.onRefreshTable();
     }
 
+    //年级选择事件
+    handleCurrencyChange = currency => {
+        let names=[];
+        for (let i = 0; i <currency; i++) {
+            let name=this.getChinese(i)+"年级"
+            names.push(name);
+        }
+        this.setState({
+            grdNum:currency,
+            names:names
+        })
+    };
+
     //取消按钮点击事件
     handleReset=()=>{
         this.props.form.resetFields();
         this.props.onCancelModel();
+    }
+    //检察是否含有英文“ ,”
+    checkDH=(rule, value, callback)=>{
+        if(value.indexOf(",")!=-1){
+            callback(-1)
+        }
+        callback()
     }
     //提交表单数据
     handleSubmit = e => {
@@ -148,13 +308,21 @@ class EditComponent extends Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                let num =this.state.grdNum;
+                let grdStr=[];
+                for (let i = 0; i < num; i++) {
+                    let key='grd'+i;
+                    grdStr.push(values[key])
+                }
                 let params = {
                     id:this.state.rowData.id,
                     name:values.name,
+                    pyear:parseInt(values.pyear),
+                    sonnames:grdStr.join(","),
                     stat:parseInt(values.stat)
                 };
                 console.log(params)
-                add_editData("SysCollAorE",params,msg=>{
+                add_editData("SysPerAorE",params,msg=>{
                     if(msg==="success"){
                         this.handleSuccess();
                     }
@@ -163,6 +331,34 @@ class EditComponent extends Component {
         });
     };
 
+    getChinese=i=>{
+        switch (++i) {
+            case 1:
+                return "一";
+            case 2:
+                return "二";
+            case 3:
+                return "三";
+            case 4:
+                return "四";
+            case 5:
+                return "五";
+            case 6:
+                return "六";
+            case 7:
+                return "七";
+            case 8:
+                return "八";
+            case 9:
+                return "九";
+            case 10:
+                return "十";
+            case 11:
+                return "十一";
+            case 12:
+                return "十二";
+        }
+    }
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -190,16 +386,41 @@ class EditComponent extends Component {
         };
         let data=this.state.rowData;
         let name=data.name;
+        let pyear=data.pyear;
         let stat=data.stat;
+        let grdList=[];
+        for(let i=0;i<this.state.grdNum;i++){
+            let style=null
+            if(i==this.state.grdNum-1){
+                style={marginBottom:80}
+            }
+            let domObj=<Form.Item label={this.getChinese(i)+"年级"} key={i} hasFeedback style={style}>
+                {getFieldDecorator('grd'+i, {
+                    initialValue:this.state.names[i],
+                    rules: [
+                        {
+                            required: true,
+                            message: '请填写年级名称',
+                        },
+                        {
+                            validator:this.checkDH,
+                            message: '禁止输入英文逗号',
+                        }
+                    ],
+                })(<Input />)}
+            </Form.Item>
+            grdList.push(domObj);
+        }
+
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-                <Form.Item label="名称" hasFeedback>
+                <Form.Item label="学段名称" hasFeedback>
                     {getFieldDecorator('name', {
                         initialValue:name,
                         rules: [
                             {
                                 required: true,
-                                message: '请输入名称',
+                                message: '请输入学段名称',
                             },
                         ],
                     })(<Input />)}
@@ -220,6 +441,33 @@ class EditComponent extends Component {
                         </Select>
                     )}
                 </Form.Item>
+                <Form.Item label="学年制" hasFeedback>
+                    {getFieldDecorator('pyear', {
+                        initialValue:pyear,
+                        rules: [
+                            {
+                                required: true,
+                                message: '请选择学年',
+                            },
+                        ],
+                    })(
+                        <Select onChange={this.handleCurrencyChange}>
+                            <Option value={1}>1</Option>
+                            <Option value={2}>2</Option>
+                            <Option value={3}>3</Option>
+                            <Option value={4}>4</Option>
+                            <Option value={5}>5</Option>
+                            <Option value={6}>6</Option>
+                            <Option value={7}>7</Option>
+                            <Option value={8}>8</Option>
+                            <Option value={9}>9</Option>
+                            <Option value={10}>10</Option>
+                            <Option value={11}>11</Option>
+                            <Option value={12}>12</Option>
+                        </Select>
+                    )}
+                </Form.Item>
+                {grdList}
                 <Form.Item {...tailFormItemLayout} className={"modal-footer"}>
                     <Button type="primary" htmlType="submit">
                         修改
@@ -229,14 +477,14 @@ class EditComponent extends Component {
                     </Button>
                 </Form.Item>
             </Form>
-        )
+            )
     }
 }
 const _EditComponent = Form.create({ name: 'edit' })(EditComponent);
 
 
 //学段年级组件
-class CollegeDep extends Component {
+class GrdAndCls extends Component {
 
     constructor(props) {
         super(props);
@@ -281,7 +529,7 @@ class CollegeDep extends Component {
     };
     //刷新表格
     onRefreshTable=()=>{
-        getTableData("SysCollP",this,this.state.pagesize,this.state.pageindex)
+        getTableData("SysPerP",this,this.state.pagesize,this.state.pageindex)
     }
 
     componentDidMount() {
@@ -289,7 +537,7 @@ class CollegeDep extends Component {
         let paramsUserInfo = {
             access_token: utoken,
         };
-        myUtils.post(0, "api/user/currentUserInfo", paramsUserInfo, res => {
+         myUtils.post(0, "api/user/currentUserInfo", paramsUserInfo, res => {
             console.log(JSON.stringify(res))
             if (res.code == 0) {
                 let personal = res.data;
@@ -331,7 +579,7 @@ class CollegeDep extends Component {
                             add:permissionsObj.get(storekeyname.common_add),
                             edit:permissionsObj.get(storekeyname.common_edit)
                         })
-                        getTableData("SysCollP",this,this.state.pagesize,this.state.pageindex)
+                        getTableData("SysPerP",this,this.state.pagesize,this.state.pageindex)
                     } else {
                         message.error(res.msg)
                     }
@@ -343,7 +591,7 @@ class CollegeDep extends Component {
     }
 
     render() {
-        let columns= getColumns("oth",this.state.edit)
+        let columns= getColumns("grd",this.state.edit)
         let button=null;
         if(this.state.add){
             button=<Button className={"info-button"} type="primary" icon="plus-circle" onClick={()=>this.showModal_add()}>添加</Button>
@@ -367,8 +615,8 @@ class CollegeDep extends Component {
                        columns={columns}
                        dataSource={this.state.data}
                        bordered
-                       rowKey={record=>record.id}
                        loading={this.state.loading}
+                       rowKey={record=>record.id}
                        rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
                        locale={{emptyText: '暂无数据'}}
                        pagination={{
@@ -377,7 +625,7 @@ class CollegeDep extends Component {
                                    loading:true,
                                    pageindex:page
                                })
-                               getTableData("SysCollP",this,this.state.pagesize,page)
+                               getTableData("SysPerP",this,this.state.pagesize,page)
                            },
                            pageSize: this.state.pagesize,
                            hideOnSinglePage:true,
@@ -385,24 +633,24 @@ class CollegeDep extends Component {
                        }}
                 />
                 <Modal
-                    title="添加院系"
+                    title="添加学段"
                     visible={this.state.visible_add}
                     maskClosable={false}
                     footer={null}
                     width={520}
-                    bodyStyle={{minHeight:220,maxHeight:520,overflow:"auto"}}
+                    bodyStyle={{minHeight:275,maxHeight:520,overflow:"auto"}}
                     centered
                     onCancel={this.handleCancel_add}
                 >
                     <_AddComponent onCancelModel={this.handleCancel_add} onRefreshTable={this.onRefreshTable}/>
                 </Modal>
                 <Modal
-                    title="修改院系"
+                    title="修改学段"
                     visible={this.state.visible_edit}
                     maskClosable={false}
                     footer={null}
                     width={520}
-                    bodyStyle={{minHeight:220,maxHeight:520,overflow:"auto"}}
+                    bodyStyle={{minHeight:270,maxHeight:520,overflow:"auto"}}
                     centered
                     onCancel={this.handleCancel_edit}
                 >
@@ -413,5 +661,5 @@ class CollegeDep extends Component {
     }
 }
 
-let _CollegeDep = withRouter(CollegeDep)
-export default _CollegeDep;
+let _GrdAndCls = withRouter(GrdAndCls)
+export default _GrdAndCls;

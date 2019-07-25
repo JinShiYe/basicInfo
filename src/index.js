@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import SchInfoMain from './components/info-main';
+import MainRouter from './components/main-router';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<SchInfoMain />, document.getElementById('root'));
+ReactDOM.render(<MainRouter />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

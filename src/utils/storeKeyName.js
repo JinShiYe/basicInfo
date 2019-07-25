@@ -3,7 +3,7 @@ import React from "react";
 const key =1;
 //公共参数
 const storeKeyName={
-    debug:false,//是否显示toast
+    debug:true,//是否显示toast
     timeout:15*1000,//post 连接超时时间
     sha1key : "jsy309",//sha1 加密的秘钥
     PERSONALINFO :'personInfo_notice', //个人信息，登录成功后返回值

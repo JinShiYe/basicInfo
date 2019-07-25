@@ -1,9 +1,9 @@
-import '../themes/schinfo.css';
+import '../../themes/schinfo.css';
 import React, {Component} from 'react';
-import store from '../utils/store';
-import storekeyname from '../utils/storeKeyName';
-import myUtils,{getTableData,add_editData} from '../utils/myUtils';
-import {getColumns} from '../utils/commom-colums';
+import store from '../../utils/store';
+import storekeyname from '../../utils/storeKeyName';
+import myUtils,{getTableData,add_editData} from '../../utils/myUtils';
+import {getColumns} from '../../utils/commom-colums';
 import {Table, Modal, Button, Icon, Form, Input, Select, message,} from 'antd';
 import {withRouter} from 'react-router-dom';
 
@@ -24,7 +24,7 @@ class AddComponent extends Component {
                     name:values.name,
                     stat:parseInt(values.stat)
                 };
-                add_editData("SysMaterAorE",params,msg=>{
+                add_editData("SysSubAorE",params,msg=>{
                     if(msg==="success"){
                         this.handleSuccess();
                     }
@@ -154,7 +154,7 @@ class EditComponent extends Component {
                     stat:parseInt(values.stat)
                 };
                 console.log(params)
-                add_editData("SysMaterAorE",params,msg=>{
+                add_editData("SysSubAorE",params,msg=>{
                     if(msg==="success"){
                         this.handleSuccess();
                     }
@@ -236,7 +236,7 @@ const _EditComponent = Form.create({ name: 'edit' })(EditComponent);
 
 
 //学段年级组件
-class TeachingEdition extends Component {
+class Subject extends Component {
 
     constructor(props) {
         super(props);
@@ -281,9 +281,8 @@ class TeachingEdition extends Component {
     };
     //刷新表格
     onRefreshTable=()=>{
-        getTableData("SysMaterP",this,this.state.pagesize,this.state.pageindex)
+        getTableData("SysSubP",this,this.state.pagesize,this.state.pageindex)
     }
-
     componentDidMount() {
         let utoken =store.get(storekeyname.TOKEN);
         let paramsUserInfo = {
@@ -331,7 +330,7 @@ class TeachingEdition extends Component {
                             add:permissionsObj.get(storekeyname.common_add),
                             edit:permissionsObj.get(storekeyname.common_edit)
                         })
-                        getTableData("SysMaterP",this,this.state.pagesize,this.state.pageindex)
+                        getTableData("SysSubP",this,this.state.pagesize,this.state.pageindex)
                     } else {
                         message.error(res.msg)
                     }
@@ -377,7 +376,7 @@ class TeachingEdition extends Component {
                                    loading:true,
                                    pageindex:page
                                })
-                               getTableData("SysMaterP",this,this.state.pagesize,page)
+                               getTableData("SysSubP",this,this.state.pagesize,page)
                            },
                            pageSize: this.state.pagesize,
                            hideOnSinglePage:true,
@@ -385,7 +384,7 @@ class TeachingEdition extends Component {
                        }}
                 />
                 <Modal
-                    title="添加教版"
+                    title="添加科目"
                     visible={this.state.visible_add}
                     maskClosable={false}
                     footer={null}
@@ -397,7 +396,7 @@ class TeachingEdition extends Component {
                     <_AddComponent onCancelModel={this.handleCancel_add} onRefreshTable={this.onRefreshTable}/>
                 </Modal>
                 <Modal
-                    title="修改教版"
+                    title="修改科目"
                     visible={this.state.visible_edit}
                     maskClosable={false}
                     footer={null}
@@ -413,5 +412,5 @@ class TeachingEdition extends Component {
     }
 }
 
-let _TeachingEdition = withRouter(TeachingEdition)
-export default _TeachingEdition;
+let _Subject = withRouter(Subject)
+export default _Subject;

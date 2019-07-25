@@ -1,0 +1,63 @@
+/*通知列表样式*/
+body{
+    max-height: 750px !important;
+}
+.element::-webkit-scrollbar {
+    width: 0 !important
+}
+
+.element {
+    -ms-overflow-style: none;
+}
+
+.element {
+    overflow: -moz-scrollbars-none;
+}
+
+
+::-webkit-scrollbar {
+
+    display: none;
+}
+.info{
+    margin:15px 15px 0 15px;
+}
+.info-button{
+    float: right;
+    margin:0 10px 5px 0;
+    z-index: 2;
+}
+.ant-pagination.ant-table-pagination{
+    margin:16px 10px !important;
+}
+.ant-table-thead > tr> th,.even{
+    /*background: #f3f3f3 !important;*/
+    background: #fff !important;
+}
+.even{
+    /*background: #f5f5f5 !important;*/
+}
+.odd{
+    background: #ffffff !important;
+}
+
+
+.ant-modal-body1{
+    overflow: auto;
+    max-height: 520px;
+    min-height: 275px;
+}
+
+.modal-footer{
+    border-top: #e8e8e8 1px solid;
+    background: #ffffff !important;
+    bottom: 0px !important;
+    z-index: 2 !important;
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+    height: 60px !important;
+    position: absolute !important;
+    width: 100% !important;
+    margin: 50px 0px 0 -24px !important;
+    padding: 10px 0 0 0 !important;
+}
