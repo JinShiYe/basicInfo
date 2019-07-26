@@ -1,8 +1,6 @@
 
 ## 学生卡录入管理
-### 模块
-
- ` <Route  path='/student_card' component={StudentCard}/>{/*学生卡录入*/}`
-  
-  `<Route  path='/student_head_img' component={StudentHeadImg}/>{/*学生人脸头像入*/}`
-
+|模块名称|路由|组件名称|
+|:---|:---|:---|
+|学生卡录入|/student_card|StudentCard|
+|学生人脸头像入|/student_head_img|StudentHeadImg|

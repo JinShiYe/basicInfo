@@ -1,5 +1,5 @@
 
 ## 基本情况
-### 模块
-
- `<Route  path='/basic_info' component={BasicInfo}/>{/*基础信息*/}`
+|模块名称|路由|组件名称|
+|:---|:---|:---|
+|基本情况|/basic_info|BasicInfo|

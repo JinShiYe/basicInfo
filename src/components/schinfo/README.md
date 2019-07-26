@@ -1,21 +1,13 @@
 
 ## 学校同一信息
-### 模块
-
- `<Route  path='/grd_cls' component={GrdAndCls}/>{/*学段及年级*/}`
- 
- `<Route  path='/college_department' component={CollegeDep}/>{/*院系*/}`
- 
- `<Route  path='/major' component={Major}/>{/*专业*/}`
- 
- `<Route  path='/subject' component={Subject}/>{/*科目*/}`
- 
- `<Route  path='/teaching_edition' component={TeachingEdition}/>{/*教版*/}`
- 
- `<Route  path='/fascicle' component={Fascicle}/>{/*教材分册*/}`
- 
- `<Route  path='/semester' component={Semester}/>{/*季期*/}`
- 
- `<Route  path='/subject_type' component={SubjectType}/>{/*分科*/}`
- 
- `<Route  path='/equipment_type' component={EquipmentType}/>{/*设备类型*/}`
+|模块名称|路由|组件名称|
+|:---|:---|:---|
+|学段及年级|/grd_cls|GrdAndCls|
+|院系|/college_department|CollegeDep|
+|专业|/major|Major|
+|科目|/subject|Subject|
+|教版|/teaching_edition|TeachingEdition|
+|教材分册|/fascicle|Fascicle|
+|季期|/semester|Semester|
+|分科|/subject_type|SubjectType|
+|设备类型|/equipment_type|EquipmentType|
