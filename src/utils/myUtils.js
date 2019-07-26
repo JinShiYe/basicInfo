@@ -38,7 +38,13 @@ const myUtils = {
         }else {
             url = requestUrl;
         }
-        let signTemp = myUtils.sortParams(params);
+        let noNullObj={};
+        Object.keys(params).forEach(function(key){
+            if(!(params[key]==="" || params[key]===null)){
+                noNullObj[key]=params[key];
+            }
+        });
+        let signTemp = myUtils.sortParams(noNullObj);
         let signT = HmacSHA1(signTemp, storekeyname.sha1key).toString(enc.Base64);
         params.sign = signT;
         let data=params;
@@ -157,7 +163,7 @@ const myUtils = {
     },
 
 };
-//获取列表数据通用请求
+//统一信息 schinfo 获取列表数据通用请求
 let getTableData=(interfaceName,that,pagesize,page)=>{
     let personal=store.get(storekeyname.PERSONALINFO);
     let utoken =store.get(storekeyname.TOKEN);
@@ -192,7 +198,7 @@ let getTableData=(interfaceName,that,pagesize,page)=>{
     });
 }
 
-//添加 编辑通用请求
+//统一信息 schinfo  添加 编辑通用请求
 let add_editData=(interfaceName,requestData,callback)=>{
     let personal=store.get(storekeyname.PERSONALINFO);
     let utoken =store.get(storekeyname.TOKEN);

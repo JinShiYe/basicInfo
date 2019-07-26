@@ -17,6 +17,10 @@ import EquipmentType from './schinfo/equipment_type'
 import BasicInfo from './basic_information/basic_info'
 import SystemNameIcon from './system_name_icon/system_name_icon'
 import GrdClsSub from './grd_cls_sub/grd_cls_sub'
+import TeacherCard from './teacher_card/teacher_card'
+import TeacherHeadImg from './teacher_card/teacher_head_img'
+import StudentCard from './student_card/student_card'
+import StudentHeadImg from './student_card/student_head_img'
 
 import Test from './test'
 //路由
@@ -59,6 +63,10 @@ class MainRouter extends Component {
                     <Route  path='/basic_info' component={BasicInfo}/>{/*基础信息*/}
                     <Route  path='/system_name_icon' component={SystemNameIcon}/>{/*学校系统名称与图标*/}
                     <Route  path='/grd_cls_sub' component={GrdClsSub}/>{/*学段年级与科目*/}
+                    <Route  path='/teacher_card' component={TeacherCard}/>{/*教师卡录入*/}
+                    <Route  path='/teacher_head_img' component={TeacherHeadImg}/>{/*教师人脸头像入*/}
+                    <Route  path='/student_card' component={StudentCard}/>{/*学生卡录入*/}
+                    <Route  path='/student_head_img' component={StudentHeadImg}/>{/*学生人脸头像入*/}
                     {/*</Switch>*/}
                 </HashRouter>
             </div>

@@ -1,10 +1,14 @@
 import '../themes/schinfo.css';
 import React, {Component} from 'react';
-import {withRouter} from 'react-router-dom';
+import {HashRouter, withRouter} from 'react-router-dom';
 import {Link} from 'react-router-dom';
 import {Button,Input,message} from 'antd';
 import store from '../utils/store';
 import storekeyname from '../utils/storeKeyName';
+import TeacherCard from "./teacher_card/teacher_card";
+import TeacherHeadImg from "./teacher_card/teacher_head_img";
+import StudentCard from "./student_card/student_card";
+import StudentHeadImg from "./student_card/student_head_img";
 //路由
 class Test extends Component {
     componentDidMount() {
@@ -73,6 +77,22 @@ class Test extends Component {
                 <br/><br/><br/>
                 <Link to={`/equipment_type`}>
                     <Button className="create-notice-btn" type="primary" icon="form">设备类型</Button>
+                </Link>
+                <br/><br/><br/>
+                <Link to={`/teacher_card`}>
+                    <Button className="create-notice-btn" type="primary" icon="form">教师卡录入</Button>
+                </Link>
+                <br/><br/><br/>
+                <Link to={`/teacher_head_img`}>
+                    <Button className="create-notice-btn" type="primary" icon="form">教师人脸头像入</Button>
+                </Link>
+                <br/><br/><br/>
+                <Link to={`/student_card`}>
+                    <Button className="create-notice-btn" type="primary" icon="form">学生卡录入</Button>
+                </Link>
+                <br/><br/><br/>
+                <Link to={`/student_head_img`}>
+                    <Button className="create-notice-btn" type="primary" icon="form">学生人脸头像入</Button>
                 </Link>
             </div>
         )

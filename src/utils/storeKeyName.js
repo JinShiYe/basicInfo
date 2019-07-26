@@ -9,7 +9,7 @@ const storeKeyName={
     PERSONALINFO :'personInfo_notice', //个人信息，登录成功后返回值
     TOKEN:'token',//从框架URL 得到的token
     PERMISSIONSWHYNOTALLOW:'permissionsWHY',//权限 存储的变量名 得到的是个msp string 需转换为json
-
+    PROVINCE_CITY_AREA:'province_city_area',//省市区json
     //权限
     common_add:"Baseinfo:add",//添加
     common_edit:"Baseinfo:edit",//编辑
