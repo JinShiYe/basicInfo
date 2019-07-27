@@ -5,10 +5,6 @@ import {Link} from 'react-router-dom';
 import {Button,Input,message} from 'antd';
 import store from '../utils/store';
 import storekeyname from '../utils/storeKeyName';
-import TeacherCard from "./teacher_card/teacher_card";
-import TeacherHeadImg from "./teacher_card/teacher_head_img";
-import StudentCard from "./student_card/student_card";
-import StudentHeadImg from "./student_card/student_head_img";
 //路由
 class Test extends Component {
     componentDidMount() {

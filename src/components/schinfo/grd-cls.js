@@ -2,7 +2,8 @@ import '../../themes/schinfo.css';
 import React, {Component} from 'react';
 import store from '../../utils/store';
 import storekeyname from '../../utils/storeKeyName';
-import myUtils,{getTableData,add_editData} from '../../utils/myUtils';
+import myUtils from '../../utils/myUtils';
+import {getTableData,add_editData} from '../../utils/schinfoUtils';
 import {getColumns} from '../../utils/commom-colums';
 import {Table, Modal, Button, Icon, Form, Input, Select, message,} from 'antd';
 import {withRouter} from 'react-router-dom';
@@ -591,7 +592,7 @@ class GrdAndCls extends Component {
     }
 
     render() {
-        let columns= getColumns("grd",this.state.edit)
+        let columns= getColumns("grd")
         let button=null;
         if(this.state.add){
             button=<Button className={"info-button"} type="primary" icon="plus-circle" onClick={()=>this.showModal_add()}>添加</Button>

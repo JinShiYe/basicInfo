@@ -1,13 +1,13 @@
-import '../../themes/basic_info.css';
+import '../../../themes/basic_info.css';
 import React, {Component} from 'react';
-import store from '../../utils/store';
-import storekeyname from '../../utils/storeKeyName';
-import myUtils,{getTableData,add_editData} from '../../utils/myUtils';
+import store from '../../../utils/store';
+import storekeyname from '../../../utils/storeKeyName';
+import myUtils from '../../../utils/myUtils';
 import {Table, Modal, Button, Icon, Form, Input, Select, message,} from 'antd';
 import {withRouter} from 'react-router-dom';
 
 //学段年级组件
-class StudentHeadImg extends Component {
+class GrdClsSub extends Component {
 
     constructor(props) {
         super(props);
@@ -48,5 +48,5 @@ class StudentHeadImg extends Component {
     }
 }
 
-let _StudentHeadImg = withRouter(StudentHeadImg)
-export default _StudentHeadImg;
+let _GrdClsSub = withRouter(GrdClsSub)
+export default _GrdClsSub;

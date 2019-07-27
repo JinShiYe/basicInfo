@@ -15,8 +15,9 @@
 
     display: none;
 }
+
 .ant-advanced-search-form {
-    padding: 24px;
+    padding: 15px 10px 15px 10px;
     background: #fbfbfb;
     border: 1px solid #d9d9d9;
     border-radius: 6px;
@@ -28,4 +29,20 @@
 
 .ant-advanced-search-form .ant-form-item-control-wrapper {
     flex: 1;
+}
+
+.search-box{
+    margin: 15px 15px 0 15px;
+}
+
+.form-item-search{
+    margin: 0 15px;
+}
+
+.form-item-btn{
+    margin: 5px 0px 0 15px;
+}
+
+.ant-row.ant-form-item{
+    margin-bottom: 5px;
 }

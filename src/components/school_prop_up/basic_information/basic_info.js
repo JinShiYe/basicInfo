@@ -1,40 +1,12 @@
-import '../../themes/basic_info.css';
+import '../../../themes/basic_info.css';
 import React, {Component} from 'react';
-import store from '../../utils/store';
-import storekeyname from '../../utils/storeKeyName';
-import myUtils,{getTableData,add_editData} from '../../utils/myUtils';
+import store from '../../../utils/store';
+import storekeyname from '../../../utils/storeKeyName';
+import myUtils from '../../../utils/myUtils';
 import {Table, Button, Icon, Form, Input, Select, message,Row,Col} from 'antd';
 import {withRouter} from 'react-router-dom';
 
 class AdvancedSearchForm extends React.Component {
-    state = {
-        expand: false,
-    };
-
-    // To generate mock Form.Item
-    getFields() {
-        const count = this.state.expand ? 10 : 8;
-        const { getFieldDecorator } = this.props.form;
-        const children = [];
-        for (let i = 0; i < 10; i++) {
-            children.push(
-                <Col span={6} key={i} style={{ display: i < count ? 'block' : 'none' }}>
-                    <Form.Item label={`Field ${i}`}>
-                        {getFieldDecorator(`field-${i}`, {
-                            rules: [
-                                {
-                                    required: true,
-                                    message: 'Input something!',
-                                },
-                            ],
-                        })(<Input placeholder="placeholder" />)}
-                    </Form.Item>
-                </Col>,
-            );
-        }
-        return children;
-    }
-
     handleSearch = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -46,26 +18,68 @@ class AdvancedSearchForm extends React.Component {
         this.props.form.resetFields();
     };
 
-    toggle = () => {
-        const { expand } = this.state;
-        this.setState({ expand: !expand });
-    };
-
     render() {
+        const { getFieldDecorator } = this.props.form;
         return (
             <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
-                <Row gutter={24}>{this.getFields()}</Row>
-                <Row>
-                    <Col span={24} style={{ textAlign: 'right' }}>
+                <Row gutter={24} className={"form-item-search"}>
+                    <Col span={6} >
+                        <Form.Item label={"省"}>
+                            {getFieldDecorator("province", {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: 'Input something!',
+                                    },
+                                ],
+                            })(<Input placeholder="placeholder" />)}
+                        </Form.Item>
+                    </Col>
+                    <Col span={6}  >
+                        <Form.Item label={"市"}>
+                            {getFieldDecorator("city", {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: 'Input something!',
+                                    },
+                                ],
+                            })(<Input placeholder="placeholder" />)}
+                        </Form.Item>
+                    </Col>
+                    <Col span={6}  >
+                        <Form.Item label={"区/县"}>
+                            {getFieldDecorator("area", {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: 'Input something!',
+                                    },
+                                ],
+                            })(<Input placeholder="placeholder" />)}
+                        </Form.Item>
+                    </Col>
+                    <Col span={6}  >
+                        <Form.Item label={"关键字"}>
+                            {getFieldDecorator("keywords", {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: 'Input something!',
+                                    },
+                                ],
+                            })(<Input placeholder="placeholder" />)}
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row className={"form-item-btn"}>
+                    <Col span={3} offset={21}  style={{ textAlign: 'right',background:"#fff" }}>
                         <Button type="primary" htmlType="submit">
-                            Search
+                            查找
                         </Button>
                         <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
-                            Clear
+                            重置
                         </Button>
-                        <a style={{ marginLeft: 8, fontSize: 12 }} onClick={this.toggle}>
-                            Collapse <Icon type={this.state.expand ? 'up' : 'down'} />
-                        </a>
                     </Col>
                 </Row>
             </Form>
@@ -179,7 +193,7 @@ class BasicInfo extends Component {
         return (
             <div>
                 <Row>
-                    <Col span={20} offset={2}>
+                    <Col span={24}>
                         <WrappedAdvancedSearchForm />
                     </Col>
                 </Row>
