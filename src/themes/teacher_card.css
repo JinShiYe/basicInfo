@@ -44,3 +44,8 @@
 .ant-row.ant-form-item{
     margin-bottom: 5px;
 }
+.form-explain{
+    font-size: 13px;
+    color:#f5222d;
+    transition: color .3s cubic-bezier(.215, .61, .355, 1);
+}

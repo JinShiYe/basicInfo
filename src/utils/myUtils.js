@@ -35,6 +35,8 @@ const myUtils = {
             url = storekeyname.INTERFACEZENG + requestUrl;
         }else if (flag == 1) {
             url = storekeyname.INTERFACEGU + requestUrl;
+        }else if (flag == 2) {
+            url = storekeyname.INTERFACEMENG + requestUrl;
         }else {
             url = requestUrl;
         }
