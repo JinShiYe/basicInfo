@@ -49,3 +49,7 @@
     color:#f5222d;
     transition: color .3s cubic-bezier(.215, .61, .355, 1);
 }
+
+.ant-upload-list{
+    display: none !important;
+}

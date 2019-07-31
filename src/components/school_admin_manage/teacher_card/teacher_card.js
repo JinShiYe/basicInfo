@@ -15,9 +15,9 @@ class AdvancedSearchForm extends React.Component {
         });
     };
 
-    // handleReset = () => {
-    //     this.props.form.resetFields();
-    // };
+    handleReset = () => {
+        this.props.form.resetFields();
+    };
 
     handleChange=(value)=> {
         console.log(`selected ${value}`);
@@ -77,14 +77,26 @@ class AdvancedSearchForm extends React.Component {
                             )}
                         </Form.Item>
                     </Col>
-                </Row>
-                <Row className={"form-item-btn"}>
                     <Col span={24} style={{ textAlign: 'right' }}>
-                        <Button type="primary" htmlType="submit">
+                        {addBtn}
+                        <Button type="primary" htmlType="submit" style={{ marginLeft: 8,marginTop:8 }}>
                             查找
                         </Button>
-                        {addBtn}
+                        <Button  onClick={this.handleReset} style={{ marginLeft: 8,marginTop:8 }}>
+                            重置
+                        </Button>
                     </Col>
+                </Row>
+                <Row className={"form-item-btn"}>
+                    {/*<Col span={24} style={{ textAlign: 'right' }}>*/}
+                    {/*    {addBtn}*/}
+                    {/*    <Button type="primary" htmlType="submit" style={{ marginLeft: 8 }}>*/}
+                    {/*        查找*/}
+                    {/*    </Button>*/}
+                    {/*    <Button  onClick={this.handleReset} style={{ marginLeft: 8 }}>*/}
+                    {/*        重置*/}
+                    {/*    </Button>*/}
+                    {/*</Col>*/}
                 </Row>
             </Form>
         );
@@ -394,7 +406,7 @@ class TeacherCard extends Component {
     }
 
     //提交行修改的数据
-    onSubmitRecord=(rowdata)=>{
+    onSubmitRecord=(rowdata,type)=>{
         // console.log(rowdata)
         let utoken =store.get(storekeyname.TOKEN);
         let personal=store.get(storekeyname.PERSONALINFO);
@@ -413,9 +425,27 @@ class TeacherCard extends Component {
         myUtils.post(1, "HrTecCardAorE", paramsUserInfo, res => {
             console.log(res)
             if (res.code == 0) {
-                let searchData=this.state.searchData;
-                let page=this.state.pageindex;
-                this.getTableDataSearch_NextPage(searchData,page);
+                if(type==="PL"){
+                    let searchData=this.state.searchData;
+                    let page=this.state.pageindex;
+                    this.getTableDataSearch_NextPage(searchData,page);
+                }else if(type==="DG"){
+                    let data =this.state.data;
+                    let cardid=rowdata.cardid;
+                    data.map(item=>{
+                        if(cardid===item.cardid){
+                            item.showBtn=false;//是否显示提交btn
+                            item.showError=false;//是否显示错误提醒
+                            item.newCardId=rowdata.newCardId;
+                            item.cardid=rowdata.newCardId;
+                            item.msg="";
+                        }
+                    })
+                    this.setState({
+                        data
+                    })
+                }
+                message.success("修改成功！")
             }else{
                 message.error(res.msg)
             }
@@ -425,19 +455,35 @@ class TeacherCard extends Component {
     onSubmitRecordPL=()=>{
         console.log(this.state.data)
         let data =this.state.data;
+        let cardids=new Map();
+        let cardidsList=[];
         data.map(item=>{
             if(item.showBtn){
-                this.onSubmitRecord(item)
+                cardidsList.push(item.newCardId)
+                cardids.set(item.newCardId,"666");
             }
         })
+        if(cardids.size===cardidsList.length){
+            data.map(item=>{
+                if(item.showBtn){
+                    this.onSubmitRecord(item,"PL")
+                }
+            })
+        }else{
+            message.error("卡地址重复，请检查卡地址！")
+        }
     }
 
     componentDidMount() {
         this.getPersonalInfo(()=>{
+            // this.getCardType(()=>{
+            //     this.getPermission(()=>{
+            //         this.getTableData();
+            //     })
+            // })
+            this.getPermission(()=>{})
             this.getCardType(()=>{
-                this.getPermission(()=>{
-                    this.getTableData();
-                })
+                this.getTableData();
             })
         })
     }

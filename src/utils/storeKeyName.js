@@ -21,6 +21,13 @@ const storeKeyName={
     teacher_card_add:"sch#School:TeacherCard:add",
     teacher_card_edit:"sch#School:TeacherCard:edit",
     teacher_card_delete:"sch#School:TeacherCard:delete",
+    //七牛
+    QINIUAPPID:4,//七牛APPID 由管理员分配
+    QNPUBSPACE : "pb", //七牛公开空间
+    QNPRISPACE : "pv", //七牛私有空间
+    XXTNOTICE : 'notice/', //笔校讯通、通知
+    QNPUBXXT : "jsy@180526",//校讯通
+    FIRSTZ:'?vframe/jpg/offset/1',//视频第一帧图片
 };
 switch (key) {
     case 0:
@@ -29,6 +36,7 @@ switch (key) {
         storeKeyName.INTERFACEZENG="http://139.129.252.49:8080/sup2/";//广西接口
         storeKeyName.INTERFACEMENG="http://139.129.252.49:8080/sys/";//广西接口
         storeKeyName.INTERFACEGU = 'http://jsypay.jiaobaowang.net/nwifbaseapi/api/Data/'; //顾工接口
+        storeKeyName.QNGETUPLOADTOKEN ="https://jbyc.jiaobaowang.net:8504/Api/QiNiu/GetUpLoadToKen";//七牛token获取接口
             break;
     default:
         break;

@@ -22,9 +22,9 @@ class AdvancedSearchForm extends React.Component {
         });
     };
 
-    // handleReset = () => {
-    //     this.props.form.resetFields();
-    // };
+    handleReset = () => {
+        this.props.form.resetFields();
+    };
 
     handleChange=(value)=> {
         // console.log(`selected ${value}`);
@@ -33,8 +33,8 @@ class AdvancedSearchForm extends React.Component {
             clss:[],
         })
         grdCls.map(item=>{
-            if(value===item.code){
-                let clss=item.grdlist;
+            if(value===item.grdid){
+                let clss=item.child;
                 this.setState({
                     clss,
                 })
@@ -57,19 +57,20 @@ class AdvancedSearchForm extends React.Component {
 
         let grds=this.props.grdClsData;
         let grdOptions=[];
-        let qboption=<Option key={0} value={0}>全部年级</Option>;
-        grdOptions.push(qboption);
-        grds.map(item=>{
-            let option=<Option key={item.code} value={item.code}>{item.name}</Option>;
-            grdOptions.push(option)
-        })
-
+        if(grds!==undefined){
+            let qboption=<Option key={0} value={0}>全部年级</Option>;
+            grdOptions.push(qboption);
+            grds.map(item=>{
+                let option=<Option key={item.grdid} value={item.grdid}>{item.grdname}</Option>;
+                grdOptions.push(option)
+            })
+        }
         let clss=this.state.clss;
         let clsOptions=[];
         let clsoption=<Option key={0} value={0}>全部班级</Option>;
         clsOptions.push(clsoption);
         clss.map(item=>{
-            let option=<Option key={item.code} value={item.code}>{item.name}</Option>;
+            let option=<Option key={item.clsid} value={item.clsid}>{item.clsname}</Option>;
             clsOptions.push(option)
         })
         let addBtn=null;
@@ -137,13 +138,25 @@ class AdvancedSearchForm extends React.Component {
                             )}
                         </Form.Item>
                     </Col>
+                    {/*<Col span={12} style={{ textAlign: 'right' }}>*/}
+                    {/*    {addBtn}*/}
+                    {/*    <Button type="primary" htmlType="submit" style={{ marginLeft: 8,marginTop:8 }}>*/}
+                    {/*        查找*/}
+                    {/*    </Button>*/}
+                    {/*    <Button  onClick={this.handleReset} style={{ marginLeft: 8,marginTop:8 }}>*/}
+                    {/*        重置*/}
+                    {/*    </Button>*/}
+                    {/*</Col>*/}
                 </Row>
                 <Row className={"form-item-btn"}>
                     <Col span={24} style={{ textAlign: 'right' }}>
-                        <Button type="primary" htmlType="submit">
+                        {addBtn}
+                        <Button type="primary" htmlType="submit" style={{ marginLeft: 8 }}>
                             查找
                         </Button>
-                        {addBtn}
+                        <Button  onClick={this.handleReset} style={{ marginLeft: 8 }}>
+                            重置
+                        </Button>
                     </Col>
                 </Row>
             </Form>
@@ -161,8 +174,7 @@ class StudentCard extends Component {
         this.state = {
             data: [],//列表数据
             cardType:[],//卡类型
-            grds:[],//年级数组
-            clss:[],//班级数组
+            grdAndCls:[],//年级数组
             searchData:{
                 cardid:"",//卡id
                 uname:"",//用户姓名
@@ -199,7 +211,7 @@ class StudentCard extends Component {
         });
     }
     //获取卡类型
-    getCardType=()=>{
+    getCardType=(callback)=>{
         let utoken =store.get(storekeyname.TOKEN);
         let personal=store.get(storekeyname.PERSONALINFO);
         let paramsUserInfo = {
@@ -219,6 +231,7 @@ class StudentCard extends Component {
                     cardType,
                     searchData
                 })
+                callback();
             }else{
                 message.error(res.msg)
             }
@@ -361,24 +374,49 @@ class StudentCard extends Component {
     }
 
     //获取学校年级班级数据
-    getGrdCls=()=>{
+    getGrdCls=(callback)=>{
         let utoken =store.get(storekeyname.TOKEN);
         let paramsUserInfo = {
             is_finish:0,
             access_token: utoken,
         };
         myUtils.post(2, "api/grd/list", paramsUserInfo, res => {
-            console.log("api/grd/list:"+JSON.stringify(res))
+            // console.log("api/grd/list:"+JSON.stringify(res))
             if (res.code == 0) {
                 let grds = res.data;
-                this.setState({
-                    grds
-                })
                 let grdids=[];
                 grds.map(item=>{
                     grdids.push(item.grdid)
                 })
-                console.log(grdids)
+                let paramsUserInfo = {
+                    is_finish:0,
+                    grade_ids: grdids.join(","),
+                    access_token: utoken,
+                };
+                myUtils.post(2, "api/cls/list", paramsUserInfo, res2 => {
+                    // console.log("api/cls/list:"+JSON.stringify(res2))
+                    if (res.code == 0) {
+                        let child=[];
+                        let clss=res2.data;
+                        grds.map(item=>{
+                            let pgrdid=item.grdid;
+                            clss.map(itemChild=>{
+                                let grdid=itemChild.grdid;
+                                if(pgrdid===grdid){
+                                    child.push(itemChild)
+                                }
+                            })
+                            item.child=child;
+                        })
+                        this.setState({
+                            grdAndCls:grds
+                        })
+                        // console.log(JSON.stringify(grds));
+                        callback();
+                    }else{
+                        message.error(res.msg)
+                    }
+                });
             }else{
                 message.error(res.msg)
             }
@@ -386,7 +424,7 @@ class StudentCard extends Component {
     }
 
     //获取权限
-    getPermission=()=>{
+    getPermission=(callback)=>{
         //1.9: 查询权限符（前端调用，判断按钮是否显示）
         let utoken =store.get(storekeyname.TOKEN);
         let personal=store.get(storekeyname.PERSONALINFO);
@@ -422,6 +460,7 @@ class StudentCard extends Component {
                 this.setState({
                     add_edit:permissionsObj.get(storekeyname.student_card_add),
                 })
+                callback();
             } else {
                 message.error(res.msg)
             }
@@ -485,7 +524,7 @@ class StudentCard extends Component {
     }
 
     //提交行修改的数据
-    onSubmitRecord=(rowdata)=>{
+    onSubmitRecord=(rowdata,type)=>{
         // console.log(rowdata)
         let utoken =store.get(storekeyname.TOKEN);
         let personal=store.get(storekeyname.PERSONALINFO);
@@ -501,12 +540,30 @@ class StudentCard extends Component {
             school_id:personal.school_code,
         };
         console.log(paramsUserInfo)
-        myUtils.post(1, "HrTecCardAorE", paramsUserInfo, res => {
+        myUtils.post(1, "HrStuCardAorE", paramsUserInfo, res => {
             console.log(res)
             if (res.code == 0) {
-                let searchData=this.state.searchData;
-                let page=this.state.pageindex;
-                this.getTableDataSearch_NextPage(searchData,page);
+                if(type==="PL"){
+                    let searchData=this.state.searchData;
+                    let page=this.state.pageindex;
+                    this.getTableDataSearch_NextPage(searchData,page);
+                }else if(type==="DG"){
+                    let data =this.state.data;
+                    let cardid=rowdata.cardid;
+                    data.map(item=>{
+                        if(cardid===item.cardid){
+                            item.showBtn=false;//是否显示提交btn
+                            item.showError=false;//是否显示错误提醒
+                            item.newCardId=rowdata.newCardId;
+                            item.cardid=rowdata.newCardId;
+                            item.msg="";
+                        }
+                    })
+                    this.setState({
+                        data
+                    })
+                }
+                message.success("修改成功！")
             }else{
                 message.error(res.msg)
             }
@@ -516,22 +573,39 @@ class StudentCard extends Component {
     onSubmitRecordPL=()=>{
         console.log(this.state.data)
         let data =this.state.data;
+        let cardids=new Map();
+        let cardidsList=[];
         data.map(item=>{
             if(item.showBtn){
-                this.onSubmitRecord(item)
+                cardidsList.push(item.newCardId)
+                cardids.set(item.newCardId,"666");
             }
         })
-    }
-
-    componentWillMount() {
+        if(cardids.size===cardidsList.length){
+            data.map(item=>{
+                if(item.showBtn){
+                    this.onSubmitRecord(item,"PL")
+                }
+            })
+        }else{
+            message.error("卡地址重复，请检查卡地址！")
+        }
     }
 
     componentDidMount() {
         this.getPersonalInfo(()=>{
-            this.getTableData();
-            this.getPermission()
-            this.getGrdCls()
-            this.getCardType()
+            // this.getCardType(()=>{
+            //     this.getGrdCls(()=>{
+            //         this.getPermission(()=>{
+            //             this.getTableData();
+            //         })
+            //     })
+            // })
+            this.getGrdCls(()=>{})
+            this.getPermission(()=>{})
+            this.getCardType(()=>{
+                this.getTableData();
+            })
         })
     }
 
@@ -580,7 +654,7 @@ class StudentCard extends Component {
         )
     }
 }
-const StudentCards = Form.create({ name: 'teacher_card' })(StudentCard);
+const StudentCards = Form.create({ name: 'student_card' })(StudentCard);
 
 let _StudentCards = withRouter(StudentCards)
 export default _StudentCards;
