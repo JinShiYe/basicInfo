@@ -51,6 +51,7 @@ class MainRouter extends Component {
                 <HashRouter>
                     {/*<Switch>*/}
                     <Route exact  path='/' component={Test}/>{/*学段及年级*/}
+                    {/*中小学统一信息*/}
                     <Route  path='/grd_cls' component={GrdAndCls}/>{/*学段及年级*/}
                     <Route  path='/college_department' component={CollegeDep}/>{/*院系*/}
                     <Route  path='/major' component={Major}/>{/*专业*/}
@@ -60,9 +61,11 @@ class MainRouter extends Component {
                     <Route  path='/semester' component={Semester}/>{/*季期*/}
                     <Route  path='/subject_type' component={SubjectType}/>{/*分科*/}
                     <Route  path='/equipment_type' component={EquipmentType}/>{/*设备类型*/}
+                    {/*中小学支撑*/}
                     <Route  path='/basic_info' component={BasicInfo}/>{/*基础信息*/}
                     <Route  path='/system_name_icon' component={SystemNameIcon}/>{/*学校系统名称与图标*/}
                     <Route  path='/grd_cls_sub' component={GrdClsSub}/>{/*学段年级与科目*/}
+                    {/*学校后台管理*/}
                     <Route  path='/teacher_card' component={TeacherCard}/>{/*教师卡录入*/}
                     <Route  path='/teacher_head_img' component={TeacherHeadImg}/>{/*教师人脸头像入*/}
                     <Route  path='/student_card' component={StudentCard}/>{/*学生卡录入*/}

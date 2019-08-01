@@ -139,23 +139,38 @@ class TeacherHeadImg extends Component {
     }
 
     //获取默认表格数据
-    getTableData=()=>{
+    getTableData=(searchData,page)=>{
         let utoken =store.get(storekeyname.TOKEN);
         let personal=store.get(storekeyname.PERSONALINFO);
+
+        if(searchData===undefined){
+            searchData=this.state.searchData;
+        }
+        if(page===undefined){
+            page=this.state.pageindex;
+        }
+
+        this.setState({
+            data:[],
+            searchData,
+            pageindex:page,//默认当前页
+            loading:true,
+            total:0,//数据总数
+        })
+
         let paramsUserInfo = {
             platform_code:personal.platform_code,
             app_code:personal.app_code,
             access_token: utoken,
             pagesize:this.state.pagesize,
-            pageindex:this.state.pageindex,
+            pageindex:page,
 
-            uname:this.state.searchData.uname,
-            cardtp:parseInt(this.state.searchData.cardtp),
-            iscard:this.state.searchData.iscard,
+            uname:searchData.uname,
+            cardtp:parseInt(searchData.cardtp),
+            iscard:searchData.iscard,
 
             school_id:personal.school_code,
         };
-        console.log("liushuai:"+JSON.stringify(paramsUserInfo))
         myUtils.post(1, "HrTecVCardP", paramsUserInfo, res => {
             console.log(JSON.stringify(res))
             if (res.code == 0) {
@@ -188,71 +203,6 @@ class TeacherHeadImg extends Component {
         });
     }
 
-    //获取表格数据 查找模块 和分页模块使用
-    getTableDataSearch_NextPage=(searchData,page)=>{
-        let utoken =store.get(storekeyname.TOKEN);
-        let personal=store.get(storekeyname.PERSONALINFO);
-        if(searchData===undefined){
-            searchData=this.state.searchData;
-        }
-        if(page===undefined){
-            page=this.state.pageindex;
-        }
-
-        this.setState({
-            data:[],
-            searchData,
-            pageindex:page,//默认当前页
-            loading:true,
-            total:0,//数据总数
-        })
-
-        let paramsUserInfo = {
-            platform_code:personal.platform_code,
-            app_code:personal.app_code,
-            access_token: utoken,
-            pagesize:this.state.pagesize,
-            pageindex:page,
-
-            uname:searchData.uname,
-            cardtp:parseInt(searchData.cardtp),
-            iscard:searchData.iscard,
-
-            school_id:personal.school_code,
-        };
-        myUtils.post(1, "HrTecVCardP", paramsUserInfo, res => {
-            console.log(res)
-            if (res.code == 0) {
-                let data=[];
-                if(res.data!==null){
-                    let datas =res.data.list;
-                    datas.map((item,index)=>{
-                        item.xh=index+1;
-                        item.cardtp=searchData.cardtp
-                        item.previewImg=item.vcardimg;
-                        item.isNewHead=false;
-                        data.push(item)
-                    });
-                    console.log(JSON.stringify(data))
-                    this.setState(Object.assign({}, this.state, {
-                        data,
-                        loading:false,
-                        total:res.data.pagerowc
-                    }))
-
-                }else{
-                    this.setState(Object.assign({}, this.state, {
-                        data,
-                        loading:false,
-                        pageindex:1,//默认当前页
-                        total:0
-                    }))
-                }
-            }else{
-                message.error(res.msg)
-            }
-        });
-    }
 
     //查找模块点击事件
     changeSearchData=data=>{
@@ -261,7 +211,7 @@ class TeacherHeadImg extends Component {
         searchData.uname=data.uname||""//用户姓名
         searchData.cardtp=data.cardType//卡类型
         searchData.iscard=data.haveCard//是否有卡
-        this.getTableDataSearch_NextPage(searchData,1);
+        this.getTableData(searchData,1);
     }
 
     //获取卡类型
@@ -322,7 +272,7 @@ class TeacherHeadImg extends Component {
             visible_edit: false,
         });
         let searchData=this.state.searchData;
-        this.getTableDataSearch_NextPage(searchData,this.state.pageindex);
+        this.getTableData(searchData,this.state.pageindex);
     }
 
     //获取权限
@@ -404,9 +354,8 @@ class TeacherHeadImg extends Component {
                                pagination={{
                                    current:this.state.pageindex,
                                    onChange: page => {
-                                       let data=this.state.data;
                                        let searchData=this.state.searchData;
-                                       this.getTableDataSearch_NextPage(searchData,page);
+                                       this.getTableData(searchData,page);
                                    },
                                    pageSize: this.state.pagesize,
                                    hideOnSinglePage:true,

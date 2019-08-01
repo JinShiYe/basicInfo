@@ -1,4 +1,4 @@
-import '../../../themes/basic_info.css';
+import '../../../themes/student_card.css';
 import React, {Component} from 'react';
 import store from '../../../utils/store';
 import storekeyname from '../../../utils/storeKeyName';
@@ -203,21 +203,37 @@ class StudentHeadImg extends Component {
     }
 
     //获取默认表格数据
-    getTableData=()=>{
+    getTableData=(searchData,page)=>{
         let utoken =store.get(storekeyname.TOKEN);
         let personal=store.get(storekeyname.PERSONALINFO);
+
+        if(searchData===undefined){
+            searchData=this.state.searchData;
+        }
+        if(page===undefined){
+            page=this.state.pageindex;
+        }
+
+        this.setState({
+            data:[],
+            searchData,
+            pageindex:page,//默认当前页
+            loading:true,
+            total:0,//数据总数
+        })
+
         let paramsUserInfo = {
             platform_code:personal.platform_code,
             app_code:personal.app_code,
             access_token: utoken,
             pagesize:this.state.pagesize,
-            pageindex:this.state.pageindex,
+            pageindex:page,
 
-            uname:this.state.searchData.uname,
-            cardtp:parseInt(this.state.searchData.cardtp),
-            iscard:this.state.searchData.iscard,
-            grade_id:this.state.searchData.grd_id,
-            cls_id:this.state.searchData.cls_id,
+            uname:searchData.uname,
+            cardtp:parseInt(searchData.cardtp),
+            iscard:searchData.iscard,
+            grade_id:searchData.grd_id,
+            cls_id:searchData.cls_id,
 
             school_id:personal.school_code,
         };
@@ -254,73 +270,6 @@ class StudentHeadImg extends Component {
         });
     }
 
-    //获取表格数据 查找模块 和分页模块使用
-    getTableDataSearch_NextPage=(searchData,page)=>{
-        let utoken =store.get(storekeyname.TOKEN);
-        let personal=store.get(storekeyname.PERSONALINFO);
-        if(searchData===undefined){
-            searchData=this.state.searchData;
-        }
-        if(page===undefined){
-            page=this.state.pageindex;
-        }
-
-        this.setState({
-            data:[],
-            searchData,
-            pageindex:page,//默认当前页
-            loading:true,
-            total:0,//数据总数
-        })
-
-        let paramsUserInfo = {
-            platform_code:personal.platform_code,
-            app_code:personal.app_code,
-            access_token: utoken,
-            pagesize:this.state.pagesize,
-            pageindex:page,
-
-            uname:searchData.uname,
-            cardtp:parseInt(searchData.cardtp),
-            iscard:searchData.iscard,
-            grade_id:searchData.grd_id,
-            cls_id:searchData.cls_id,
-
-            school_id:personal.school_code,
-        };
-        myUtils.post(1, "HrStuVCardP", paramsUserInfo, res => {
-            console.log(res)
-            if (res.code == 0) {
-                let data=[];
-                if(res.data!==null){
-                    let datas =res.data.list;
-                    datas.map((item,index)=>{
-                        item.xh=index+1;
-                        item.cardtp=searchData.cardtp
-                        item.previewImg=item.vcardimg;
-                        item.isNewHead=false;
-                        data.push(item)
-                    });
-                    console.log(JSON.stringify(data))
-                    this.setState(Object.assign({}, this.state, {
-                        data,
-                        loading:false,
-                        total:res.data.pagerowc
-                    }))
-
-                }else{
-                    this.setState(Object.assign({}, this.state, {
-                        data,
-                        loading:false,
-                        pageindex:1,//默认当前页
-                        total:0
-                    }))
-                }
-            }else{
-                message.error(res.msg)
-            }
-        });
-    }
 
     //查找模块点击事件
     changeSearchData=data=>{
@@ -331,7 +280,7 @@ class StudentHeadImg extends Component {
         searchData.iscard=data.haveCard//是否有卡
         searchData.grd_id=data.grd_id//年级ID
         searchData.cls_id=data.cls_id//班级ID
-        this.getTableDataSearch_NextPage(searchData,1);
+        this.getTableData(searchData,1);
     }
 
     //获取卡类型
@@ -442,7 +391,7 @@ class StudentHeadImg extends Component {
             visible_edit: false,
         });
         let searchData=this.state.searchData;
-        this.getTableDataSearch_NextPage(searchData,this.state.pageindex);
+        this.getTableData(searchData,this.state.pageindex);
     }
 
     //获取权限
@@ -525,9 +474,8 @@ class StudentHeadImg extends Component {
                                pagination={{
                                    current:this.state.pageindex,
                                    onChange: page => {
-                                       let data=this.state.data;
                                        let searchData=this.state.searchData;
-                                       this.getTableDataSearch_NextPage(searchData,page);
+                                       this.getTableData(searchData,page);
                                    },
                                    pageSize: this.state.pagesize,
                                    hideOnSinglePage:true,

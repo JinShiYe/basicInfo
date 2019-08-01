@@ -1,4 +1,4 @@
-import '../../../themes/teacher_card.css';
+import '../../../themes/student_card.css';
 import React, {Component} from 'react';
 import store from '../../../utils/store';
 import storekeyname from '../../../utils/storeKeyName';
@@ -252,58 +252,7 @@ class StudentCard extends Component {
     }
 
     //获取默认表格数据
-    getTableData=()=>{
-        let utoken =store.get(storekeyname.TOKEN);
-        let personal=store.get(storekeyname.PERSONALINFO);
-        let paramsUserInfo = {
-            platform_code:personal.platform_code,
-            app_code:personal.app_code,
-            access_token: utoken,
-            pagesize:this.state.pagesize,
-            pageindex:this.state.pageindex,
-
-            cardid:this.state.searchData.cardid,
-            uname:this.state.searchData.uname,
-            cardtp:parseInt(this.state.searchData.cardtp),
-            iscard:this.state.searchData.iscard,
-            grade_id:this.state.searchData.grd_id,
-            cls_id:this.state.searchData.cls_id,
-            school_id:personal.school_code,
-        };
-        myUtils.post(1, "HrStuCardP", paramsUserInfo, res => {
-            console.log(res)
-            if (res.code == 0) {
-                let data=[];
-                if(res.data!==null){
-                    let datas =res.data.list;
-                    datas.map((item,index)=>{
-                        item.xh=index+1;
-                        item.showBtn=false;//是否显示提交btn
-                        item.showError=false;//是否显示错误提醒
-                        item.newCardId=item.cardid;
-                        item.cardtp=this.state.searchData.cardtp
-                        item.msg="";
-                        data.push(item)
-                    });
-                    this.setState(Object.assign({}, this.state, {
-                        data,
-                        loading:false,
-                        total:res.data.pagerowc
-                    }))
-                }else{
-                    this.setState(Object.assign({}, this.state, {
-                        data,
-                        loading:false,
-                        total:0
-                    }))
-                }
-            }else{
-                message.error(res.msg)
-            }
-        });
-    }
-    //获取表格数据 查找模块 和分页模块使用
-    getTableDataSearch_NextPage=(searchData,page)=>{
+    getTableData=(searchData,page)=>{
         let utoken =store.get(storekeyname.TOKEN);
         let personal=store.get(storekeyname.PERSONALINFO);
         if(searchData===undefined){
@@ -348,22 +297,19 @@ class StudentCard extends Component {
                         item.showBtn=false;//是否显示提交btn
                         item.showError=false;//是否显示错误提醒
                         item.newCardId=item.cardid;
-                        item.cardtp=searchData.cardtp
+                        item.cardtp=this.state.searchData.cardtp
                         item.msg="";
                         data.push(item)
                     });
-                    console.log(JSON.stringify(data))
                     this.setState(Object.assign({}, this.state, {
                         data,
                         loading:false,
                         total:res.data.pagerowc
                     }))
-
                 }else{
                     this.setState(Object.assign({}, this.state, {
                         data,
                         loading:false,
-                        pageindex:1,//默认当前页
                         total:0
                     }))
                 }
@@ -546,7 +492,7 @@ class StudentCard extends Component {
                 if(type==="PL"){
                     let searchData=this.state.searchData;
                     let page=this.state.pageindex;
-                    this.getTableDataSearch_NextPage(searchData,page);
+                    this.getTableData(searchData,page);
                 }else if(type==="DG"){
                     let data =this.state.data;
                     let cardid=rowdata.cardid;
@@ -638,7 +584,7 @@ class StudentCard extends Component {
                                        })
                                        if(canNext){
                                            let searchData=this.state.searchData;
-                                           this.getTableDataSearch_NextPage(searchData,page);
+                                           this.getTableData(searchData,page);
                                        }else{
                                            message.error("请先保存当前页面卡地址")
                                        }
