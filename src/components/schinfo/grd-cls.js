@@ -533,62 +533,84 @@ class GrdAndCls extends Component {
         getTableData("SysPerP",this,this.state.pagesize,this.state.pageindex)
     }
 
-    componentDidMount() {
+    getPermission=()=>{
         let utoken =store.get(storekeyname.TOKEN);
-        let paramsUserInfo = {
-            access_token: utoken,
+        let personal=store.get(storekeyname.PERSONALINFO);
+        // let paramsUserInfo = {
+        //     access_token: utoken,
+        // };
+        //  myUtils.post(0, "api/user/currentUserInfo", paramsUserInfo, res => {
+        //     console.log(JSON.stringify(res))
+        //     if (res.code == 0) {
+        //         let personal = res.data;
+        //         if(personal.app_code==""){
+        //             personal.app_code="aaabbbccc"
+        //         }
+        //         store.set(storekeyname.PERSONALINFO, personal);
+        //1.9: 查询权限符（前端调用，判断按钮是否显示）
+        let permissions = [
+            storekeyname.common_add, storekeyname.common_edit,
+        ]
+        let access = [];
+        permissions.map(item => {
+            access.push(personal.app_code + item)
+        });
+        let paramsPermissions = {
+            platform_code: personal.platform_code, //平台代码
+            app_code: personal.app_code, //应用系统代码
+            grd_id: 0, //年级id，全部年级则传-1,不需要判断年级则传0
+            cls_id: 0, //班级id，年级下全部班级则传-1，不需要判断班级则传0
+            stu_id: 0, //学生id，全部学生则传-1，不需要判断学生则传0
+            sub_code: 0, //科目代码，全部科目则传“-1”，不需要判断年级则传“0”
+            access: access.join(","), //权限符，需要判断权限的权限符，多个则用逗号拼接
+            access_token: utoken //用户令牌
         };
-         myUtils.post(0, "api/user/currentUserInfo", paramsUserInfo, res => {
+        myUtils.post(0, "api/acl/permissionByPosition", paramsPermissions, res => {
             console.log(JSON.stringify(res))
             if (res.code == 0) {
-                let personal = res.data;
-                if(personal.app_code==""){
-                    personal.app_code="aaabbbccc"
-                }
-                store.set(storekeyname.PERSONALINFO, personal);
-                //1.9: 查询权限符（前端调用，判断按钮是否显示）
-                let permissions = [
-                    storekeyname.common_add, storekeyname.common_edit,
-                ]
-                let access = [];
-                permissions.map(item => {
-                    access.push(personal.app_code + item)
-                });
-                let paramsPermissions = {
-                    platform_code: personal.platform_code, //平台代码
-                    app_code: personal.app_code, //应用系统代码
-                    grd_id: 0, //年级id，全部年级则传-1,不需要判断年级则传0
-                    cls_id: 0, //班级id，年级下全部班级则传-1，不需要判断班级则传0
-                    stu_id: 0, //学生id，全部学生则传-1，不需要判断学生则传0
-                    sub_code: 0, //科目代码，全部科目则传“-1”，不需要判断年级则传“0”
-                    access: access.join(","), //权限符，需要判断权限的权限符，多个则用逗号拼接
-                    access_token: utoken //用户令牌
-                };
-                myUtils.post(0, "api/acl/permissionByPosition", paramsPermissions, res => {
-                    console.log(JSON.stringify(res))
-                    if (res.code == 0) {
-                        let rspList = res.data.split(",");
-                        let permissionsObj = new Map();
-                        rspList.map((item, index) => {
-                            if (item == 1) {
-                                permissionsObj.set(permissions[index], true);
-                            } else {
-                                permissionsObj.set(permissions[index], false);
-                            }
-                        });
-                        this.setState({
-                            add:permissionsObj.get(storekeyname.common_add),
-                            edit:permissionsObj.get(storekeyname.common_edit)
-                        })
-                        getTableData("SysPerP",this,this.state.pagesize,this.state.pageindex)
+                let rspList = res.data.split(",");
+                let permissionsObj = new Map();
+                rspList.map((item, index) => {
+                    if (item == 1) {
+                        permissionsObj.set(permissions[index], true);
                     } else {
-                        message.error(res.msg)
+                        permissionsObj.set(permissions[index], false);
                     }
                 });
-            }else{
+                this.setState({
+                    add:permissionsObj.get(storekeyname.common_add),
+                    edit:permissionsObj.get(storekeyname.common_edit)
+                })
+                getTableData("SysPerP",this,this.state.pagesize,this.state.pageindex)
+            } else {
                 message.error(res.msg)
             }
         });
+        //     }else{
+        //         message.error(res.msg)
+        //     }
+        // });
+    }
+
+    componentDidMount() {
+        if(storekeyname.testType===1){
+            let that=this;
+            window.addEventListener('message', function(ev) {
+                let data=ev.data.cache;
+                if(data){
+                    let personal=JSON.parse(data);
+                    console.log("personal:"+JSON.stringify(personal))
+                    let utoken=personal.access_token;
+                    store.set(storekeyname.TOKEN, utoken);
+                    store.set(storekeyname.PERSONALINFO, personal);
+                    that.getPermission();
+                }else{
+
+                }
+            }, false);
+        }else if(storekeyname.testType===0){
+            this.getPermission();
+        }
     }
 
     render() {
@@ -616,6 +638,7 @@ class GrdAndCls extends Component {
                        columns={columns}
                        dataSource={this.state.data}
                        bordered
+                       size='middle'
                        loading={this.state.loading}
                        rowKey={record=>record.id}
                        rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}

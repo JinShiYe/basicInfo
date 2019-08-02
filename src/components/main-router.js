@@ -32,9 +32,8 @@ class MainRouter extends Component {
 
 
     componentWillMount() {
-        window.addEventListener('message', function(ev) {}, false);
-        let search=myUtils.getUrlSearch();
-        let utoken= "";
+        // let search=myUtils.getUrlSearch();
+        // let utoken= "";
         // if(search){
         //     utoken=search.access_token;
         //     store.set(storekeyname.TOKEN, utoken);
@@ -42,6 +41,22 @@ class MainRouter extends Component {
         //     utoken="ZDM4ZjQ5YjItZmUzYi00Y2U0LTllYjktMTcyNTE5ZTg4ZDM4";
         //     store.set(storekeyname.TOKEN, utoken);
         // }
+        // http://139.129.252.49:8080/support/#/error/0006
+        window.addEventListener('message', function(ev) {
+            let data=ev.data.cache;
+            if(data){
+                let personal=JSON.parse(data);
+                console.log("personal:"+JSON.stringify(personal))
+            }
+        }, false);
+        if(storekeyname.testType===0){
+            let personal =
+                    {"access_token":"YjgzYmEyOTItNzI5ZS00YmFiLTk3OTUtZjJkNDhiMThlYWQ3","id":"1108922281310027776","img_url":"http://qn-educds.jiaobaowang.net/xiaoxuntong/notice/1..关联学生标注.png","login_name":"zxxadmin","name":"中小学平台管理员","platform_code":"PT0001","platform_name":"中小学平台","school_code":"100000","school_name":"南宁二中","sex":0,"type_code":"YHLX0001","app_code":"support#","unit_code":null,"system_url":"http://localhost:3000","error_page_url":"http://localhost:3000/#/error/","modifyFlag":999}
+                ;
+            let utoken=personal.access_token;
+            store.set(storekeyname.TOKEN, utoken);
+            store.set(storekeyname.PERSONALINFO, personal);
+        }
     }
 
 

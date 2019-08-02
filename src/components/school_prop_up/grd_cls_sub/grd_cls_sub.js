@@ -23,22 +23,6 @@ class GrdClsSub extends Component {
     }
 
     componentDidMount() {
-        let utoken =store.get(storekeyname.TOKEN);
-        let paramsUserInfo = {
-            access_token: utoken,
-        };
-        myUtils.post(0, "api/user/currentUserInfo", paramsUserInfo, res => {
-            console.log(JSON.stringify(res))
-            if (res.code == 0) {
-                let personal = res.data;
-                if(personal.app_code==""){
-                    personal.app_code="aaabbbccc"
-                }
-                store.set(storekeyname.PERSONALINFO, personal);
-            }else{
-                message.error(res.msg)
-            }
-        });
     }
 
     render() {

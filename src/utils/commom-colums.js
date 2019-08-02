@@ -1,5 +1,5 @@
 import React from "react";
-import {Button,  Input,Avatar} from "antd";
+import {Button, Input, Avatar, Icon} from "antd";
 // import images from "../images/headimg.png";
  function getColumns(type,that) {
         switch (type) {
@@ -230,10 +230,10 @@ import {Button,  Input,Avatar} from "antd";
                         align:"center",
                         render: (img) =>{
                             let domDiv=""
-                            if(img!=""){
+                            if(img!="" &&img!=null){
                                 domDiv=<Avatar shape="square" size={64}  src={img} />
                             }else{
-                                domDiv=<Avatar shape="square" size={64}  icon="user" />
+                                domDiv=<Avatar shape="square" size={64} >暂无</Avatar>
                             }
                             return domDiv;
                         }
@@ -260,7 +260,8 @@ import {Button,  Input,Avatar} from "antd";
                         width: 100,
                         align:"center",
                         render: (record) => {
-                            return <Button type="primary" onClick={()=>that.showModal_edit(record)}>修改</Button>
+                            // return <Button type="primary" onClick={()=>that.showModal_edit(record)}>修改</Button>
+                            return  <Icon type="form" style={{color:"#1890ff"}} onClick={()=>that.showModal_edit(record)}/>
                         }
                     }
                     stu_face.push(col);
@@ -320,13 +321,170 @@ import {Button,  Input,Avatar} from "antd";
                         width: 100,
                         align:"center",
                         render: (record) => {
-                            return <Button type="primary" onClick={()=>that.showModal_edit(record)}>修改</Button>
+                            // return <Button type="primary" onClick={()=>that.showModal_edit(record)}>修改</Button>
+                            return  <Icon type="form" style={{color:"#1890ff"}} onClick={()=>that.showModal_edit(record)}/>
                         }
                     }
                     teach_face.push(col);
                 }
                 return teach_face;
+            case "base_info"://基本情况
+                let base_info=[
+                    {
+                        title: '排序',
+                        dataIndex: 'px',
+                        width:100,
+                        render: (record) => {
+                            let input =null;
+                            if(that.state.add_edit){
+                                input=<Input placeholder="请输入序号" defaultValue={0} onChange={event => {that.onValueChange(event,record)}}/>
+                            }else{
+                                input=<div>{0}</div>
+                            }
+                            return(
+                                <div>
+                                    {input}
+                                </div>
+                            )
+                        },
+                    },
+                    {
+                        title: '序号',
+                        align:"center",
+                        dataIndex: 'xh',
+                        width:100,
+                    },
+                    {
+                        title: '学校代码',
+                        dataIndex: 'id',
+                        width: 100,
+                    },
+                    {
+                        title: '学校名称',
+                        dataIndex: 'name',
+                        width: 200,
+                    },
+                    {
+                        title: '所属地区',
+                        dataIndex: 'area_id',
+                        width: 250,
+                        render: (area_id,record) => {
+                            let area =area_id+"";
+                            let province=area.substr(0,2)+"0000";
+                            let city=area.substr(0,4)+"00";
+                            let province_name="";
+                            let city_name="";
+                            let area_name="";
+                            let proList=that.state.proList;
+                            proList.map(item=>{
+                                if(item.code==province){
+                                    province_name=item.name;
+                                }
+                                if(item.code==city){
+                                    city_name=item.name;
+                                }
+                                if(item.code==area){
+                                    area_name=item.name;
+                                }
+                            });
+                            let areaName=province_name+"/"+city_name+"/"+area_name;
+                            // return <Button type="primary" onClick={()=>that.showModal_edit(record)}>修改</Button>
+                            return  <span>{areaName==="//"?"":areaName}</span>
+                        }
+                    },
+                    {
+                        title: '学校类型',
+                        dataIndex: 'type',
+                        width: 100,
+                    },
+                    {
+                        title: '入学月份',
+                        dataIndex: 'open_month',
+                        width: 100,
+                    },
+                    {
+                        title: '状态',
+                        dataIndex: 'status',
+                        width: 100,
+                        align:"center",
+                        render: (stat) => (<span>{stat===1?"正常":"禁用"}</span>),
+                    },
+                ]
+                if(that.state.add_edit){
+                    let col={
+                        title: '操作',
+                        dataIndex: '',
+                        width: 100,
+                        align:"center",
+                        render: (record) => {
+                            // return <Button type="primary" onClick={()=>that.showModal_edit(record)}>修改</Button>
+                            return  <Icon type="form" style={{color:"#1890ff"}} onClick={()=>that.showModal_edit(record)}/>
+                        }
+                    }
+                    base_info.push(col);
+                }
+                return base_info;
+            case "system_name_icon"://学校系统名称与图标
+                let system_name_icon=[
+                    {
+                        title: '序号',
+                        align:"center",
+                        dataIndex: 'xh',
+                        width:100,
+                    },
+                    {
+                        title: '学校名称',
+                        dataIndex: 'school_name',
+                        width: 200,
+                    },
+                    {
+                        title: '应用系统名称',
+                        dataIndex: 'acl_name',
+                        width: 200,
+                    },
+                    {
+                        title: '显示名称',
+                        dataIndex: 'name',
+                        width: 200,
+                    },
 
+                    {
+                        title: '图标',
+                        dataIndex: 'img_url',
+                        align:"center",
+                        width: 100,
+                        render: (img) => {
+                            let domDiv=""
+                            if(img!="" && img!=null){
+                                domDiv=<Avatar shape="square" size={64}  src={img} />
+                            }else{
+                                domDiv=<Avatar shape="square" size={64} >暂无</Avatar>
+                            }
+                            return  domDiv
+                        }
+                    },
+                    {
+                        title: '状态',
+                        dataIndex: 'status',
+                        width: 100,
+                        align:"center",
+                        render: (stat) => (<span>{stat===1?"正常":"禁用"}</span>),
+                    },
+                ]
+                if(that.state.add_edit){
+                    let col={
+                        title: '操作',
+                        dataIndex: '',
+                        width: 100,
+                        align:"center",
+                        render: (record) => {
+                            // return <Button type="primary" onClick={()=>that.showModal_edit(record)}>修改</Button>
+                            return  <Icon type="form" style={{color:"#1890ff"}} onClick={()=>that.showModal_edit(record)}/>
+                        }
+                    }
+                    system_name_icon.push(col);
+                }
+                return system_name_icon;
             default:
                 return []
         }

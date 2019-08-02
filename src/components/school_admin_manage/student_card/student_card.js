@@ -138,18 +138,7 @@ class AdvancedSearchForm extends React.Component {
                             )}
                         </Form.Item>
                     </Col>
-                    {/*<Col span={12} style={{ textAlign: 'right' }}>*/}
-                    {/*    {addBtn}*/}
-                    {/*    <Button type="primary" htmlType="submit" style={{ marginLeft: 8,marginTop:8 }}>*/}
-                    {/*        查找*/}
-                    {/*    </Button>*/}
-                    {/*    <Button  onClick={this.handleReset} style={{ marginLeft: 8,marginTop:8 }}>*/}
-                    {/*        重置*/}
-                    {/*    </Button>*/}
-                    {/*</Col>*/}
-                </Row>
-                <Row className={"form-item-btn"}>
-                    <Col span={24} style={{ textAlign: 'right' }}>
+                    <Col span={12} style={{ textAlign: 'right',marginTop:3 }}>
                         {addBtn}
                         <Button type="primary" htmlType="submit" style={{ marginLeft: 8 }}>
                             查找
@@ -159,6 +148,17 @@ class AdvancedSearchForm extends React.Component {
                         </Button>
                     </Col>
                 </Row>
+                {/*<Row className={"form-item-btn"}>*/}
+                {/*    <Col span={24} style={{ textAlign: 'right' }}>*/}
+                {/*        {addBtn}*/}
+                {/*        <Button type="primary" htmlType="submit" style={{ marginLeft: 8 }}>*/}
+                {/*            查找*/}
+                {/*        </Button>*/}
+                {/*        <Button  onClick={this.handleReset} style={{ marginLeft: 8 }}>*/}
+                {/*            重置*/}
+                {/*        </Button>*/}
+                {/*    </Col>*/}
+                {/*</Row>*/}
             </Form>
         );
     }
@@ -191,25 +191,25 @@ class StudentCard extends Component {
         }
     }
     //获取用户信息
-    getPersonalInfo=(callback)=>{
-        let utoken =store.get(storekeyname.TOKEN);
-        let paramsUserInfo = {
-            access_token: utoken,
-        };
-        myUtils.post(0, "api/user/currentUserInfo", paramsUserInfo, res => {
-            console.log(JSON.stringify(res))
-            if (res.code == 0) {
-                let personal = res.data;
-                if(personal.app_code==""){
-                    personal.app_code="aaabbbccc"
-                }
-                store.set(storekeyname.PERSONALINFO, personal);
-                callback();
-            }else{
-                message.error(res.msg)
-            }
-        });
-    }
+    // getPersonalInfo=(callback)=>{
+    //     let utoken =store.get(storekeyname.TOKEN);
+    //     let paramsUserInfo = {
+    //         access_token: utoken,
+    //     };
+    //     myUtils.post(0, "api/user/currentUserInfo", paramsUserInfo, res => {
+    //         console.log(JSON.stringify(res))
+    //         if (res.code == 0) {
+    //             let personal = res.data;
+    //             if(personal.app_code==""){
+    //                 personal.app_code="aaabbbccc"
+    //             }
+    //             store.set(storekeyname.PERSONALINFO, personal);
+    //             callback();
+    //         }else{
+    //             message.error(res.msg)
+    //         }
+    //     });
+    // }
     //获取卡类型
     getCardType=(callback)=>{
         let utoken =store.get(storekeyname.TOKEN);
@@ -379,7 +379,7 @@ class StudentCard extends Component {
         ]
         let access = [];
         permissions.map(item => {
-            access.push(item)
+            access.push(personal.app_code + item)
         });
         let paramsPermissions = {
             platform_code: personal.platform_code, //平台代码
@@ -539,20 +539,46 @@ class StudentCard extends Component {
     }
 
     componentDidMount() {
-        this.getPersonalInfo(()=>{
-            // this.getCardType(()=>{
-            //     this.getGrdCls(()=>{
-            //         this.getPermission(()=>{
-            //             this.getTableData();
-            //         })
-            //     })
-            // })
+        // this.getPersonalInfo(()=>{
+        //     // this.getCardType(()=>{
+        //     //     this.getGrdCls(()=>{
+        //     //         this.getPermission(()=>{
+        //     //             this.getTableData();
+        //     //         })
+        //     //     })
+        //     // })
+        //     this.getGrdCls(()=>{})
+        //     this.getPermission(()=>{})
+        //     this.getCardType(()=>{
+        //         this.getTableData();
+        //     })
+        // })
+        if(storekeyname.testType===1){
+            let that=this;
+            window.addEventListener('message', function(ev) {
+                let data=ev.data.cache;
+                if(data){
+                    let personal=JSON.parse(data);
+                    console.log("personal:"+JSON.stringify(personal))
+                    let utoken=personal.access_token;
+                    store.set(storekeyname.TOKEN, utoken);
+                    store.set(storekeyname.PERSONALINFO, personal);
+                    that.getGrdCls(()=>{})
+                    that.getPermission(()=>{})
+                    that.getCardType(()=>{
+                        that.getTableData();
+                    })
+                }else{
+
+                }
+            }, false);
+        }else if(storekeyname.testType===0){
             this.getGrdCls(()=>{})
             this.getPermission(()=>{})
             this.getCardType(()=>{
                 this.getTableData();
             })
-        })
+        }
     }
 
     render() {
@@ -568,6 +594,7 @@ class StudentCard extends Component {
                                columns={columns}
                                dataSource={this.state.data}
                                bordered
+                               size='middle'
                                rowKey={record=>record.uid}
                                loading={this.state.loading}
                                rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}

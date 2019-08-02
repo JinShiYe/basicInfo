@@ -168,7 +168,7 @@ const myUtils = {
 };
 
 ['log', 'info', 'warn', 'error'].forEach(function(method) {
-    if( storekeyname.debug){
+    if(storekeyname.build==="debug" || storekeyname.build==="joint"){
         console[method] = console[method].bind(
             console
         );

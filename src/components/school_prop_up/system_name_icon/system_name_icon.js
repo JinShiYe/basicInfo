@@ -3,10 +3,62 @@ import React, {Component} from 'react';
 import store from '../../../utils/store';
 import storekeyname from '../../../utils/storeKeyName';
 import myUtils from '../../../utils/myUtils';
-import {Table, Modal, Button, Icon, Form, Input, Select, message,} from 'antd';
+import {Table, Modal, Button, Icon, Form, Input, Select, message, Row, Col,} from 'antd';
 import {withRouter} from 'react-router-dom';
+import {getColumns} from "../../../utils/commom-colums";
 
-//学段年级组件
+
+class AdvancedSearchForm extends React.Component {
+    handleSearch = e => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            this.props.changeSearchData(values);
+        });
+    };
+
+    handleReset = () => {
+        this.props.form.resetFields();
+    };
+
+    render() {
+        const { getFieldDecorator } = this.props.form;
+        return (
+            <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
+                <Row gutter={24} className={"form-item-search"}>
+                    <Col span={6}  >
+                        <Form.Item label={"关键字"}>
+                            {getFieldDecorator("keywords", {
+
+                            })(<Input placeholder="请输入“名称”关键字" />)}
+                        </Form.Item>
+                    </Col>
+                    <Col span={6} style={{ textAlign: 'left',marginTop: 3 }}>
+                        <Button type="primary" htmlType="submit">
+                            查找
+                        </Button>
+                        <Button  onClick={this.handleReset} style={{ marginLeft: 8 }}>
+                            重置
+                        </Button>
+                    </Col>
+                </Row>
+                {/*<Row className={"form-item-btn"}>*/}
+                {/*    <Col span={24} style={{ textAlign: 'right' }}>*/}
+                {/*        <Button type="primary" htmlType="submit" style={{ marginLeft: 8 }}>*/}
+                {/*            查找*/}
+                {/*        </Button>*/}
+                {/*        <Button  onClick={this.handleReset} style={{ marginLeft: 8 }}>*/}
+                {/*            重置*/}
+                {/*        </Button>*/}
+                {/*    </Col>*/}
+                {/*</Row>*/}
+            </Form>
+        );
+    }
+}
+
+const WrappedAdvancedSearchForm = Form.create({ name: 'advanced_search' })(AdvancedSearchForm);
+
+
 class SystemNameIcon extends Component {
 
     constructor(props) {
@@ -14,36 +66,149 @@ class SystemNameIcon extends Component {
         this.state = {
             data: [],//列表数据
             loading:true,//正在加载中
-            visible_add:false,//显示新增对话框
-            visible_edit:false,//显示编辑对话框
+            add_edit:true,//显示新增对话框
+            searchData:{
+                keywords:"",//年级ID
+            },//搜索框数据
             pagesize:10,//每页显示条数
             pageindex:1,//默认当前页
             total:0,//数据总数
         }
     }
 
-    componentDidMount() {
+    //获取列表数据
+    getTableData=(searchData,page)=>{
+        if(searchData==undefined){
+            searchData=this.state.searchData;
+        }
+        if(page===undefined){
+            page=this.state.pageindex;
+        }
+
+        let resData={"totalRow":8,"pageNumber":1,"lastPage":true,"firstPage":true,"totalPage":1,"pageSize":20,"list":[{"acl_name":"学校后台管理","tempcolumn":0,"img_url":"https://qn-educds.jiaobaowang.net/OfficeAutomation/app/20190726/01e8320caf6d446eaef4a94f9c087260.jpg","edit":true,"name":"南宁二中后台管理系统","school_name":"南宁二中","id":2,"temprownumber":1,"status":1},{"acl_name":"学校考务系统","tempcolumn":0,"img_url":"/app/20190323/50405bb77a7041a2a7082cda29b73d42.jpg","edit":true,"name":"南宁二中考务系统","school_name":"南宁二中","id":4,"temprownumber":2,"status":1},{"acl_name":"学生管理系统","tempcolumn":0,"img_url":"/app/20190323/c4cb76b1dc474f0593e09f4359565371.jpg","edit":true,"name":"南宁二中学生管理系统","school_name":"南宁二中","id":5,"temprownumber":3,"status":1},{"acl_name":"OA系统","tempcolumn":0,"img_url":"https://qn-educds.jiaobaowang.net/OfficeAutomation/app/20190628/8ee988bdbc094687b8f2ebe72fe3a171.png","edit":true,"name":"济南第十三中学OA系统1","school_name":"南宁二中","id":14,"temprownumber":4,"status":1},{"acl_name":"智慧校园APP","tempcolumn":0,"img_url":"https://qn-educds.jiaobaowang.net/OfficeAutomation/app/20190723/7b31c01e612e4f5386fb0c5436b1ac07.png","edit":true,"name":"666","school_name":"南宁二中","id":21,"temprownumber":5,"status":1},{"acl_name":"中小学服务","tempcolumn":0,"img_url":null,"edit":true,"name":"","school_name":"南宁二中","id":29,"temprownumber":6,"status":1},{"acl_name":"校讯通","tempcolumn":0,"img_url":null,"edit":true,"name":"","school_name":"南宁二中","id":55,"temprownumber":7,"status":0},{"acl_name":"前端测试项目","tempcolumn":0,"img_url":null,"edit":true,"name":"","school_name":"南宁二中","id":66,"temprownumber":8,"status":1}]}
+        let datas=resData.list;
+        let data=[];
+        datas.map((item,index)=>{
+            item.xh=index+1;
+            data.push(item)
+        });
+        this.setState({
+            loading:false,
+            data,
+            total:resData.totalRow
+        })
+    }
+
+    //获取权限
+    getPermission=(callback)=>{
+        //1.9: 查询权限符（前端调用，判断按钮是否显示）
         let utoken =store.get(storekeyname.TOKEN);
-        let paramsUserInfo = {
-            access_token: utoken,
+        let personal=store.get(storekeyname.PERSONALINFO);
+        let permissions = [
+            storekeyname.teacher_card_add,
+        ]
+        let access = [];
+        permissions.map(item => {
+            access.push(item)
+        });
+        let paramsPermissions = {
+            platform_code: personal.platform_code, //平台代码
+            app_code: personal.app_code, //应用系统代码
+            grd_id: 0, //年级id，全部年级则传-1,不需要判断年级则传0
+            cls_id: 0, //班级id，年级下全部班级则传-1，不需要判断班级则传0
+            stu_id: 0, //学生id，全部学生则传-1，不需要判断学生则传0
+            sub_code: 0, //科目代码，全部科目则传“-1”，不需要判断年级则传“0”
+            access: access.join(","), //权限符，需要判断权限的权限符，多个则用逗号拼接
+            access_token: utoken //用户令牌
         };
-        myUtils.post(0, "api/user/currentUserInfo", paramsUserInfo, res => {
+        myUtils.post(0, "api/acl/permissionByPosition", paramsPermissions, res => {
             console.log(JSON.stringify(res))
             if (res.code == 0) {
-                let personal = res.data;
-                if(personal.app_code==""){
-                    personal.app_code="aaabbbccc"
-                }
-                store.set(storekeyname.PERSONALINFO, personal);
-            }else{
+                let rspList = res.data.split(",");
+                let permissionsObj = new Map();
+                rspList.map((item, index) => {
+                    if (item == 1) {
+                        permissionsObj.set(permissions[index], true);
+                    } else {
+                        permissionsObj.set(permissions[index], false);
+                    }
+                });
+                this.setState({
+                    add_edit:permissionsObj.get(storekeyname.teacher_card_add),
+                })
+                callback();
+            } else {
                 message.error(res.msg)
             }
         });
     }
 
+    //查找模块点击事件
+    changeSearchData=data=>{
+        console.log(data)
+        let searchData={}
+        searchData.province=data.province//省
+        searchData.city=data.city//市
+        searchData.area=data.area//县/区
+        searchData.keywords=data.keywords//关键字
+        console.log(JSON.stringify(searchData))
+        this.getTableData(searchData,1);
+    }
+
+    componentDidMount() {
+        if(storekeyname.testType===1){
+            let that=this;
+            window.addEventListener('message', function(ev) {
+                let data=ev.data.cache;
+                if(data){
+                    let personal=JSON.parse(data);
+                    console.log("personal:"+JSON.stringify(personal))
+                    let utoken=personal.access_token;
+                    store.set(storekeyname.TOKEN, utoken);
+                    store.set(storekeyname.PERSONALINFO, personal);
+                    that.getArea();
+                    // that.getPermission(()=>{})
+                    that.getTableData();
+                }else{
+
+                }
+            }, false);
+        }else if(storekeyname.testType===0){
+            // this.getPermission(()=>{})
+            this.getTableData();
+        }
+    }
+
     render() {
+        let columns= getColumns("system_name_icon",this)
         return (
-            <div>6666666666666668</div>
+            <Row className={"search-box"}>
+                <Col span={24}>
+                    <WrappedAdvancedSearchForm province={this.state.province} city={this.state.city} area={this.state.area} changeSearchData={this.changeSearchData} onSelectChange={this.onSelectChange} />
+                </Col>
+                <Col span={24} style={{marginTop:30}}>
+                    <Table className={"info-table"}
+                           columns={columns}
+                           dataSource={this.state.data}
+                           bordered
+                           size='middle'
+                           rowKey={record=>record.id}
+                           loading={this.state.loading}
+                           rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
+                           locale={{emptyText: '暂无数据'}}
+                           pagination={{
+                               current:this.state.pageindex,
+                               onChange: page => {
+                                   let searchData=this.state.searchData;
+                                   this.getTableData(searchData,page);
+                               },
+                               pageSize: this.state.pagesize,
+                               hideOnSinglePage:true,
+                               total:this.state.total
+                           }}
+                    />
+                </Col>
+            </Row>
         )
     }
 }

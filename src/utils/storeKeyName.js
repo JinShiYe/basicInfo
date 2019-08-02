@@ -3,7 +3,7 @@ import React from "react";
 const key =1;
 //公共参数
 const storeKeyName={
-    debug:true,//是否显示toast
+    build:"debug",//是否console.log  单独测试( debug )：true  发布联调( joint )：true  正式发布( release )：false
     timeout:15*1000,//post 连接超时时间
     sha1key : "jsy309",//sha1 加密的秘钥
     PERSONALINFO :'personInfo_notice', //个人信息，登录成功后返回值
@@ -15,12 +15,14 @@ const storeKeyName={
     common_add:"Baseinfo:add",//添加
     common_edit:"Baseinfo:edit",//编辑
     //学校后台管理
-    student_card_add:"sch#School:StudentCard:add",
-    student_card_edit:"sch#School:StudentCard:edit",
-    student_card_delete:"sch#School:StudentCard:delete",
-    teacher_card_add:"sch#School:TeacherCard:add",
-    teacher_card_edit:"sch#School:TeacherCard:edit",
-    teacher_card_delete:"sch#School:TeacherCard:delete",
+    student_card_add:"School:StudentCard:add",
+    student_card_edit:"School:StudentCard:edit",
+    student_card_delete:"School:StudentCard:delete",
+    teacher_card_add:"School:TeacherCard:add",
+    teacher_card_edit:"School:TeacherCard:edit",
+    teacher_card_delete:"School:TeacherCard:delete",
+    //中小学支撑
+
     //七牛
     QINIUAPPID:4,//七牛APPID 由管理员分配
     QNPUBSPACE : "pb", //七牛公开空间
@@ -41,5 +43,6 @@ switch (key) {
     default:
         break;
 }
+storeKeyName.testType=storeKeyName.build==="debug"?0:1//测试类型 0 单独测试  1联调
 
 export default storeKeyName;

@@ -127,25 +127,25 @@ class TeacherCard extends Component {
         }
     }
     //获取用户信息
-    getPersonalInfo=(callback)=>{
-        let utoken =store.get(storekeyname.TOKEN);
-        let paramsUserInfo = {
-            access_token: utoken,
-        };
-        myUtils.post(0, "api/user/currentUserInfo", paramsUserInfo, res => {
-            console.log(JSON.stringify(res))
-            if (res.code == 0) {
-                let personal = res.data;
-                if(personal.app_code==""){
-                    personal.app_code="aaabbbccc"
-                }
-                store.set(storekeyname.PERSONALINFO, personal);
-                callback();
-            }else{
-                message.error(res.msg)
-            }
-        });
-    }
+    // getPersonalInfo=(callback)=>{
+    //     let utoken =store.get(storekeyname.TOKEN);
+    //     let paramsUserInfo = {
+    //         access_token: utoken,
+    //     };
+    //     myUtils.post(0, "api/user/currentUserInfo", paramsUserInfo, res => {
+    //         console.log(JSON.stringify(res))
+    //         if (res.code == 0) {
+    //             let personal = res.data;
+    //             if(personal.app_code==""){
+    //                 personal.app_code="aaabbbccc"
+    //             }
+    //             store.set(storekeyname.PERSONALINFO, personal);
+    //             callback();
+    //         }else{
+    //             message.error(res.msg)
+    //         }
+    //     });
+    // }
     //获取卡类型
     getCardType=(callback)=>{
         let utoken =store.get(storekeyname.TOKEN);
@@ -263,7 +263,7 @@ class TeacherCard extends Component {
         ]
         let access = [];
         permissions.map(item => {
-            access.push(item)
+            access.push(personal.app_code + item)
         });
         let paramsPermissions = {
             platform_code: personal.platform_code, //平台代码
@@ -423,17 +423,43 @@ class TeacherCard extends Component {
     }
 
     componentDidMount() {
-        this.getPersonalInfo(()=>{
-            // this.getCardType(()=>{
-            //     this.getPermission(()=>{
-            //         this.getTableData();
-            //     })
-            // })
+        // this.getPersonalInfo(()=>{
+        //     // this.getCardType(()=>{
+        //     //     this.getPermission(()=>{
+        //     //         this.getTableData();
+        //     //     })
+        //     // })
+        //     this.getPermission(()=>{})
+        //     this.getCardType(()=>{
+        //         this.getTableData();
+        //     })
+        // })
+
+        if(storekeyname.testType===1){
+            let that=this;
+            window.addEventListener('message', function(ev) {
+                let data=ev.data.cache;
+                if(data){
+                    let personal=JSON.parse(data);
+                    console.log("personal:"+JSON.stringify(personal))
+                    let utoken=personal.access_token;
+                    store.set(storekeyname.TOKEN, utoken);
+                    store.set(storekeyname.PERSONALINFO, personal);
+                    that.getPermission(()=>{})
+                    that.getCardType(()=>{
+                        that.getTableData();
+                    })
+                }else{
+
+                }
+            }, false);
+        }else if(storekeyname.testType===0){
             this.getPermission(()=>{})
             this.getCardType(()=>{
                 this.getTableData();
             })
-        })
+        }
+
     }
 
     render() {
@@ -449,6 +475,7 @@ class TeacherCard extends Component {
                                    columns={columns}
                                    dataSource={this.state.data}
                                    bordered
+                                   size='middle'
                                    rowKey={record=>record.uid}
                                    loading={this.state.loading}
                                    rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
