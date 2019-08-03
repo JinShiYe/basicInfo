@@ -51,7 +51,7 @@ class MainRouter extends Component {
         }, false);
         if(storekeyname.testType===0){
             let personal =
-                    {"access_token":"YjgzYmEyOTItNzI5ZS00YmFiLTk3OTUtZjJkNDhiMThlYWQ3","id":"1108922281310027776","img_url":"http://qn-educds.jiaobaowang.net/xiaoxuntong/notice/1..关联学生标注.png","login_name":"zxxadmin","name":"中小学平台管理员","platform_code":"PT0001","platform_name":"中小学平台","school_code":"100000","school_name":"南宁二中","sex":0,"type_code":"YHLX0001","app_code":"support#","unit_code":null,"system_url":"http://localhost:3000","error_page_url":"http://localhost:3000/#/error/","modifyFlag":999}
+                    {"access_token":"NTc4MzA3NzAtOGIzYi00ZWZkLTk0MDItNmMzMzdlZDM0OTgx","id":"1108922281310027776","img_url":"http://qn-educds.jiaobaowang.net/xiaoxuntong/notice/1..关联学生标注.png","login_name":"zxxadmin","name":"中小学平台管理员","platform_code":"PT0001","platform_name":"中小学平台","school_code":"100000","school_name":"南宁二中","sex":0,"type_code":"YHLX0001","app_code":"support#","unit_code":"-1","system_url":"http://localhost:3000","error_page_url":"http://localhost:3000/#/error/","modifyFlag":999}
                 ;
             let utoken=personal.access_token;
             store.set(storekeyname.TOKEN, utoken);
