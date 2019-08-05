@@ -1,11 +1,30 @@
-
-.ant-table-fixed-header > .ant-table-content > .ant-table-scroll > .ant-table-body {
-    height: 350px !important;
-    overflow-y: auto;
-    border: 1px solid #EAEAEA;
+.ant-tag{
+    min-width: 100px;
+    max-width: 220px;
+    height: 35px;
+    margin: 5px;
+    line-height: 2.7;
+    text-align: center;
 }
 
-.clickRowStyl {
-    background-color: #E6F7FF
+.tag-span{
+    line-height: 3.2;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+.ant-col.ant-col-3{
+    width: 100px;
+    text-align: right;
+    padding-right: 10px;
 }
 
+.ant-tag-add{
+    min-width: 50px;
+    max-width: 50px;
+}
+
+.ant-transfer-list{
+    width: 300px;
+    height: 300px;
+}

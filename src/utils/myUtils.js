@@ -58,7 +58,11 @@ const myUtils = {
             method: 'post',
             data: data,
         }).then(function (res) {
-            callback(res.data);
+            if (res.data.code === 'sup_0006') {
+                window.location.href = "http://192.168.1.114:3000/#/error/006"
+            }else{
+                callback(res.data);
+            }
         }).catch(function (error) {
             console.log(error)
             let res ={

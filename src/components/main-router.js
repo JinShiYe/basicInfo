@@ -21,8 +21,8 @@ import TeacherCard from './school_admin_manage/teacher_card/teacher_card'
 import TeacherHeadImg from './school_admin_manage/teacher_card/teacher_head_img'
 import StudentCard from './school_admin_manage/student_card/student_card'
 import StudentHeadImg from './school_admin_manage/student_card/student_head_img'
-
 import Test from './test'
+import TestAAA from './schinfo/test'
 //路由
 class MainRouter extends Component {
 
@@ -51,7 +51,7 @@ class MainRouter extends Component {
         }, false);
         if(storekeyname.testType===0){
             let personal =
-                    {"access_token":"NTc4MzA3NzAtOGIzYi00ZWZkLTk0MDItNmMzMzdlZDM0OTgx","id":"1108922281310027776","img_url":"http://qn-educds.jiaobaowang.net/xiaoxuntong/notice/1..关联学生标注.png","login_name":"zxxadmin","name":"中小学平台管理员","platform_code":"PT0001","platform_name":"中小学平台","school_code":"100000","school_name":"南宁二中","sex":0,"type_code":"YHLX0001","app_code":"support#","unit_code":"-1","system_url":"http://localhost:3000","error_page_url":"http://localhost:3000/#/error/","modifyFlag":999}
+                    {"access_token":"NzA5MDFjZWItNmUyOC00NzA1LWE5ZjMtMWM1ZDAyNzhmZDdk","id":"1108922281310027776","img_url":"http://qn-educds.jiaobaowang.net/xiaoxuntong/notice/1..关联学生标注.png","login_name":"zxxadmin","name":"中小学平台管理员","platform_code":"PT0001","platform_name":"中小学平台","school_code":"100000","school_name":"南宁二中","sex":0,"type_code":"YHLX0001","app_code":"support#","unit_code":"-1","system_url":"http://localhost:3000","error_page_url":"http://localhost:3000/#/error/","modifyFlag":999}
                 ;
             let utoken=personal.access_token;
             store.set(storekeyname.TOKEN, utoken);
@@ -62,7 +62,6 @@ class MainRouter extends Component {
 
     render() {
         return (
-            <div>
                 <HashRouter>
                     {/*<Switch>*/}
                     <Route exact  path='/' component={Test}/>{/*学段及年级*/}
@@ -85,9 +84,9 @@ class MainRouter extends Component {
                     <Route  path='/teacher_head_img' component={TeacherHeadImg}/>{/*教师人脸头像入*/}
                     <Route  path='/student_card' component={StudentCard}/>{/*学生卡录入*/}
                     <Route  path='/student_head_img' component={StudentHeadImg}/>{/*学生人脸头像入*/}
+                    <Route  path='/test' component={TestAAA}/>{/*学段及年级*/}
                     {/*</Switch>*/}
                 </HashRouter>
-            </div>
         )
     }
 }

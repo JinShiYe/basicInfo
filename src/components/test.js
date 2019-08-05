@@ -90,6 +90,10 @@ class Test extends Component {
                 <Link to={`/student_head_img`}>
                     <Button className="create-notice-btn" type="primary" icon="form">学生人脸头像入</Button>
                 </Link>
+
+                <Link to={`/test`}>
+                    <Button className="create-notice-btn" type="primary" icon="form">国际化 测试</Button>
+                </Link>
             </div>
         )
     }
