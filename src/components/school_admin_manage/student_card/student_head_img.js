@@ -498,7 +498,6 @@ class StudentHeadImg extends Component {
                                rowKey={record=>record.uid}
                                loading={this.state.loading}
                                rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
-                               locale={{emptyText: '暂无数据'}}
                                pagination={{
                                    current:this.state.pageindex,
                                    onChange: page => {

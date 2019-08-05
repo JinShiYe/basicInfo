@@ -394,7 +394,6 @@ class CollegeDep extends Component {
                        rowKey={record=>record.id}
                        loading={this.state.loading}
                        rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
-                       locale={{emptyText: '暂无数据'}}
                        pagination={{
                            onChange: page => {
                                this.setState({

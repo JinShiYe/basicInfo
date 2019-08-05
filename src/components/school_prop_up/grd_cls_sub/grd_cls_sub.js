@@ -321,7 +321,6 @@ class GrdClsSub extends Component {
                         targetKeys={this.state.targetKeys}
                         selectedKeys={this.state.selectedKeys}
                         showSearch
-                        locale={{ itemUnit: '项', itemsUnit: '项', searchPlaceholder: '请输入搜索内容' }}
                         filterOption={this.filterOption}
                         onChange={this.handleChange}
                         onSelectChange={this.handleSelectChange}

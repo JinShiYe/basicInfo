@@ -1,7 +1,7 @@
 import '../themes/schinfo.css';
 import React, {Component} from 'react';
 import {HashRouter, Route,  Switch, Redirect} from 'react-router-dom';
-import {message} from 'antd';
+import {message,ConfigProvider} from 'antd';
 import store from '../utils/store';
 import myUtils from '../utils/myUtils';
 import storekeyname from '../utils/storeKeyName';
@@ -22,7 +22,7 @@ import TeacherHeadImg from './school_admin_manage/teacher_card/teacher_head_img'
 import StudentCard from './school_admin_manage/student_card/student_card'
 import StudentHeadImg from './school_admin_manage/student_card/student_head_img'
 import Test from './test'
-import TestAAA from './schinfo/test'
+import zhCN from 'antd/lib/locale/zh_CN';
 //路由
 class MainRouter extends Component {
 
@@ -62,6 +62,7 @@ class MainRouter extends Component {
 
     render() {
         return (
+            <ConfigProvider locale={zhCN}>
                 <HashRouter>
                     {/*<Switch>*/}
                     <Route exact  path='/' component={Test}/>{/*学段及年级*/}
@@ -84,9 +85,9 @@ class MainRouter extends Component {
                     <Route  path='/teacher_head_img' component={TeacherHeadImg}/>{/*教师人脸头像入*/}
                     <Route  path='/student_card' component={StudentCard}/>{/*学生卡录入*/}
                     <Route  path='/student_head_img' component={StudentHeadImg}/>{/*学生人脸头像入*/}
-                    <Route  path='/test' component={TestAAA}/>{/*学段及年级*/}
                     {/*</Switch>*/}
                 </HashRouter>
+            </ConfigProvider>
         )
     }
 }

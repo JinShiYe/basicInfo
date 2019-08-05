@@ -393,7 +393,6 @@ class Fascicle extends Component {
                        size='middle'
                        loading={this.state.loading}
                        rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
-                       locale={{emptyText: '暂无数据'}}
                        rowKey={record=>record.id}
                        pagination={{
                            onChange: page => {
