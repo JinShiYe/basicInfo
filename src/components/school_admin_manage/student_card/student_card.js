@@ -32,6 +32,7 @@ class AdvancedSearchForm extends React.Component {
         this.setState({
             clss:[],
         })
+        console.log(grdCls)
         grdCls.map(item=>{
             if(value===item.grdid){
                 let clss=item.child;
@@ -78,67 +79,55 @@ class AdvancedSearchForm extends React.Component {
             addBtn=<Button type="primary" style={{ marginLeft: 8 }} onClick={this.props.onSubmitRecordPL}>批量保存</Button>
         }
         return (
-            <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
-                <Row gutter={24} className={"form-item-search"}>
-                    <Col span={6}  >
-                        <Form.Item label={"年级"} labelCol={{span:6}}>
-                            {getFieldDecorator("grd_id", {
-                                initialValue:0
-                            })(
-                                <Select onChange={this.handleChange}>
-                                    {grdOptions}
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6}  >
-                        <Form.Item label={"班级"} labelCol={{span:6}}>
-                            {getFieldDecorator("cls_id", {
-                                initialValue:0,
-                            })(
-                                <Select>
-                                    {clsOptions}
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6} >
-                        <Form.Item label={"学生姓名"} labelCol={{span:6}}>
-                            {getFieldDecorator("uname", {
-                            })(<Input placeholder="请输入学生姓名" />)}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6}  >
-                        <Form.Item label={"卡地址"} labelCol={{span:6}}>
-                            {getFieldDecorator("cardId", {
-                            })(<Input placeholder="请输入卡地址" />)}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6}  >
-                        <Form.Item label={"是否有卡"} labelCol={{span:6}}>
-                            {getFieldDecorator("haveCard", {
-                                initialValue:-1,
-                            })(
-                                <Select>
-                                    <Option value={-1}>全部</Option>
-                                    <Option value={1}>有</Option>
-                                    <Option value={0}>无</Option>
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6}  >
-                        <Form.Item label={"卡类型"} labelCol={{span:6}}>
-                            {getFieldDecorator("cardType", {
-                                initialValue:this.props.cardType.length>0?this.props.cardType[0].code:"",
-                            })(
-                                <Select>
-                                    {options}
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </Col>
-                    <Col span={12} style={{ textAlign: 'right',marginTop:3 }}>
+            <div className='divSearch'>
+                <Form layout="inline" onSubmit={this.handleSearch}>
+                    <Form.Item label={"年级"} >
+                        {getFieldDecorator("grd_id", {
+                            initialValue:0
+                        })(
+                            <Select onChange={this.handleChange}>
+                                {grdOptions}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label={"班级"} >
+                        {getFieldDecorator("cls_id", {
+                            initialValue:0,
+                        })(
+                            <Select>
+                                {clsOptions}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label={"学生姓名"} >
+                        {getFieldDecorator("uname", {
+                        })(<Input placeholder="请输入学生姓名" />)}
+                    </Form.Item>
+                    <Form.Item label={"卡地址"} >
+                        {getFieldDecorator("cardId", {
+                        })(<Input placeholder="请输入卡地址" />)}
+                    </Form.Item>
+                    <Form.Item label={"是否有卡"} >
+                        {getFieldDecorator("haveCard", {
+                            initialValue:-1,
+                        })(
+                            <Select>
+                                <Option value={-1}>全部</Option>
+                                <Option value={1}>有</Option>
+                                <Option value={0}>无</Option>
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label={"卡类型"} >
+                        {getFieldDecorator("cardType", {
+                            initialValue:this.props.cardType.length>0?this.props.cardType[0].code:"",
+                        })(
+                            <Select>
+                                {options}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item>
                         {addBtn}
                         <Button type="primary" htmlType="submit" style={{ marginLeft: 8 }}>
                             查找
@@ -146,20 +135,9 @@ class AdvancedSearchForm extends React.Component {
                         <Button  onClick={this.handleReset} style={{ marginLeft: 8 }}>
                             重置
                         </Button>
-                    </Col>
-                </Row>
-                {/*<Row className={"form-item-btn"}>*/}
-                {/*    <Col span={24} style={{ textAlign: 'right' }}>*/}
-                {/*        {addBtn}*/}
-                {/*        <Button type="primary" htmlType="submit" style={{ marginLeft: 8 }}>*/}
-                {/*            查找*/}
-                {/*        </Button>*/}
-                {/*        <Button  onClick={this.handleReset} style={{ marginLeft: 8 }}>*/}
-                {/*            重置*/}
-                {/*        </Button>*/}
-                {/*    </Col>*/}
-                {/*</Row>*/}
-            </Form>
+                     </Form.Item>
+                </Form>
+            </div>
         );
     }
 }
@@ -248,7 +226,7 @@ class StudentCard extends Component {
         searchData.iscard=data.haveCard//是否有卡
         searchData.grd_id=data.grd_id//年级ID
         searchData.cls_id=data.cls_id//班级ID
-        this.getTableDataSearch_NextPage(searchData,1);
+        this.getTableData(searchData,1);
     }
 
     //获取默认表格数据
@@ -327,7 +305,7 @@ class StudentCard extends Component {
             access_token: utoken,
         };
         myUtils.post(2, "api/grd/list", paramsUserInfo, res => {
-            // console.log("api/grd/list:"+JSON.stringify(res))
+            console.log("api/grd/list:"+JSON.stringify(res))
             if (res.code == 0) {
                 let grds = res.data;
                 let grdids=[];
@@ -340,20 +318,21 @@ class StudentCard extends Component {
                     access_token: utoken,
                 };
                 myUtils.post(2, "api/cls/list", paramsUserInfo, res2 => {
-                    // console.log("api/cls/list:"+JSON.stringify(res2))
+                    console.log("api/cls/list:"+JSON.stringify(res2))
                     if (res.code == 0) {
-                        let child=[];
                         let clss=res2.data;
-                        grds.map(item=>{
-                            let pgrdid=item.grdid;
+                        grds.map(item2=>{
+                            let child=[];
+                            let pgrdid=item2.grdid;
                             clss.map(itemChild=>{
                                 let grdid=itemChild.grdid;
                                 if(pgrdid===grdid){
                                     child.push(itemChild)
                                 }
                             })
-                            item.child=child;
+                            item2.child=child;
                         })
+                        console.log(JSON.stringify(grds))
                         this.setState({
                             grdAndCls:grds
                         })
@@ -589,7 +568,7 @@ class StudentCard extends Component {
                     <Col span={24}>
                         <WrappedAdvancedSearchForm cardType={this.state.cardType} editPermission={this.state.add_edit} changeSearchData={this.changeSearchData} onSubmitRecordPL={this.onSubmitRecordPL} grdClsData={this.state.grdAndCls}/>
                     </Col>
-                    <Col span={24} style={{marginTop:30}}>
+                    <Col span={24}>
                         <Table className={"info-table"}
                                columns={columns}
                                dataSource={this.state.data}

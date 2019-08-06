@@ -1,4 +1,3 @@
-import '../../../themes/basic_info.css';
 import React, {Component} from 'react';
 import store from '../../../utils/store';
 import storekeyname from '../../../utils/storeKeyName';
@@ -23,35 +22,23 @@ class AdvancedSearchForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
-                <Row gutter={24} className={"form-item-search"}>
-                    <Col span={6}  >
-                        <Form.Item label={"关键字"}>
-                            {getFieldDecorator("keywords", {
+            <div className='divSearch'>
+                <Form layout="inline" onSubmit={this.handleSearch}>
+                    <Form.Item label={"关键字"}>
+                        {getFieldDecorator("keywords", {
 
-                            })(<Input placeholder="请输入“名称”关键字" />)}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6} style={{ textAlign: 'left',marginTop: 3 }}>
+                        })(<Input placeholder="请输入“名称”关键字" />)}
+                    </Form.Item>
+                    <Form.Item>
                         <Button type="primary" htmlType="submit">
                             查找
                         </Button>
                         <Button  onClick={this.handleReset} style={{ marginLeft: 8 }}>
                             重置
                         </Button>
-                    </Col>
-                </Row>
-                {/*<Row className={"form-item-btn"}>*/}
-                {/*    <Col span={24} style={{ textAlign: 'right' }}>*/}
-                {/*        <Button type="primary" htmlType="submit" style={{ marginLeft: 8 }}>*/}
-                {/*            查找*/}
-                {/*        </Button>*/}
-                {/*        <Button  onClick={this.handleReset} style={{ marginLeft: 8 }}>*/}
-                {/*            重置*/}
-                {/*        </Button>*/}
-                {/*    </Col>*/}
-                {/*</Row>*/}
-            </Form>
+                     </Form.Item>
+                </Form>
+            </div>
         );
     }
 }
@@ -186,7 +173,7 @@ class SystemNameIcon extends Component {
                 <Col span={24}>
                     <WrappedAdvancedSearchForm province={this.state.province} city={this.state.city} area={this.state.area} changeSearchData={this.changeSearchData} onSelectChange={this.onSelectChange} />
                 </Col>
-                <Col span={24} style={{marginTop:30}}>
+                <Col span={24}>
                     <Table className={"info-table"}
                            columns={columns}
                            dataSource={this.state.data}

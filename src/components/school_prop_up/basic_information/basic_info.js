@@ -1,4 +1,3 @@
-import '../../../themes/basic_info.css';
 import React, {Component} from 'react';
 import store from '../../../utils/store';
 import storekeyname from '../../../utils/storeKeyName';
@@ -59,60 +58,50 @@ class AdvancedSearchForm extends React.Component {
             })
         }
         return (
-            <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
-                <Row gutter={24} className={"form-item-search"}>
-                    <Col span={6} >
-                        <Form.Item label={"省"}>
-                            {getFieldDecorator("province", {
-                                initialValue:-1,
-                            })(
-                                <Select onChange={this.handleChangeProvince}>
-                                    {provOptions}
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6}  >
-                        <Form.Item label={"市"}>
-                            {getFieldDecorator("city", {
-                                initialValue:-1,
-                            })(
-                                <Select onChange={this.handleChangeCity}>
-                                    {cityOptions}
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6}  >
-                        <Form.Item label={"区/县"}>
-                            {getFieldDecorator("area", {
-                                initialValue:-1,
-                            })(
-                                <Select>
-                                    {areaOptions}
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6}  >
-                        <Form.Item label={"关键字"}>
-                            {getFieldDecorator("keywords", {
+            <div className='divSearch'>
+                <Form onSubmit={this.handleSearch} layout="inline" >
+                    <Form.Item label={"省"}>
+                        {getFieldDecorator("province", {
+                            initialValue:-1,
+                        })(
+                            <Select onChange={this.handleChangeProvince}>
+                                {provOptions}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label={"市"}>
+                        {getFieldDecorator("city", {
+                            initialValue:-1,
+                        })(
+                            <Select onChange={this.handleChangeCity}>
+                                {cityOptions}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label={"区/县"}>
+                        {getFieldDecorator("area", {
+                            initialValue:-1,
+                        })(
+                            <Select>
+                                {areaOptions}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label={"关键字"}>
+                        {getFieldDecorator("keywords", {
 
-                            })(<Input placeholder="请输入“名称”关键字" />)}
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <Row className={"form-item-btn"}>
-                    <Col span={24} style={{ textAlign: 'right' }}>
+                        })(<Input placeholder="请输入“名称”关键字" />)}
+                    </Form.Item>
+                    <Form.Item>
                         <Button type="primary" htmlType="submit" style={{ marginLeft: 8 }}>
                             查找
                         </Button>
                         <Button  onClick={this.handleReset} style={{ marginLeft: 8 }}>
                             重置
                         </Button>
-                    </Col>
-                </Row>
-            </Form>
+                    </Form.Item>
+                </Form>
+            </div>
         );
     }
 }
@@ -362,7 +351,7 @@ class BasicInfo extends Component {
                 <Col span={24}>
                     <WrappedAdvancedSearchForm province={this.state.province} city={this.state.city} area={this.state.area} changeSearchData={this.changeSearchData} onSelectChange={this.onSelectChange} />
                 </Col>
-                <Col span={24} style={{marginTop:30}}>
+                <Col span={24}>
                     <Table className={"info-table"}
                            columns={columns}
                            dataSource={this.state.data}

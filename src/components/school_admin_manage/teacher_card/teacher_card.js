@@ -39,66 +39,47 @@ class AdvancedSearchForm extends React.Component {
             addBtn=<Button type="primary" style={{ marginLeft: 8 }} onClick={this.props.onSubmitRecordPL}>批量保存</Button>
         }
         return (
-            <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
-                <Row gutter={24} className={"form-item-search"}>
-                    <Col span={6} >
-                        <Form.Item label={"老师姓名"}>
-                            {getFieldDecorator("uname", {
-                            })(<Input placeholder="请输入老师姓名" />)}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6}  >
-                        <Form.Item label={"卡地址"}>
-                            {getFieldDecorator("cardId", {
-                            })(<Input placeholder="请输入卡地址" />)}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6}  >
-                        <Form.Item label={"是否有卡"}>
-                            {getFieldDecorator("haveCard", {
-                                initialValue:-1,
-                            })(
-                                <Select onChange={this.handleChange}>
-                                    <Option value={-1}>全部</Option>
-                                    <Option value={1}>有</Option>
-                                    <Option value={0}>无</Option>
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6}  >
-                        <Form.Item label={"卡类型"}>
-                            {getFieldDecorator("cardType", {
-                                initialValue:this.props.cardType.length>0?this.props.cardType[0].code:"",
-                            })(
-                                <Select onChange={this.handleChange}>
-                                    {options}
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </Col>
-                    <Col span={24} style={{ textAlign: 'right' }}>
-                        {addBtn}
-                        <Button type="primary" htmlType="submit" style={{ marginLeft: 8,marginTop:8 }}>
-                            查找
-                        </Button>
-                        <Button  onClick={this.handleReset} style={{ marginLeft: 8,marginTop:8 }}>
-                            重置
-                        </Button>
-                    </Col>
-                </Row>
-                <Row className={"form-item-btn"}>
-                    {/*<Col span={24} style={{ textAlign: 'right' }}>*/}
-                    {/*    {addBtn}*/}
-                    {/*    <Button type="primary" htmlType="submit" style={{ marginLeft: 8 }}>*/}
-                    {/*        查找*/}
-                    {/*    </Button>*/}
-                    {/*    <Button  onClick={this.handleReset} style={{ marginLeft: 8 }}>*/}
-                    {/*        重置*/}
-                    {/*    </Button>*/}
-                    {/*</Col>*/}
-                </Row>
-            </Form>
+            <div className='divSearch'>
+                <Form layout="inline" onSubmit={this.handleSearch}>
+                    <Form.Item label={"老师姓名"}>
+                        {getFieldDecorator("uname", {
+                        })(<Input placeholder="请输入老师姓名" />)}
+                    </Form.Item>
+                    <Form.Item label={"卡地址"}>
+                        {getFieldDecorator("cardId", {
+                        })(<Input placeholder="请输入卡地址" />)}
+                    </Form.Item>
+                    <Form.Item label={"是否有卡"}>
+                        {getFieldDecorator("haveCard", {
+                            initialValue:-1,
+                        })(
+                            <Select onChange={this.handleChange}>
+                                <Option value={-1}>全部</Option>
+                                <Option value={1}>有</Option>
+                                <Option value={0}>无</Option>
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label={"卡类型"}>
+                        {getFieldDecorator("cardType", {
+                            initialValue:this.props.cardType.length>0?this.props.cardType[0].code:"",
+                        })(
+                            <Select onChange={this.handleChange}>
+                                {options}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item>
+                            {addBtn}
+                            <Button type="primary" htmlType="submit" style={{ marginLeft:8,marginTop:8 }}>
+                                查找
+                            </Button>
+                            <Button  onClick={this.handleReset} style={{ marginLeft: 8,marginTop:8 }}>
+                                重置
+                            </Button>
+                    </Form.Item>
+                </Form>
+            </div>
         );
     }
 }
@@ -470,8 +451,8 @@ class TeacherCard extends Component {
                     <Col span={24}>
                         <WrappedAdvancedSearchForm cardType={this.state.cardType} editPermission={this.state.add_edit} changeSearchData={this.changeSearchData} onSubmitRecordPL={this.onSubmitRecordPL}/>
                     </Col>
-                    <Col span={24} style={{marginTop:30}}>
-                            <Table className={"info-table"}
+                    <Col span={24}>
+                            <Table
                                    columns={columns}
                                    dataSource={this.state.data}
                                    bordered

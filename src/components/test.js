@@ -80,7 +80,7 @@ class Test extends Component {
                 </Link>
                 <br/><br/><br/>
                 <Link to={`/teacher_head_img`}>
-                    <Button className="create-notice-btn" type="primary" icon="form">教师人脸头像入</Button>
+                    <Button className="create-notice-btn" type="primary" icon="form">教师人脸头像录入</Button>
                 </Link>
                 <br/><br/><br/>
                 <Link to={`/student_card`}>
@@ -88,7 +88,7 @@ class Test extends Component {
                 </Link>
                 <br/><br/><br/>
                 <Link to={`/student_head_img`}>
-                    <Button className="create-notice-btn" type="primary" icon="form">学生人脸头像入</Button>
+                    <Button className="create-notice-btn" type="primary" icon="form">学生人脸头像录入</Button>
                 </Link>
             </div>
         )

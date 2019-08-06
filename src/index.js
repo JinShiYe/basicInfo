@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import MainRouter from './components/main-router';
 import * as serviceWorker from './serviceWorker';
-// import './themes/override.less'
+import './themes/override.less'
 
 ReactDOM.render(<MainRouter />, document.getElementById('root'));
 

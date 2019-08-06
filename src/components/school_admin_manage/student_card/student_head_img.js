@@ -76,80 +76,60 @@ class AdvancedSearchForm extends React.Component {
         })
 
         return (
-            <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
-                <Row gutter={24} className={"form-item-search"}>
-                    <Col span={6}  >
-                        <Form.Item label={"年级"} labelCol={{span:6}}>
-                            {getFieldDecorator("grd_id", {
-                                initialValue:0
-                            })(
-                                <Select onChange={this.handleChange}>
-                                    {grdOptions}
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6}  >
-                        <Form.Item label={"班级"} labelCol={{span:6}}>
-                            {getFieldDecorator("cls_id", {
-                                initialValue:0,
-                            })(
-                                <Select>
-                                    {clsOptions}
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6}  >
-                        <Form.Item label={"是否有卡"} labelCol={{span:6}}>
-                            {getFieldDecorator("haveCard", {
-                                initialValue:-1,
-                            })(
-                                <Select onChange={this.handleChange}>
-                                    <Option value={-1}>全部</Option>
-                                    <Option value={1}>有</Option>
-                                    <Option value={0}>无</Option>
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6}  >
-                        <Form.Item label={"卡类型"} labelCol={{span:6}}>
-                            {getFieldDecorator("cardType", {
-                                initialValue:this.props.cardType.length>0?this.props.cardType[0].code:"",
-                            })(
-                                <Select onChange={this.handleChange}>
-                                    {options}
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </Col>
-                    <Col span={6} >
-                        <Form.Item label={"学生姓名"} labelCol={{span:6}}>
-                            {getFieldDecorator("uname", {
-                            })(<Input placeholder="请输入学生姓名" />)}
-                        </Form.Item>
-                    </Col>
-                    <Col span={18} style={{ textAlign: 'right',marginTop:3 }}>
+            <div className='divSearch'>
+                <Form layout="inline" onSubmit={this.handleSearch}>
+                    <Form.Item label={"年级"} >
+                        {getFieldDecorator("grd_id", {
+                            initialValue:0
+                        })(
+                            <Select onChange={this.handleChange}>
+                                {grdOptions}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label={"班级"} >
+                        {getFieldDecorator("cls_id", {
+                            initialValue:0,
+                        })(
+                            <Select>
+                                {clsOptions}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label={"是否有卡"}>
+                        {getFieldDecorator("haveCard", {
+                            initialValue:-1,
+                        })(
+                            <Select onChange={this.handleChange}>
+                                <Option value={-1}>全部</Option>
+                                <Option value={1}>有</Option>
+                                <Option value={0}>无</Option>
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label={"卡类型"} >
+                        {getFieldDecorator("cardType", {
+                            initialValue:this.props.cardType.length>0?this.props.cardType[0].code:"",
+                        })(
+                            <Select onChange={this.handleChange}>
+                                {options}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label={"学生姓名"} >
+                        {getFieldDecorator("uname", {
+                        })(<Input placeholder="请输入学生姓名" />)}
+                    </Form.Item>
+                    <Form.Item>
                         <Button type="primary" htmlType="submit">
                             查找
                         </Button>
                         <Button  onClick={this.handleReset} style={{ marginLeft:8 }}>
                             重置
                         </Button>
-                    </Col>
-                </Row>
-                {/*<Row className={"form-item-btn"}>*/}
-                {/*    <Col span={24} style={{ textAlign: 'right' }}>*/}
-                {/*        <Button type="primary" htmlType="submit">*/}
-                {/*            查找*/}
-                {/*        </Button>*/}
-                {/*        <Button  onClick={this.handleReset} style={{ marginLeft:8 }}>*/}
-                {/*            重置*/}
-                {/*        </Button>*/}
-                {/*    </Col>*/}
-                {/*</Row>*/}
-            </Form>
+                    </Form.Item>
+                </Form>
+            </div>
         );
     }
 }
@@ -489,7 +469,7 @@ class StudentHeadImg extends Component {
                     <Col span={24}>
                         <WrappedAdvancedSearchForm cardType={this.state.cardType} editPermission={this.state.add_edit} changeSearchData={this.changeSearchData}  grdClsData={this.state.grdAndCls}/>
                     </Col>
-                    <Col span={24} style={{marginTop:30}}>
+                    <Col span={24}>
                         <Table className={"info-table"}
                                columns={columns}
                                dataSource={this.state.data}

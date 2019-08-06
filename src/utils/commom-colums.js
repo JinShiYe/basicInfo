@@ -95,6 +95,7 @@ import {Button, Input, Avatar, Icon} from "antd";
                     {
                         title: '卡地址',
                         dataIndex: 'newCardId',
+                        className:"ant-table-column-inputImg",
                         render: (newCardId,record) => {
                             let error=null;
                             if(record.showError){
@@ -121,6 +122,7 @@ import {Button, Input, Avatar, Icon} from "antd";
                             dataIndex: '',
                             width: 100,
                             align:"center",
+                            className:"ant-table-column-inputImg",
                             render: (record) => {
                                 let btn=null;
                                 if(record.showBtn){
@@ -158,6 +160,7 @@ import {Button, Input, Avatar, Icon} from "antd";
                     {
                         title: '卡地址',
                         dataIndex: 'newCardId',
+                        className:"ant-table-column-inputImg",
                         render: (newCardId,record) => {
                             let error=null;
                             if(record.showError){
@@ -184,6 +187,7 @@ import {Button, Input, Avatar, Icon} from "antd";
                         dataIndex: '',
                         width: 100,
                         align:"center",
+                        className:"ant-table-column-inputImg",
                         render: (record) => {
                             let btn=null;
                             if(record.showBtn){
@@ -221,13 +225,14 @@ import {Button, Input, Avatar, Icon} from "antd";
                     {
                         title: '学生姓名',
                         dataIndex: 'uname',
-                        width: 200,
+                        // width: 200,
                     },
                     {
                         title: '头像',
                         dataIndex: 'vcardimg',
                         width: 100,
                         align:"center",
+                        className:"ant-table-column-inputImg",
                         render: (img) =>{
                             let domDiv=""
                             if(img!="" &&img!=null){
@@ -283,12 +288,13 @@ import {Button, Input, Avatar, Icon} from "antd";
                     {
                         title: '老师姓名',
                         dataIndex: 'uname',
-                        width: 200,
+                        // width: 200,
                     },
                     {
                         title: '头像',
                         dataIndex: 'vcardimg',
                         width: 100,
+                        className:"ant-table-column-inputImg",
                         align:"center",
                         render: (img) =>{
                             let domDiv=""
@@ -334,6 +340,7 @@ import {Button, Input, Avatar, Icon} from "antd";
                         title: '排序',
                         dataIndex: 'px',
                         width:100,
+                        className:"ant-table-column-inputImg",
                         render: (record) => {
                             let input =null;
                             if(that.state.add_edit){
@@ -367,7 +374,7 @@ import {Button, Input, Avatar, Icon} from "antd";
                     {
                         title: '所属地区',
                         dataIndex: 'area_id',
-                        width: 250,
+                        // width: 250,
                         render: (area_id,record) => {
                             let area =area_id+"";
                             let province=area.substr(0,2)+"0000";
@@ -445,7 +452,7 @@ import {Button, Input, Avatar, Icon} from "antd";
                     {
                         title: '显示名称',
                         dataIndex: 'name',
-                        width: 200,
+                        // width: 200,
                     },
 
                     {
@@ -453,6 +460,7 @@ import {Button, Input, Avatar, Icon} from "antd";
                         dataIndex: 'img_url',
                         align:"center",
                         width: 100,
+                        className:"ant-table-column-inputImg",
                         render: (img) => {
                             let domDiv=""
                             if(img!="" && img!=null){
