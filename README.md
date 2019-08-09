@@ -70,5 +70,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ## 配置清单
 1、storeKeyName  build
-2、index.js  放开注释 // import './themes/override.less'
-3、
+

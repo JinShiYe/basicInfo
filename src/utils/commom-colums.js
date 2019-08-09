@@ -301,7 +301,7 @@ import {Button, Input, Avatar, Icon} from "antd";
                             if(img!=""){
                                 domDiv=<Avatar shape="square" size={64}  src={img} />
                             }else{
-                                domDiv=<Avatar shape="square" size={64}  icon="user" />
+                                domDiv=<Avatar shape="square" size={64}  >暂无</Avatar>
                             }
                             return domDiv;
                         }
