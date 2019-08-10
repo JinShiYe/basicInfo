@@ -131,7 +131,7 @@ class PicturesWall extends React.Component {
                                     uid:rowData.uid,
                                     vcardimg:domain+key,
 
-                                    school_id:personal.school_code,
+                                    school_id:personal.unit_code,
 
                                     uname:rowData.uname,
                                     cardtp:parseInt(rowData.cardtp),

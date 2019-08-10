@@ -1,10 +1,13 @@
-import '../../../themes/grd_cls_sub.css';
+import './grd_cls_sub.css';
 import React, {Component} from 'react';
 import store from '../../../utils/store';
 import storekeyname from '../../../utils/storeKeyName';
 import myUtils from '../../../utils/myUtils';
 import {Table, Modal, Button, Icon, Form, Input, Select, message, Row, Col,Switch,Tag,Transfer } from 'antd';
 import {withRouter} from 'react-router-dom';
+import Container from "../../../common_from_baseframe/Container";
+import Header from "../../../common_from_baseframe/Header";
+import {ContentDark} from "../../../common_from_baseframe/Content";
 
 class GrdClsSub extends Component {
 
@@ -245,6 +248,9 @@ class GrdClsSub extends Component {
         }
 
         return (
+            <Container>
+                <Header refresh={true}/>
+                <ContentDark>
             <Row style={{marginLeft:15,marginRight:15}}>
                 <Row style={{textAlign:"center",marginTop:25}}>
                     <h1>济南第三职业中专</h1>
@@ -328,6 +334,8 @@ class GrdClsSub extends Component {
                     />
                 </Modal>
             </Row>
+                </ContentDark>
+            </Container>
         )
     }
 }

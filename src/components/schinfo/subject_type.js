@@ -1,4 +1,4 @@
-import '../../themes/schinfo.css';
+import './schinfo.css';
 import React, {Component} from 'react';
 import store from '../../utils/store';
 import storekeyname from '../../utils/storeKeyName';
@@ -7,6 +7,9 @@ import {getTableData,add_editData} from '../../utils/schinfoUtils';
 import {getColumns} from '../../utils/commom-colums';
 import {Table, Modal, Button, Icon, Form, Input, Select, message,} from 'antd';
 import {withRouter} from 'react-router-dom';
+import Container from "../../common_from_baseframe/Container";
+import Header from "../../common_from_baseframe/Header";
+import {ContentDark} from "../../common_from_baseframe/Content";
 
 //新增学段年级组件
 const { Option } = Select;
@@ -384,6 +387,9 @@ class SubjectType extends Component {
             columns.push(edit)
         }
         return (
+            <Container>
+                <Header refresh={true}/>
+                <ContentDark>
             <div className={"info"}>
                 {button}
                 <Table className={"info-table"}
@@ -432,6 +438,8 @@ class SubjectType extends Component {
                     <_EditComponent  onCancelModel={this.handleCancel_edit} onRefreshTable={this.onRefreshTable} rowData={this.state.rowData}/>
                 </Modal>
             </div>
+                </ContentDark>
+            </Container>
         )
     }
 }

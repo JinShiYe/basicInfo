@@ -5,6 +5,9 @@ import myUtils from '../../../utils/myUtils';
 import {Table, Button, Icon, Form, Input, Select, message,Row,Col} from 'antd';
 import {withRouter} from 'react-router-dom';
 import {getColumns} from "../../../utils/commom-colums";
+import Container from "../../../common_from_baseframe/Container";
+import Header from "../../../common_from_baseframe/Header";
+import {ContentDark} from "../../../common_from_baseframe/Content";
 
 class AdvancedSearchForm extends React.Component {
     handleSearch = e => {
@@ -347,6 +350,9 @@ class BasicInfo extends Component {
     render() {
         let columns= getColumns("base_info",this)
         return (
+            <Container>
+                <Header refresh={true}/>
+                <ContentDark>
             <Row className={"search-box"}>
                 <Col span={24}>
                     <WrappedAdvancedSearchForm province={this.state.province} city={this.state.city} area={this.state.area} changeSearchData={this.changeSearchData} onSelectChange={this.onSelectChange} />
@@ -373,6 +379,8 @@ class BasicInfo extends Component {
                     />
                 </Col>
             </Row>
+                </ContentDark>
+            </Container>
         )
     }
 }

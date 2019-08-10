@@ -1,6 +1,10 @@
-import '../themes/schinfo.css';
 import React, {Component} from 'react';
 import {HashRouter, Route,  Switch, Redirect} from 'react-router-dom';
+
+import Container from '../common_from_baseframe/Container';
+import Header from '../common_from_baseframe/Header';
+import {ContentDark} from '../common_from_baseframe/Content';
+
 import {message,ConfigProvider} from 'antd';
 import store from '../utils/store';
 import myUtils from '../utils/myUtils';
@@ -51,7 +55,7 @@ class MainRouter extends Component {
         }, false);
         if(storekeyname.testType===0){
             let personal =
-                    {"access_token":"MjhiYzIzM2YtNmNlYy00ODhhLTkzM2EtNjRkNzkwNzQ3YjZl","id":"1108922281310027776","img_url":"http://qn-educds.jiaobaowang.net/xiaoxuntong/notice/1..关联学生标注.png","login_name":"zxxadmin","name":"中小学平台管理员","platform_code":"PT0001","platform_name":"中小学平台","school_code":"100000","school_name":"南宁二中","sex":0,"type_code":"YHLX0001","app_code":"support#","unit_code":"-1","system_url":"http://localhost:3000","error_page_url":"http://localhost:3000/#/error/","modifyFlag":999}
+                    {"access_token":"ODk2M2NiZWEtYjM5MS00YmYyLTk1NTItYzAzY2RhOTZhNGVm","id":null,"img_url":"http://qn-educds.jiaobaowang.net/xiaoxuntong/notice/1..关联学生标注.png","login_name":"zxxadmin","platform_code":"PT0001","platform_name":"中小学平台","sex":0,"type_code":"YHLX0001","app_code":"support#","unit_code":"-1","system_url":"http://localhost:3000","error_page_url":"http://localhost:3000/#/error/","modifyFlag":999}
                 ;
             let utoken=personal.access_token;
             store.set(storekeyname.TOKEN, utoken);

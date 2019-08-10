@@ -1,4 +1,4 @@
-import '../../themes/schinfo.css';
+import './schinfo.css';
 import React, {Component} from 'react';
 import store from '../../utils/store';
 import storekeyname from '../../utils/storeKeyName';
@@ -7,6 +7,9 @@ import {getTableData,add_editData} from '../../utils/schinfoUtils';
 import {getColumns} from '../../utils/commom-colums';
 import {Table, Modal, Button, Icon, Form, Input, Select, message,} from 'antd';
 import {withRouter} from 'react-router-dom';
+import Container from "../../common_from_baseframe/Container";
+import Header from "../../common_from_baseframe/Header";
+import {ContentDark} from "../../common_from_baseframe/Content";
 
 //新增学段年级组件
 const { Option } = Select;
@@ -384,54 +387,59 @@ class Fascicle extends Component {
             columns.push(edit)
         }
         return (
-            <div className={"info"}>
-                {button}
-                <Table className={"info-table"}
-                       columns={columns}
-                       dataSource={this.state.data}
-                       bordered
-                       size='middle'
-                       loading={this.state.loading}
-                       rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
-                       rowKey={record=>record.id}
-                       pagination={{
-                           onChange: page => {
-                               this.setState({
-                                   loading:true,
-                                   pageindex:page
-                               })
-                               getTableData("SysFascP",this,this.state.pagesize,page)
-                           },
-                           pageSize: this.state.pagesize,
-                           hideOnSinglePage:true,
-                           total:this.state.total
-                       }}
-                />
-                <Modal
-                    title="添加教材分册"
-                    visible={this.state.visible_add}
-                    maskClosable={false}
-                    footer={null}
-                    width={520}
-                    bodyStyle={{minHeight:220,maxHeight:520,overflow:"auto"}}
-                    centered
-                    onCancel={this.handleCancel_add}
-                >
-                    <_AddComponent onCancelModel={this.handleCancel_add} onRefreshTable={this.onRefreshTable}/>
-                </Modal>
-                <Modal
-                    title="修改教材分册"
-                    visible={this.state.visible_edit}
-                    maskClosable={false}
-                    footer={null}
-                    width={520}
-                    bodyStyle={{minHeight:220,maxHeight:520,overflow:"auto"}}
-                    centered
-                    onCancel={this.handleCancel_edit}
-                >
-                    <_EditComponent  onCancelModel={this.handleCancel_edit} onRefreshTable={this.onRefreshTable} rowData={this.state.rowData}/>
-                </Modal>
-            </div>
+            <Container>
+                <Header refresh={true}/>
+                <ContentDark>
+                    <div className={"info"}>
+                    {button}
+                    <Table className={"info-table"}
+                           columns={columns}
+                           dataSource={this.state.data}
+                           bordered
+                           size='middle'
+                           loading={this.state.loading}
+                           rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
+                           rowKey={record=>record.id}
+                           pagination={{
+                               onChange: page => {
+                                   this.setState({
+                                       loading:true,
+                                       pageindex:page
+                                   })
+                                   getTableData("SysFascP",this,this.state.pagesize,page)
+                               },
+                               pageSize: this.state.pagesize,
+                               hideOnSinglePage:true,
+                               total:this.state.total
+                           }}
+                    />
+                    <Modal
+                        title="添加教材分册"
+                        visible={this.state.visible_add}
+                        maskClosable={false}
+                        footer={null}
+                        width={520}
+                        bodyStyle={{minHeight:220,maxHeight:520,overflow:"auto"}}
+                        centered
+                        onCancel={this.handleCancel_add}
+                    >
+                        <_AddComponent onCancelModel={this.handleCancel_add} onRefreshTable={this.onRefreshTable}/>
+                    </Modal>
+                    <Modal
+                        title="修改教材分册"
+                        visible={this.state.visible_edit}
+                        maskClosable={false}
+                        footer={null}
+                        width={520}
+                        bodyStyle={{minHeight:220,maxHeight:520,overflow:"auto"}}
+                        centered
+                        onCancel={this.handleCancel_edit}
+                    >
+                        <_EditComponent  onCancelModel={this.handleCancel_edit} onRefreshTable={this.onRefreshTable} rowData={this.state.rowData}/>
+                    </Modal>
+                </div>
+                </ContentDark>
+            </Container>
         )
     }
 }

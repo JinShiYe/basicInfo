@@ -1,4 +1,4 @@
-import '../../../themes/student_card.css';
+import './student_card.css';
 import React, {Component} from 'react';
 import store from '../../../utils/store';
 import storekeyname from '../../../utils/storeKeyName';
@@ -6,6 +6,9 @@ import myUtils from '../../../utils/myUtils';
 import {Table, Button, Form, Input, Select, message, Col, Row,} from 'antd';
 import {withRouter} from 'react-router-dom';
 import {getColumns} from "../../../utils/commom-colums";
+import Container from "../../../common_from_baseframe/Container";
+import Header from "../../../common_from_baseframe/Header";
+import {ContentDark} from "../../../common_from_baseframe/Content";
 
 class AdvancedSearchForm extends React.Component {
         constructor(props){
@@ -262,7 +265,7 @@ class StudentCard extends Component {
             grade_id:searchData.grd_id,
             cls_id:searchData.cls_id,
 
-            school_id:personal.school_code,
+            school_id:personal.unit_code,
         };
         myUtils.post(1, "HrStuCardP", paramsUserInfo, res => {
             console.log(res)
@@ -462,7 +465,7 @@ class StudentCard extends Component {
             cardid:rowdata.newCardId,
             uname:rowdata.uname,
             cardtp:parseInt(this.state.searchData.cardtp),
-            school_id:personal.school_code,
+            school_id:personal.unit_code,
         };
         console.log(paramsUserInfo)
         myUtils.post(1, "HrStuCardAorE", paramsUserInfo, res => {
@@ -563,6 +566,9 @@ class StudentCard extends Component {
     render() {
         let columns= getColumns("stu_card",this)
         return (
+            <Container>
+                <Header refresh={true}/>
+                <ContentDark>
             <div>
                 <Row className={"search-box"}>
                     <Col span={24}>
@@ -602,6 +608,8 @@ class StudentCard extends Component {
                     </Col>
                 </Row>
             </div>
+                </ContentDark>
+            </Container>
         )
     }
 }

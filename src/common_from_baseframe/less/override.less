@@ -1,0 +1,82 @@
+/**
+ * override.less
+ * 作用：覆盖 Antd 默认样式
+ *
+ * 格式要求：
+ *   1. 最外层样式名必须是 Antd 组件的顶层元素的样式名，如：ant-table, ant-form
+ *   2. 必须标注覆盖这个样式的原因
+ *   3. 标注日期
+ *   4. 注释使用多行带星号的写法
+ */
+@import 'default';
+@import 'scrollbar';
+@import 'index';
+.ant-form {
+  .ant-form-item {
+
+    /**
+     * 默认表单内的按钮没有间距，因此加上 6px 的按钮间距
+     * 2019.07.10
+     */
+    button + button {
+      margin-left: 6px;
+    }
+  }
+
+  /**
+   * 水平表单的下拉选择框没有最小宽度，宽度会很窄，因此添加默认最小宽度为 100px
+   * 2019.07.25
+   */
+  &.ant-form-inline {
+    .ant-select {
+      min-width: 100px;
+    }
+  }
+
+  /**
+   * 水平表单的按钮在修改字体为 12px 后，会稍微往下掉一个像素，发现行高改为 1.5 可以解决
+   * 2019.07.25
+   */
+  .ant-btn {
+    line-height: 1.5;
+  }
+}
+
+
+.ant-alert {
+
+  /**
+   * 默认警告提示的关闭按钮，在修改主题字号为 12px 后，距离顶部 8px 过高，单行显示时稍微往下掉，因此改为 6px
+   * 2019.07.10
+   */
+  .ant-alert-close-icon {
+    top: 6px;
+  }
+}
+
+
+.ant-table {
+
+  /**
+   * 小号表格默认会有 8px 的左右间距，并不需要
+   * 2019.07.29
+   */
+  &.ant-table-small > .ant-table-content > .ant-table-body {
+    margin: 0;
+  }
+
+  /**
+   * 小号表格灰色表头
+   * 2019.07.29
+   */
+  &.ant-table-small > .ant-table-content > .ant-table-header > table > .ant-table-thead > tr > th,
+  &.ant-table-small > .ant-table-content > .ant-table-body > table > .ant-table-thead > tr > th,
+  &.ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-header > table > .ant-table-thead > tr > th,
+  &.ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-body > table > .ant-table-thead > tr > th,
+  &.ant-table-small > .ant-table-content > .ant-table-fixed-left > .ant-table-header > table > .ant-table-thead > tr > th,
+  &.ant-table-small > .ant-table-content > .ant-table-fixed-right > .ant-table-header > table > .ant-table-thead > tr > th,
+  &.ant-table-small > .ant-table-content > .ant-table-fixed-left > .ant-table-body-outer > .ant-table-body-inner > table > .ant-table-thead > tr > th,
+  &.ant-table-small > .ant-table-content > .ant-table-fixed-right > .ant-table-body-outer > .ant-table-body-inner > table > .ant-table-thead > tr > th {
+    background-color: @table-header-background-color;
+  }
+}

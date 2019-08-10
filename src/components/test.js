@@ -1,4 +1,3 @@
-import '../themes/schinfo.css';
 import React, {Component} from 'react';
 import {HashRouter, withRouter} from 'react-router-dom';
 import {Link} from 'react-router-dom';

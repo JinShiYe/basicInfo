@@ -1,4 +1,4 @@
-import '../../../themes/teacher_card.css';
+import './teacher_card.css';
 import React, {Component} from 'react';
 import store from '../../../utils/store';
 import storekeyname from '../../../utils/storeKeyName';
@@ -7,6 +7,9 @@ import {Table, Modal, Button, Icon, Form, Input, Select, message, Row, Col,} fro
 import {withRouter} from 'react-router-dom';
 import {getColumns} from "../../../utils/commom-colums";
 import PicturesWall from "./head_image";
+import Container from "../../../common_from_baseframe/Container";
+import Header from "../../../common_from_baseframe/Header";
+import {ContentDark} from "../../../common_from_baseframe/Content";
 
 
 class AdvancedSearchForm extends React.Component {
@@ -153,7 +156,7 @@ class TeacherHeadImg extends Component {
             cardtp:parseInt(searchData.cardtp),
             iscard:searchData.iscard,
 
-            school_id:personal.school_code,
+            school_id:personal.unit_code,
         };
         myUtils.post(1, "HrTecVCardP", paramsUserInfo, res => {
             console.log(JSON.stringify(res))
@@ -346,6 +349,9 @@ class TeacherHeadImg extends Component {
         let columns= getColumns("teach_face",this)
         let uname=this.state.rowData.uname;
         return (
+            <Container>
+                <Header refresh={true}/>
+                <ContentDark>
             <div>
                 <Row className={"search-box"}>
                     <Col span={24}>
@@ -386,6 +392,8 @@ class TeacherHeadImg extends Component {
                     </Col>
                 </Row>
             </div>
+                </ContentDark>
+            </Container>
         )
     }
 }

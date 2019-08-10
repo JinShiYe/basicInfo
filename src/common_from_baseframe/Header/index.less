@@ -1,0 +1,27 @@
+@import '../less/default';
+
+.container {
+  .header {
+    height: @header-height;
+    line-height: @header-height - 1;
+    padding: 0 12px;
+    border-bottom: 1px solid @border-color;
+    background-color: #fff;
+    &-actions {
+      text-align: right;
+      margin: 0 -3px;
+      button {
+        margin: 0 3px;
+      }
+    }
+    .ant-breadcrumb {
+      line-height: @header-height - 1;
+      font-size: 14px;
+
+      .anticon {
+        font-size: inherit;
+        margin-right: 6px;
+      }
+    }
+  }
+}
