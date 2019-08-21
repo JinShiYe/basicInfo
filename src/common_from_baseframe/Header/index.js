@@ -16,6 +16,8 @@ import { Row, Col, Breadcrumb, Icon, Button } from 'antd'
 import { withRouter } from 'react-router-dom'
 
 import './index.less'
+import store from "../../utils/store";
+import storekeyname from "../../utils/storeKeyName";
 
 class Header extends React.Component {
   static propTypes = {
@@ -54,12 +56,9 @@ class Header extends React.Component {
     const { breadcrumbs: stateBreadcrumbs } = this.state
     let breadcrumbs = []
 
-    if (typeof propBreadcrumbs === 'function') {
-      breadcrumbs = propBreadcrumbs(stateBreadcrumbs)
-    } else {
-      breadcrumbs = propBreadcrumbs || stateBreadcrumbs
-    }
-
+    console.log(breadcrumbs);
+    let breadcrumbss=store.get(storekeyname.BREADCRUMBS, breadcrumbs);
+    breadcrumbs=breadcrumbss.split(",");
     return (
       <Row className="header">
         <Col span={12}>

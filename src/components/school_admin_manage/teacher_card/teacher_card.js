@@ -419,30 +419,10 @@ class TeacherCard extends Component {
         //     })
         // })
 
-        if(storekeyname.testType===1){
-            let that=this;
-            window.addEventListener('message', function(ev) {
-                let data=ev.data.cache;
-                if(data){
-                    let personal=JSON.parse(data);
-                    console.log("personal:"+JSON.stringify(personal))
-                    let utoken=personal.access_token;
-                    store.set(storekeyname.TOKEN, utoken);
-                    store.set(storekeyname.PERSONALINFO, personal);
-                    that.getPermission(()=>{})
-                    that.getCardType(()=>{
-                        that.getTableData();
-                    })
-                }else{
-
-                }
-            }, false);
-        }else if(storekeyname.testType===0){
             this.getPermission(()=>{})
             this.getCardType(()=>{
                 this.getTableData();
             })
-        }
 
     }
 

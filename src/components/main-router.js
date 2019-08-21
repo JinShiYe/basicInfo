@@ -34,36 +34,6 @@ class MainRouter extends Component {
         super(props)
     }
 
-
-    componentWillMount() {
-        // let search=myUtils.getUrlSearch();
-        // let utoken= "";
-        // if(search){
-        //     utoken=search.access_token;
-        //     store.set(storekeyname.TOKEN, utoken);
-        // }else{
-        //     utoken="ZDM4ZjQ5YjItZmUzYi00Y2U0LTllYjktMTcyNTE5ZTg4ZDM4";
-        //     store.set(storekeyname.TOKEN, utoken);
-        // }
-        // http://139.129.252.49:8080/support/#/error/0006
-        window.addEventListener('message', function(ev) {
-            let data=ev.data.cache;
-            if(data){
-                let personal=JSON.parse(data);
-                console.log("personal:"+JSON.stringify(personal))
-            }
-        }, false);
-        if(storekeyname.testType===0){
-            let personal =
-                    {"access_token":"ODk2M2NiZWEtYjM5MS00YmYyLTk1NTItYzAzY2RhOTZhNGVm","id":null,"img_url":"http://qn-educds.jiaobaowang.net/xiaoxuntong/notice/1..关联学生标注.png","login_name":"zxxadmin","platform_code":"PT0001","platform_name":"中小学平台","sex":0,"type_code":"YHLX0001","app_code":"support#","unit_code":"-1","system_url":"http://localhost:3000","error_page_url":"http://localhost:3000/#/error/","modifyFlag":999}
-                ;
-            let utoken=personal.access_token;
-            store.set(storekeyname.TOKEN, utoken);
-            store.set(storekeyname.PERSONALINFO, personal);
-        }
-    }
-
-
     render() {
         return (
             <ConfigProvider locale={zhCN}>

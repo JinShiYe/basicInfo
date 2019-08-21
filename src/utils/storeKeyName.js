@@ -3,13 +3,14 @@ import React from "react";
 const key =1;
 //公共参数
 const storeKeyName={
-    build:"debug",//是否console.log  单独测试( debug )：true  发布联调( joint )：true  正式发布( release )：false
+    build:"release",//是否console.log  单独测试( debug )：true  发布联调( joint )：true  正式发布( release )：false
     timeout:15*1000,//post 连接超时时间
     sha1key : "jsy309",//sha1 加密的秘钥
     PERSONALINFO :'personInfo_notice', //个人信息，登录成功后返回值
     TOKEN:'token',//从框架URL 得到的token
     PERMISSIONSWHYNOTALLOW:'permissionsWHY',//权限 存储的变量名 得到的是个msp string 需转换为json
     PROVINCE_CITY_AREA:'province_city_area',//省市区json
+    BREADCRUMBS:'breadcrumbs',//面包屑
     //权限
     //统一信息
     common_add:"Baseinfo:add",//添加
