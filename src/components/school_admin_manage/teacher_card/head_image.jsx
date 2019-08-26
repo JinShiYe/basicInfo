@@ -73,6 +73,7 @@ class PicturesWall extends React.Component {
                 fileList: fileList
             }))
         } else {
+            this.props.onChangeImg('');
             message.error(jsonStr.msg);
             return false
         }
@@ -90,6 +91,10 @@ class PicturesWall extends React.Component {
     //文件上传 头像
     onUploadImg=()=>{
         let that=this;
+        if(!this.props.rowData.isNewHead){
+            callback({success:false,msg:'请重新选择图片',addr:''})
+            return
+        }
         if(this.state.canUpload&&this.props.rowData.isNewHead){
             this.setState({
                 canUpload:false,

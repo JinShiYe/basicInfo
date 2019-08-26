@@ -220,7 +220,6 @@ class StudentHeadImg extends Component {
 
             school_id:personal.unit_code,
         };
-        console.log("liushuai:"+JSON.stringify(paramsUserInfo))
         myUtils.post(1, "HrStuVCardP", paramsUserInfo, res => {
             console.log(JSON.stringify(res))
             if (res.code == 0) {
@@ -312,10 +311,12 @@ class StudentHeadImg extends Component {
     };
 
     onChangeImg=previewImage=>{
-        let rowData=this.state.rowData;
-        rowData.previewImg=previewImage;
-        rowData.isNewHead=true;
-        this.setState({rowData})
+        if(previewImage!==''){
+            let rowData=this.state.rowData;
+            rowData.previewImg=previewImage;
+            rowData.isNewHead=true;
+            this.setState({rowData})
+        }
     }
 
     //获取学校年级班级数据

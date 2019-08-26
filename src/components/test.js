@@ -18,13 +18,6 @@ class Test extends Component {
         return (
             <div>
                 <br/><br/><br/>
-                <Input.Search
-                    placeholder="token"
-                    enterButton="保存"
-                    size="large"
-                    style={{width:350}}
-                    onSearch={this.saveToken}
-                />
                 <br/><br/><br/>
                 <Link to={`/basic_info`}>
                     <Button className="create-notice-btn" type="primary" icon="form">基础信息</Button>

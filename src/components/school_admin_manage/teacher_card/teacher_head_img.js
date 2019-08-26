@@ -247,10 +247,12 @@ class TeacherHeadImg extends Component {
     };
 
     onChangeImg=previewImage=>{
-       let rowData=this.state.rowData;
-       rowData.previewImg=previewImage;
-       rowData.isNewHead=true;
-       this.setState({rowData})
+        if(previewImage!==''){
+            let rowData=this.state.rowData;
+            rowData.previewImg=previewImage;
+            rowData.isNewHead=true;
+            this.setState({rowData})
+        }
     }
 
     //刷新表格
