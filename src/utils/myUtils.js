@@ -4,8 +4,7 @@ import {HmacSHA1, enc} from 'crypto-js';
 import uuid from 'node-uuid';
 import RSAKey from './encrypt/rsa'
 import desEncrypt from "./encrypt/des";
-import store from "./store";
-import {message} from "antd";
+
 const myUtils = {
     // 获取url params参数
     getUrlSearch: () => {
@@ -27,19 +26,9 @@ const myUtils = {
         return obj;
     },
     // POST 请求公共方法
-    post: (flag, requestUrl, params, callback) => {
+    post: (requestUrl, params, callback) => {
         axios.defaults.timeout = storekeyname.timeout;
         axios.defaults.headers = {'Content-type': 'application/json'}
-        let url = "";
-        if (flag == 0) {
-            url = storekeyname.INTERFACEZENG + requestUrl;
-        }else if (flag == 1) {
-            url = storekeyname.INTERFACEGU + requestUrl;
-        }else if (flag == 2) {
-            url = storekeyname.INTERFACEMENG + requestUrl;
-        }else {
-            url = requestUrl;
-        }
         let noNullObj={};
         Object.keys(params).forEach(function(key){
             if(!(params[key]==="" || params[key]===null)){
@@ -47,22 +36,23 @@ const myUtils = {
             }
         });
         let signTemp = myUtils.sortParams(noNullObj);
-        console.log("noNullObj sign: %c \n" + JSON.stringify(noNullObj),"color:#ff0000")
         let signT = HmacSHA1(signTemp, storekeyname.sha1key).toString(enc.Base64);
         params.sign = signT;
         let data=params;
-        console.log("requestUrl: %c \n" + url,"color:#fff")
+        console.log("noNullObj sign: %c \n" + JSON.stringify(noNullObj),"color:#ff0000")
+        console.log("requestUrl: %c \n" + requestUrl,"color:#fff")
         console.log("requestParams: %c \n" + JSON.stringify(params),"color:#ff0000")
         axios({
-            url: url,
+            url: requestUrl,
             method: 'post',
             data: data,
         }).then(function (res) {
-            // if (res.data.code === 'sup_0006') {
-            //     window.location.href = "http://192.168.1.114:3000/#/error/0006"
-            // }else{
+            console.log(res);
+            if (res.data.code === '0006') {
+                window.location.href = storekeyname.ERROR_PAGE_URL + '0006'
+            }else{
                 callback(res.data);
-            // }
+            }
         }).catch(function (error) {
             console.log(error)
             let res ={

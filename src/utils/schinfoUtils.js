@@ -13,7 +13,7 @@ let getTableData=(interfaceName,that,pagesize,page)=>{
         pageindex:page,
         access_token: utoken,
     };
-    myUtils.post(1, interfaceName, params, res => {
+    myUtils.post(storekeyname.INTERFACEGU+ interfaceName, params, res => {
         console.log("res:"+JSON.stringify(res))
         if(res.code==0){
             let datas=[];
@@ -44,7 +44,7 @@ let add_editData=(interfaceName,requestData,callback)=>{
     requestData.platform_code=personal.platform_code;
     requestData.app_code=personal.app_code;
     requestData.access_token=utoken;
-    myUtils.post(1, interfaceName, requestData, res => {
+    myUtils.post(storekeyname.INTERFACEGU+ interfaceName, requestData, res => {
         console.log("res:"+JSON.stringify(res))
         if(res.code==0){
             message.success(res.msg)

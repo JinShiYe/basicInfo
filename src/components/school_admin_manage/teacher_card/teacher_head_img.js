@@ -104,26 +104,6 @@ class TeacherHeadImg extends Component {
         }
     }
 
-    //获取用户信息
-    // getPersonalInfo=(callback)=>{
-    //     let utoken =store.get(storekeyname.TOKEN);
-    //     let paramsUserInfo = {
-    //         access_token: utoken,
-    //     };
-    //     myUtils.post(0, "api/user/currentUserInfo", paramsUserInfo, res => {
-    //         console.log(JSON.stringify(res))
-    //         if (res.code == 0) {
-    //             let personal = res.data;
-    //             if(personal.app_code==""){
-    //                 personal.app_code="aaabbbccc"
-    //             }
-    //             store.set(storekeyname.PERSONALINFO, personal);
-    //             callback();
-    //         }else{
-    //             message.error(res.msg)
-    //         }
-    //     });
-    // }
 
     //获取默认表格数据
     getTableData=(searchData,page)=>{
@@ -158,7 +138,7 @@ class TeacherHeadImg extends Component {
 
             school_id:personal.unit_code,
         };
-        myUtils.post(1, "HrTecVCardP", paramsUserInfo, res => {
+        myUtils.post(storekeyname.INTERFACEGU+"HrTecVCardP", paramsUserInfo, res => {
             console.log(JSON.stringify(res))
             if (res.code == 0) {
                 let data=[];
@@ -211,7 +191,7 @@ class TeacherHeadImg extends Component {
             access_token: utoken,
             isimg:1
         };
-        myUtils.post(1, "SysMcType", paramsUserInfo, res => {
+        myUtils.post(storekeyname.INTERFACEGU+"SysMcType", paramsUserInfo, res => {
             console.log(JSON.stringify(res))
             if (res.code == 0) {
                 let cardType = res.data.list;
@@ -286,7 +266,7 @@ class TeacherHeadImg extends Component {
             access: access.join(","), //权限符，需要判断权限的权限符，多个则用逗号拼接
             access_token: utoken //用户令牌
         };
-        myUtils.post(0, "api/acl/permissionByPosition", paramsPermissions, res => {
+        myUtils.post(storekeyname.INTERFACEZENG+"api/acl/permissionByPosition", paramsPermissions, res => {
             console.log(JSON.stringify(res))
             if (res.code == 0) {
                 let rspList = res.data.split(",");

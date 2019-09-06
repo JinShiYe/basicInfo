@@ -92,7 +92,7 @@ class PicturesWall extends React.Component {
     onUploadImg=()=>{
         let that=this;
         if(!this.props.rowData.isNewHead){
-            callback({success:false,msg:'请重新选择图片',addr:''})
+            message.warn('请重新选择图片')
             return
         }
         if(this.state.canUpload&&this.props.rowData.isNewHead){
@@ -140,7 +140,7 @@ class PicturesWall extends React.Component {
                                     cardtp:parseInt(rowData.cardtp),
                                 }
                                 console.log(JSON.stringify(comData1))
-                                myUtils.post(1, "HrTecVCardAorE", comData1, res => {
+                                myUtils.post(storekeyname.INTERFACEGU+"HrTecVCardAorE", comData1, res => {
                                     console.log(JSON.stringify(res))
                                     if (res.code == 0) {
                                         that.props.onRefreshTable();

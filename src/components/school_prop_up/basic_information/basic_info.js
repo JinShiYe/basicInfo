@@ -134,26 +134,6 @@ class BasicInfo extends Component {
             total:0,//数据总数
         }
     }
-    //获取个人信息
-    // getPersionalInfo=(callback)=>{
-    //     let utoken =store.get(storekeyname.TOKEN);
-    //     let paramsUserInfo = {
-    //         access_token: utoken,
-    //     };
-    //     myUtils.post(0, "api/user/currentUserInfo", paramsUserInfo, res => {
-    //         console.log(JSON.stringify(res))
-    //         if (res.code == 0) {
-    //             let personal = res.data;
-    //             if(personal.app_code==""){
-    //                 personal.app_code="aaabbbccc"
-    //             }
-    //             store.set(storekeyname.PERSONALINFO, personal);
-    //             callback();
-    //         }else{
-    //             message.error(res.msg)
-    //         }
-    //     });
-    // }
     //获取省市区数据
     getArea=()=>{
         let list= store.get(storekeyname.PROVINCE_CITY_AREA);
@@ -171,7 +151,7 @@ class BasicInfo extends Component {
                 areano:"",
                 access_token: utoken,
             };
-            myUtils.post(1, "SysArea", paramsUserInfo, res => {
+            myUtils.post(storekeyname.INTERFACEGU+"SysArea", paramsUserInfo, res => {
                 if (res.code == 0) {
                     let list =res.data.list;
                     store.set(storekeyname.PROVINCE_CITY_AREA,list);
@@ -245,7 +225,7 @@ class BasicInfo extends Component {
             access: access.join(","), //权限符，需要判断权限的权限符，多个则用逗号拼接
             access_token: utoken //用户令牌
         };
-        myUtils.post(0, "api/acl/permissionByPosition", paramsPermissions, res => {
+        myUtils.post(storekeyname.INTERFACEZENG+"api/acl/permissionByPosition", paramsPermissions, res => {
             console.log(JSON.stringify(res))
             if (res.code == 0) {
                 let rspList = res.data.split(",");

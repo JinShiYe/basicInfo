@@ -25,6 +25,7 @@ import TeacherCard from './school_admin_manage/teacher_card/teacher_card'
 import TeacherHeadImg from './school_admin_manage/teacher_card/teacher_head_img'
 import StudentCard from './school_admin_manage/student_card/student_card'
 import StudentHeadImg from './school_admin_manage/student_card/student_head_img'
+import Error from './errors'
 import Test from './test'
 import zhCN from 'antd/lib/locale/zh_CN';
 //路由
@@ -59,6 +60,9 @@ class MainRouter extends Component {
                     <Route  path='/teacher_head_img' component={TeacherHeadImg}/>{/*教师人脸头像入*/}
                     <Route  path='/student_card' component={StudentCard}/>{/*学生卡录入*/}
                     <Route  path='/student_head_img' component={StudentHeadImg}/>{/*学生人脸头像入*/}
+                    <Route  path='/error/:code' component={Error}/>{/*错误页*/}
+
+
                     {/*</Switch>*/}
                 </HashRouter>
             </ConfigProvider>

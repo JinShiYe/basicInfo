@@ -10,7 +10,7 @@ import store from "./utils/store";
 
 if(storekeyname.testType===0){
     let personal =
-        {"access_token":"Nzg3OTFlNTMtNjZhMy00YWEwLTlmYWYtMDc4MzJlN2Q2NDIz","id":null,"img_url":"http://qn-educds.jiaobaowang.net/xiaoxuntong/notice/1..关联学生标注.png","login_name":"zxxadmin","platform_code":"PT0001","platform_name":"中小学平台","sex":0,"type_code":"YHLX0001","app_code":"support#","unit_code":"-1","system_url":"http://localhost:3000","error_page_url":"http://localhost:3000/#/error/","modifyFlag":999}
+        {"access_token":"YTk3OTk3MWMtMDFjZS00YzU2LWJkNTUtYWVjMThlNWJiYTlh","id":null,"img_url":"http://qn-educds.jiaobaowang.net/xiaoxuntong/headimageundefined.png","login_name":"zxxadmin","platform_code":"PT0001","platform_name":"中小学平台","sex":0,"type_code":"YHLX0001","app_code":"support#","unit_code":"-1","system_url":"http://localhost:3000","error_page_url":"http://localhost:3000/#/error/","modifyFlag":999}
     ;
     let utoken=personal.access_token;
     store.set(storekeyname.TOKEN, utoken);

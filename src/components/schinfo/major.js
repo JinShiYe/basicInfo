@@ -292,17 +292,6 @@ class Major extends Component {
     getPermission=()=>{
         let utoken =store.get(storekeyname.TOKEN);
         let personal=store.get(storekeyname.PERSONALINFO);
-        // let paramsUserInfo = {
-        //     access_token: utoken,
-        // };
-        // myUtils.post(0, "api/user/currentUserInfo", paramsUserInfo, res => {
-        //     console.log(JSON.stringify(res))
-        //     if (res.code == 0) {
-        //         let personal = res.data;
-        //         if(personal.app_code==""){
-        //             personal.app_code="aaabbbccc"
-        //         }
-        //         store.set(storekeyname.PERSONALINFO, personal);
         //1.9: 查询权限符（前端调用，判断按钮是否显示）
         let permissions = [
             storekeyname.common_add, storekeyname.common_edit,
@@ -321,7 +310,7 @@ class Major extends Component {
             access: access.join(","), //权限符，需要判断权限的权限符，多个则用逗号拼接
             access_token: utoken //用户令牌
         };
-        myUtils.post(0, "api/acl/permissionByPosition", paramsPermissions, res => {
+        myUtils.post(storekeyname.INTERFACEZENG+"api/acl/permissionByPosition", paramsPermissions, res => {
             console.log(JSON.stringify(res))
             if (res.code == 0) {
                 let rspList = res.data.split(",");

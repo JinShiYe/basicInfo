@@ -56,7 +56,6 @@ class Header extends React.Component {
     const { breadcrumbs: stateBreadcrumbs } = this.state
     let breadcrumbs = []
 
-    console.log(breadcrumbs);
     let breadcrumbss=store.get(storekeyname.BREADCRUMBS, breadcrumbs);
     breadcrumbs=breadcrumbss.split(",");
     return (
