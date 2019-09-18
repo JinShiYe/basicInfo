@@ -61,11 +61,11 @@ class AdvancedSearchForm extends React.Component {
             })
         }
         return (
-            <div className='divSearch'>
+            <div className='common-search-form'>
                 <Form onSubmit={this.handleSearch} layout="inline" >
                     <Form.Item label={"省"}>
                         {getFieldDecorator("province", {
-                            initialValue:-1,
+                            initialValue:'000000',
                         })(
                             <Select onChange={this.handleChangeProvince}>
                                 {provOptions}
@@ -74,7 +74,7 @@ class AdvancedSearchForm extends React.Component {
                     </Form.Item>
                     <Form.Item label={"市"}>
                         {getFieldDecorator("city", {
-                            initialValue:-1,
+                            initialValue:'000000',
                         })(
                             <Select onChange={this.handleChangeCity}>
                                 {cityOptions}
@@ -83,7 +83,7 @@ class AdvancedSearchForm extends React.Component {
                     </Form.Item>
                     <Form.Item label={"区/县"}>
                         {getFieldDecorator("area", {
-                            initialValue:-1,
+                            initialValue:'000000',
                         })(
                             <Select>
                                 {areaOptions}
@@ -164,15 +164,15 @@ class BasicInfo extends Component {
     }
     //设置默认的省市县数据
     setDefaultProvinceData=(list)=>{
-        let provList=[{code:-1,name:"全部省"}]
+        let provList=[{code:'000000',name:"全部省"}]
         list.map(item=>{
             let code =item.code;
             if(code.indexOf("0000")!=-1){
                 provList.push(item);
             }
         })
-        let cityList=[{code:-1,name:"全部城市"}];
-        let areaList=[{code:-1,name:"全部县/区"}];
+        let cityList=[{code:'000000',name:"全部城市"}];
+        let areaList=[{code:'000000',name:"全部县/区"}];
         this.setState({
             proList:list,
             province:provList,
@@ -182,12 +182,23 @@ class BasicInfo extends Component {
     }
     //获取列表数据
     getTableData=(searchData,page)=>{
-        if(searchData==undefined){
-            searchData=this.state.searchData;
-        }
-        if(page===undefined){
-            page=this.state.pageindex;
-        }
+
+        let utoken =store.get(storekeyname.TOKEN);
+        let paramsUserInfo = {
+            pageNumber:page,
+            pageSize: this.state.pagesize,
+            keyword:searchData.keywords,
+            access_token: utoken,
+        };
+        myUtils.post(storekeyname.INTERFACEMENG+"api/sch/page", paramsUserInfo, res => {
+            if (res.code == 0) {
+                let list =res.data.list;
+                store.set(storekeyname.PROVINCE_CITY_AREA,list);
+                this.setDefaultProvinceData(list)
+            }else{
+                message.error(res.msg)
+            }
+        });
 
         let resData={"totalRow":12,"pageNumber":1,"lastPage":true,"firstPage":true,"totalPage":1,"pageSize":20,"list":[{"tempcolumn":0,"edit":true,"open_month":1,"name":"南宁二中","sort":0,"id":100000,"area_id":450100,"type":1,"delete":true,"temprownumber":1,"status":1},{"tempcolumn":0,"edit":true,"open_month":9,"name":"天桥一中","sort":0,"id":100008,"area_id":370105,"type":1,"delete":true,"temprownumber":2,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"中小学服务学校","sort":0,"id":100010,"area_id":0,"type":0,"delete":true,"temprownumber":3,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"济南第十三中学","sort":0,"id":100011,"area_id":0,"type":0,"delete":true,"temprownumber":4,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"实验中学","sort":0,"id":100012,"area_id":0,"type":0,"delete":true,"temprownumber":5,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"试验","sort":0,"id":100013,"area_id":0,"type":0,"delete":true,"temprownumber":6,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"测试学校123","sort":0,"id":100016,"area_id":0,"type":0,"delete":true,"temprownumber":7,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"PT0001","sort":0,"id":100029,"area_id":0,"type":0,"delete":true,"temprownumber":8,"status":0},{"tempcolumn":0,"edit":true,"open_month":null,"name":"南宁三中（新建测试）","sort":0,"id":100030,"area_id":0,"type":0,"delete":true,"temprownumber":9,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"四中","sort":0,"id":100032,"area_id":0,"type":0,"delete":true,"temprownumber":10,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"新学校测试","sort":0,"id":100033,"area_id":0,"type":0,"delete":true,"temprownumber":11,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"八中","sort":0,"id":100034,"area_id":0,"type":0,"delete":true,"temprownumber":12,"status":1}]}
         let datas=resData.list;
@@ -251,7 +262,8 @@ class BasicInfo extends Component {
     onSelectChange=(id,type)=>{
         let proList=this.state.proList;
         if(type==="province"){//根据省代码获取市列表
-            let cityList=[{code:-1,name:"全部城市"}]
+            let cityList=[{code:'000000',name:"全部城市"}]
+            console.log(id);
             let selectId=id.substr(0,2)
             proList.map(item=>{
                 let code=item.code;
@@ -262,13 +274,13 @@ class BasicInfo extends Component {
                     cityList.push(item)
                 }
             })
-            let areaList=[{code:-1,name:"全部县/区"}]
+            let areaList=[{code:'000000',name:"全部县/区"}]
             this.setState({
                 city:cityList,
                 area:areaList
             })
         }else if(type==="city"){//根据市代码获取区县列表
-            let areaList=[{code:-1,name:"全部县/区"}]
+            let areaList=[{code:'000000',name:"全部县/区"}]
             let selectId=id.substr(0,4)
             proList.map(item=>{
                 let code=item.code;
@@ -305,7 +317,7 @@ class BasicInfo extends Component {
         // });
             this.getArea();
             // this.getPermission(()=>{})
-            this.getTableData();
+            this.getTableData(this.state.searchData,this.state.pageindex);
     }
 
     render() {
@@ -330,8 +342,7 @@ class BasicInfo extends Component {
                            pagination={{
                                current:this.state.pageindex,
                                onChange: page => {
-                                   let searchData=this.state.searchData;
-                                   this.getTableData(searchData,page);
+                                   this.getTableData(this.state.searchData,page);
                                },
                                pageSize: this.state.pagesize,
                                hideOnSinglePage:true,

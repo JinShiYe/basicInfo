@@ -40,7 +40,7 @@ class AdvancedSearchForm extends React.Component {
         })
 
         return (
-            <div className='divSearch'>
+            <div className='common-search-form'>
                 <Form layout="inline" onSubmit={this.handleSearch}>
                     <Form.Item label={"是否有卡"}>
                         {getFieldDecorator("haveCard", {
@@ -109,13 +109,6 @@ class TeacherHeadImg extends Component {
     getTableData=(searchData,page)=>{
         let utoken =store.get(storekeyname.TOKEN);
         let personal=store.get(storekeyname.PERSONALINFO);
-
-        if(searchData===undefined){
-            searchData=this.state.searchData;
-        }
-        if(page===undefined){
-            page=this.state.pageindex;
-        }
 
         this.setState({
             data:[],
@@ -240,8 +233,7 @@ class TeacherHeadImg extends Component {
         this.setState({
             visible_edit: false,
         });
-        let searchData=this.state.searchData;
-        this.getTableData(searchData,this.state.pageindex);
+        this.getTableData(this.state.searchData,this.state.pageindex);
     }
 
     //获取权限
@@ -302,7 +294,7 @@ class TeacherHeadImg extends Component {
         // })
             this.getPermission(()=>{})
             this.getCardType(()=>{
-                this.getTableData();
+                this.getTableData(this.state.searchData,this.state.pageindex);
             })
     }
 
@@ -330,8 +322,7 @@ class TeacherHeadImg extends Component {
                                pagination={{
                                    current:this.state.pageindex,
                                    onChange: page => {
-                                       let searchData=this.state.searchData;
-                                       this.getTableData(searchData,page);
+                                       this.getTableData(this.state.searchData,page);
                                    },
                                    pageSize: this.state.pagesize,
                                    hideOnSinglePage:true,

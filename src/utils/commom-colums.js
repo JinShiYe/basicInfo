@@ -16,7 +16,7 @@ import {Button, Input, Avatar, Icon} from "antd";
                         title: '学段编号',
                         key: 'code',
                         dataIndex: 'code',
-                        width: 30,
+                        width: 50,
                     },
                     {
                         title: '学段名称',
@@ -29,7 +29,6 @@ import {Button, Input, Avatar, Icon} from "antd";
                         key: 'pyear',
                         dataIndex: 'pyear',
                         width: 100,
-                        align:"center",
                         render: (pyear) => (<span>{pyear} 年制</span>),
                     },
                     {
@@ -425,7 +424,8 @@ import {Button, Input, Avatar, Icon} from "antd";
                         align:"center",
                         render: (record) => {
                             // return <Button type="primary" onClick={()=>that.showModal_edit(record)}>修改</Button>
-                            return  <Icon type="form" style={{color:"#1890ff"}} onClick={()=>that.showModal_edit(record)}/>
+                            return  null
+                                // <Icon type="form" style={{color:"#1890ff"}} onClick={()=>that.showModal_edit(record)}/>
                         }
                     }
                     base_info.push(col);

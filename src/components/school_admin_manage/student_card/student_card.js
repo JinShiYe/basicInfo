@@ -82,7 +82,7 @@ class AdvancedSearchForm extends React.Component {
             addBtn=<Button type="primary" style={{ marginLeft: 8 }} onClick={this.props.onSubmitRecordPL}>批量保存</Button>
         }
         return (
-            <div className='divSearch'>
+            <div className='common-search-form'>
                 <Form layout="inline" onSubmit={this.handleSearch}>
                     <Form.Item label={"年级"} >
                         {getFieldDecorator("grd_id", {
@@ -216,12 +216,6 @@ class StudentCard extends Component {
     getTableData=(searchData,page)=>{
         let utoken =store.get(storekeyname.TOKEN);
         let personal=store.get(storekeyname.PERSONALINFO);
-        if(searchData===undefined){
-            searchData=this.state.searchData;
-        }
-        if(page===undefined){
-            page=this.state.pageindex;
-        }
 
         this.setState({
             data:[],
@@ -451,9 +445,7 @@ class StudentCard extends Component {
             console.log(res)
             if (res.code == 0) {
                 if(type==="PL"){
-                    let searchData=this.state.searchData;
-                    let page=this.state.pageindex;
-                    this.getTableData(searchData,page);
+                    this.getTableData(this.state.searchData,this.state.pageindex);
                 }else if(type==="DG"){
                     let data =this.state.data;
                     let cardid=rowdata.cardid;
@@ -517,7 +509,7 @@ class StudentCard extends Component {
             this.getGrdCls(()=>{})
             this.getPermission(()=>{})
             this.getCardType(()=>{
-                this.getTableData();
+                this.getTableData(this.state.searchData,this.state.pageindex);
             })
     }
 
@@ -552,8 +544,7 @@ class StudentCard extends Component {
                                            }
                                        })
                                        if(canNext){
-                                           let searchData=this.state.searchData;
-                                           this.getTableData(searchData,page);
+                                           this.getTableData(this.state.searchData,page);
                                        }else{
                                            message.error("请先保存当前页面卡地址")
                                        }

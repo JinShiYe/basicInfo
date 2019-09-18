@@ -4,6 +4,7 @@ import {HmacSHA1, enc} from 'crypto-js';
 import uuid from 'node-uuid';
 import RSAKey from './encrypt/rsa'
 import desEncrypt from "./encrypt/des";
+import store from "./store";
 
 const myUtils = {
     // 获取url params参数
@@ -47,9 +48,10 @@ const myUtils = {
             method: 'post',
             data: data,
         }).then(function (res) {
-            console.log(res);
-            if (res.data.code === '0006') {
-                window.location.href = storekeyname.ERROR_PAGE_URL + '0006'
+            if (res.data.code&&res.data.code.indexOf('0006') !== -1) {
+                let error_page_url= store.get(storekeyname.PERSONALINFO).error_page_url;
+                window.location.href = error_page_url + '0006'
+                // callback(res.data);
             }else{
                 callback(res.data);
             }

@@ -31,6 +31,10 @@ class AddComponent extends Component {
                 let grdStr=[];
                 for (let i = 0; i < num; i++) {
                     let key='grd'+i;
+                    if(values[key].indexOf(",")!==-1){
+                        message.error("禁止输入英文逗号")
+                        return -1;
+                    }
                     grdStr.push(values[key])
                 }
                 let params = {
@@ -69,13 +73,6 @@ class AddComponent extends Component {
         this.setState({grdNum:0})
         this.props.form.resetFields();
         this.props.onCancelModel();
-    }
-    //检察是否含有英文“ ,”
-    checkDH=(rule, value, callback)=>{
-        if(value.indexOf(",")!=-1){
-            callback(-1)
-        }
-        callback()
     }
 
     getChinese=i=>{
@@ -142,13 +139,9 @@ class AddComponent extends Component {
                 {getFieldDecorator('grd'+i, {
                     rules: [
                         {
-                            required: true,
-                            message: '请填写年级名称',
+                            required:true,
+                            message: '请输入年级名称',
                         },
-                        {
-                            validator:this.checkDH,
-                            message: '禁止输入英文逗号',
-                        }
                     ],
                 })(<Input />)}
             </Form.Item>
@@ -317,6 +310,10 @@ class EditComponent extends Component {
                 let grdStr=[];
                 for (let i = 0; i < num; i++) {
                     let key='grd'+i;
+                    if(values[key].indexOf(",")!==-1){
+                        message.error("禁止输入英文逗号")
+                        return -1;
+                    }
                     grdStr.push(values[key])
                 }
                 let params = {
@@ -399,7 +396,7 @@ class EditComponent extends Component {
             if(i==this.state.grdNum-1){
                 style={marginBottom:80}
             }
-            let domObj=<Form.Item label={this.getChinese(i)+"年级"} key={i} hasFeedback style={style}>
+            let domObj=<Form.Item label={this.getChinese(i)+"年级"} key={i}  style={style}>
                 {getFieldDecorator('grd'+i, {
                     initialValue:this.state.names[i],
                     rules: [
@@ -419,7 +416,7 @@ class EditComponent extends Component {
 
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-                <Form.Item label="学段名称" hasFeedback>
+                <Form.Item label="学段名称" >
                     {getFieldDecorator('name', {
                         initialValue:name,
                         rules: [
@@ -430,7 +427,7 @@ class EditComponent extends Component {
                         ],
                     })(<Input />)}
                 </Form.Item>
-                <Form.Item label="状态" hasFeedback>
+                <Form.Item label="状态" >
                     {getFieldDecorator('stat', {
                         initialValue:stat,
                         rules: [
@@ -446,7 +443,7 @@ class EditComponent extends Component {
                         </Select>
                     )}
                 </Form.Item>
-                <Form.Item label="学年制" hasFeedback>
+                <Form.Item label="学年制" >
                     {getFieldDecorator('pyear', {
                         initialValue:pyear,
                         rules: [
@@ -642,6 +639,7 @@ class GrdAndCls extends Component {
                             width={520}
                             bodyStyle={{minHeight:275,maxHeight:520,overflow:"auto"}}
                             centered
+                            destroyOnClose={true}
                             onCancel={this.handleCancel_add}
                         >
                             <_AddComponent onCancelModel={this.handleCancel_add} onRefreshTable={this.onRefreshTable}/>
@@ -654,6 +652,7 @@ class GrdAndCls extends Component {
                             width={520}
                             bodyStyle={{minHeight:270,maxHeight:520,overflow:"auto"}}
                             centered
+                            destroyOnClose={true}
                             onCancel={this.handleCancel_edit}
                         >
                             <_EditComponent  onCancelModel={this.handleCancel_edit} onRefreshTable={this.onRefreshTable} rowData={this.state.rowData}/>
