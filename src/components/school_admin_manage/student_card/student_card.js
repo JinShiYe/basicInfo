@@ -281,43 +281,46 @@ class StudentCard extends Component {
             is_finish:0,
             access_token: utoken,
         };
-        myUtils.post(storekeyname.INTERFACEMENG +"api/grd/list", paramsUserInfo, res => {
+        myUtils.post(storekeyname.INTERFACEMENG +"api/grd", paramsUserInfo, res => {
+            console.log("api/grd/list:"+JSON.stringify(res));
             if (res.code == 0) {
-                let grds = res.data;
+                let grds = res.data.list;
                 let grdids=[];
                 grds.map(item=>{
                     grdids.push(item.grdid)
                 })
-                let paramsUserInfo = {
-                    is_finish:0,
-                    grade_ids: grdids.join(","),
-                    access_token: utoken,
-                };
-                myUtils.post(storekeyname.INTERFACEMENG +"api/cls/list", paramsUserInfo, res2 => {
-                    console.log("api/cls/list:"+JSON.stringify(res2))
-                    if (res.code == 0) {
-                        let clss=res2.data;
-                        grds.map(item2=>{
-                            let child=[];
-                            let pgrdid=item2.grdid;
-                            clss.map(itemChild=>{
-                                let grdid=itemChild.grdid;
-                                if(pgrdid===grdid){
-                                    child.push(itemChild)
-                                }
+                if(grds && grds.length>0){
+                    let paramsUserInfo = {
+                        is_finish:0,
+                        grd_codes: grdids.join(","),
+                        access_token: utoken,
+                    };
+                    myUtils.post(storekeyname.INTERFACEMENG +"api/cls", paramsUserInfo, res2 => {
+                        console.log("api/cls/list:"+JSON.stringify(res2))
+                        if (res.code == 0) {
+                            let clss=res2.data.list;
+                            grds.map(item2=>{
+                                let child=[];
+                                let pgrdid=item2.grdid;
+                                clss.map(itemChild=>{
+                                    let grdid=itemChild.grdid;
+                                    if(pgrdid===grdid){
+                                        child.push(itemChild)
+                                    }
+                                })
+                                item2.child=child;
                             })
-                            item2.child=child;
-                        })
-                        console.log(JSON.stringify(grds))
-                        this.setState({
-                            grdAndCls:grds
-                        })
-                        // console.log(JSON.stringify(grds));
-                        callback();
-                    }else{
-                        message.error(res.msg)
-                    }
-                });
+                            console.log(JSON.stringify(grds))
+                            this.setState({
+                                grdAndCls:grds
+                            })
+                            // console.log(JSON.stringify(grds));
+                            callback();
+                        }else{
+                            message.error(res.msg)
+                        }
+                    });
+                }
             }else{
                 message.error(res.msg)
             }
