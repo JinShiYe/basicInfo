@@ -59,7 +59,7 @@ class AdvancedSearchForm extends React.Component {
             options.push(option)
         })
 
-        let grds=this.props.grdClsData;
+        let grds=this.props.grdClsData===undefined?[]:this.props.grdClsData;
         let grdOptions=[];
         if(grds!==undefined){
             let qboption=<Option key={0} value={0}>全部年级</Option>;
