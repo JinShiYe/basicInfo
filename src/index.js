@@ -10,7 +10,7 @@ import store from "./utils/store";
 
 if(storekeyname.build==='debug'){
     let responseData=
-        {"access_token":"MGFiZjk0YWEtMDIyMS00NjAxLThmNDEtYzBhZTBlYzRjN2Vm","max_idle_time_in_seconds":3600,"user":{"user_name":"中小学平台管理员","sex":0,"pid":null,"unit_name":"南宁二中","login_name":"zxxadmin","platform_code":"PT0001","user_code":"1108922281310027776","img_url":"http://qn-educds.jiaobaowang.net/OfficeAutomation/temp/1568251156440_1537231894761c25b2b3cf3.jpg","platform_name":"中小学平台","unit_code":"100000","id":null,"type_code":"YHLX0001","app_code":"support#"}}
+        {"access_token":"M2U5MDJmY2YtNDY3ZS00MTQ0LWJjNWUtY2NlMzY3YzIwNDFj","max_idle_time_in_seconds":3600,"user":{"user_name":"中小学平台管理员","sex":0,"pid":null,"unit_name":"南宁二中","login_name":"zxxadmin","platform_code":"PT0001","user_code":"1108922281310027776","img_url":"http://qn-educds.jiaobaowang.net/OfficeAutomation/temp/1568251156440_1537231894761c25b2b3cf3.jpg","platform_name":"中小学平台","unit_code":"100000","id":null,"type_code":"YHLX0001","app_code":"support#"}}
     let url=window.location.href;
     let arr=url.split("#");
     let system_url='http://localhost:3000/';

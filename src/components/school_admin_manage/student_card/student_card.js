@@ -37,7 +37,7 @@ class AdvancedSearchForm extends React.Component {
         })
         console.log(grdCls)
         grdCls.map(item=>{
-            if(value===item.grdid){
+            if(value===item.grd_code){
                 let clss=item.child;
                 this.setState({
                     clss,
@@ -65,7 +65,7 @@ class AdvancedSearchForm extends React.Component {
             let qboption=<Option key={0} value={0}>全部年级</Option>;
             grdOptions.push(qboption);
             grds.map(item=>{
-                let option=<Option key={item.grdid} value={item.grdid}>{item.grdname}</Option>;
+                let option=<Option key={item.grd_code} value={item.grd_code}>{item.grd_name}</Option>;
                 grdOptions.push(option)
             })
         }
@@ -74,7 +74,7 @@ class AdvancedSearchForm extends React.Component {
         let clsoption=<Option key={0} value={0}>全部班级</Option>;
         clsOptions.push(clsoption);
         clss.map(item=>{
-            let option=<Option key={item.clsid} value={item.clsid}>{item.clsname}</Option>;
+            let option=<Option key={item.cls_code} value={item.cls_code}>{item.cls_name}</Option>;
             clsOptions.push(option)
         })
         let addBtn=null;
@@ -287,7 +287,7 @@ class StudentCard extends Component {
                 let grds = res.data.list;
                 let grdids=[];
                 grds.map(item=>{
-                    grdids.push(item.grdid)
+                    grdids.push(item.grd_code)
                 })
                 if(grds && grds.length>0){
                     let paramsUserInfo = {
@@ -301,9 +301,9 @@ class StudentCard extends Component {
                             let clss=res2.data.list;
                             grds.map(item2=>{
                                 let child=[];
-                                let pgrdid=item2.grdid;
+                                let pgrdid=item2.grd_code;
                                 clss.map(itemChild=>{
-                                    let grdid=itemChild.grdid;
+                                    let grdid=itemChild.grd_code;
                                     if(pgrdid===grdid){
                                         child.push(itemChild)
                                     }
@@ -352,7 +352,7 @@ class StudentCard extends Component {
         myUtils.post(storekeyname.INTERFACEZENG+"api/acl/permissionByPosition", paramsPermissions, res => {
             console.log(JSON.stringify(res))
             if (res.code == 0) {
-                let rspList = res.data.split(",");
+                let rspList = res.data.result.split(",");
                 let permissionsObj = new Map();
                 rspList.map((item, index) => {
                     if (item == 1) {

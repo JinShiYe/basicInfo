@@ -313,7 +313,7 @@ class Major extends Component {
         myUtils.post(storekeyname.INTERFACEZENG+"api/acl/permissionByPosition", paramsPermissions, res => {
             console.log(JSON.stringify(res))
             if (res.code == 0) {
-                let rspList = res.data.split(",");
+                let rspList = res.data.result.split(",");
                 let permissionsObj = new Map();
                 rspList.map((item, index) => {
                     if (item == 1) {
