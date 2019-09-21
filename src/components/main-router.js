@@ -36,11 +36,15 @@ class MainRouter extends Component {
     }
 
     render() {
+        let test=null;
+        if(storekeyname.build==='debug'){
+            test=<Route exact  path='/' component={Test}/>
+        }
         return (
             <ConfigProvider locale={zhCN}>
                 <HashRouter>
                     {/*<Switch>*/}
-                    <Route exact  path='/' component={Test}/>{/*学段及年级*/}
+                    {test}
                     {/*中小学统一信息*/}
                     <Route  path='/grd_cls' component={GrdAndCls}/>{/*学段及年级*/}
                     <Route  path='/college_department' component={CollegeDep}/>{/*院系*/}

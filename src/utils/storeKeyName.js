@@ -2,7 +2,7 @@ import React from "react";
 
 //公共参数
 const storeKeyName={
-    build:"joint",//是否console.log  单独测试( debug )：true  发布联调( joint )：true  正式发布( release )：false            ******************
+    build:"debug",//是否console.log  单独测试( debug )：true  发布联调( joint )：true  正式发布( release )：false            ******************
     INTERFACEZENG:"https://develop.jiaobaowang.net/sup/",//顾工新发接口 单点登录系统接口
     INTERFACEMENG:"http://139.129.252.49:8080/sys_new/",//广西接口 人事系统
     INTERFACEGU : 'https://develop.jiaobaowang.net/baseapi/api/Data/', //顾工 统一信息、中小学校园卡接口
