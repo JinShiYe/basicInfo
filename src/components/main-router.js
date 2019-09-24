@@ -37,8 +37,10 @@ class MainRouter extends Component {
 
     render() {
         let test=null;
+        let red=null;
         if(storekeyname.build==='debug'){
-            test=<Route exact  path='/' component={Test}/>
+            test=<Route exact  path='/login' component={Test}/>
+            red=<Redirect to='/login'/>
         }
         return (
             <ConfigProvider locale={zhCN}>
@@ -65,7 +67,7 @@ class MainRouter extends Component {
                     <Route  path='/student_card' component={StudentCard}/>{/*学生卡录入*/}
                     <Route  path='/student_head_img' component={StudentHeadImg}/>{/*学生人脸头像入*/}
                     <Route  path='/error/:code' component={Error}/>{/*错误页*/}
-
+                    {red}
 
                     {/*</Switch>*/}
                 </HashRouter>

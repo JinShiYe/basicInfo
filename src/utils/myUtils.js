@@ -30,17 +30,17 @@ const myUtils = {
     post: (requestUrl, params, callback) => {
         axios.defaults.timeout = storekeyname.timeout;
         axios.defaults.headers = {'Content-type': 'application/json'}
-        let noNullObj={};
-        Object.keys(params).forEach(function(key){
-            if(!(params[key]==="" || params[key]===null)){
-                noNullObj[key]=params[key];
-            }
-        });
-        let signTemp = myUtils.sortParams(noNullObj);
+        // let noNullObj={};
+        // Object.keys(params).forEach(function(key){
+        //     if(!(params[key]==="" || params[key]===null)){
+        //         noNullObj[key]=params[key];
+        //     }
+        // });
+        let signTemp = myUtils.sortParams(params);
         let signT = HmacSHA1(signTemp, storekeyname.sha1key).toString(enc.Base64);
         params.sign = signT;
         let data=params;
-        console.log("noNullObj sign: %c \n" + JSON.stringify(noNullObj),"color:#ff0000")
+        // console.log("noNullObj sign: %c \n" + JSON.stringify(noNullObj),"color:#ff0000")
         console.log("requestUrl: %c \n" + requestUrl,"color:#fff")
         console.log("requestParams: %c \n" + JSON.stringify(params),"color:#ff0000")
         axios({

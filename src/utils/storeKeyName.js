@@ -2,10 +2,10 @@ import React from "react";
 
 //公共参数
 const storeKeyName={
-    build:"debug",//是否console.log  单独测试( debug )：true  发布联调( joint )：true  正式发布( release )：false            ******************
-    INTERFACEZENG:"https://develop.jiaobaowang.net/sup/",//顾工新发接口 单点登录系统接口
+    build:"joint",//是否console.log  单独测试( debug )：true  发布联调( joint )：true  正式发布( release )：false            ******************
+    INTERFACEZENG:"http://develop.jiaobaowang.net/sup/",//顾工新发接口 单点登录系统接口
     INTERFACEMENG:"http://139.129.252.49:8080/sys_new/",//广西接口 人事系统
-    INTERFACEGU : 'https://develop.jiaobaowang.net/baseapi/api/Data/', //顾工 统一信息、中小学校园卡接口
+    INTERFACEGU : 'http://develop.jiaobaowang.net/baseapi/api/Data/', //顾工 统一信息、中小学校园卡接口
     QNGETUPLOADTOKEN :"https://jbyc.jiaobaowang.net:8504/Api/QiNiu/GetUpLoadToKen",//七牛token获取接口
 
 
@@ -29,6 +29,9 @@ const storeKeyName={
     teacher_card_edit:"School:TeacherCard:edit",
     teacher_card_delete:"School:TeacherCard:delete",
     //中小学支撑
+    schoolInfo_baseInfo_add:'SchoolInfo:BaseInfo:add',//
+    schoolInfo_baseInfo_edit:'SchoolInfo:BaseInfo:edit',//
+    schoolInfo_baseInfo_delete:'SchoolInfo:BaseInfo:delete',//
 
     //七牛
     QINIUAPPID:4,//七牛APPID 由管理员分配

@@ -302,9 +302,9 @@ class TeachingEdition extends Component {
         let paramsPermissions = {
             platform_code: personal.platform_code, //平台代码
             app_code: personal.app_code, //应用系统代码
-            grd_id: 0, //年级id，全部年级则传-1,不需要判断年级则传0
-            cls_id: 0, //班级id，年级下全部班级则传-1，不需要判断班级则传0
-            stu_id: 0, //学生id，全部学生则传-1，不需要判断学生则传0
+            grd_code: 0, //年级id，全部年级则传-1,不需要判断年级则传0
+            cls_code: 0, //班级id，年级下全部班级则传-1，不需要判断班级则传0
+            stu_code: 0, //学生id，全部学生则传-1，不需要判断学生则传0
             sub_code: 0, //科目代码，全部科目则传“-1”，不需要判断年级则传“0”
             access: access.join(","), //权限符，需要判断权限的权限符，多个则用逗号拼接
             access_token: utoken //用户令牌

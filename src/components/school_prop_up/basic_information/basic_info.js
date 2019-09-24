@@ -118,12 +118,13 @@ class BasicInfo extends Component {
         this.state = {
             data: [],//列表数据
             loading:true,//正在加载中
-            add_edit:true,//显示编辑权限
+            add:false,//添加权限
+            edit:false,//编辑权限
             searchData:{
                 province:0,//省
                 city:0,//市
                 area:0,//县/区
-                keywords:"",//年级ID
+                keywords:"",//
             },//搜索框数据
             proList:[],//省市县区所有数据，传过来是平级的
             province:[],//省 列表
@@ -185,53 +186,46 @@ class BasicInfo extends Component {
 
         let utoken =store.get(storekeyname.TOKEN);
         let paramsUserInfo = {
-            pageNumber:page,
-            pageSize: this.state.pagesize,
-            keyword:searchData.keywords,
             access_token: utoken,
+            keyword:searchData.keywords,
+            page_number:page,
+            page_size: this.state.pagesize,
         };
         myUtils.post(storekeyname.INTERFACEMENG+"api/sch/page", paramsUserInfo, res => {
+            console.log(res);
             if (res.code == 0) {
-                let list =res.data.list;
-                store.set(storekeyname.PROVINCE_CITY_AREA,list);
-                this.setDefaultProvinceData(list)
+                let data =res.data.list;
+                console.log(JSON.stringify(data));
+                this.setState({
+                    loading:false,
+                    data,
+                    total:res.totalRow
+                })
             }else{
                 message.error(res.msg)
             }
         });
 
-        let resData={"totalRow":12,"pageNumber":1,"lastPage":true,"firstPage":true,"totalPage":1,"pageSize":20,"list":[{"tempcolumn":0,"edit":true,"open_month":1,"name":"南宁二中","sort":0,"id":100000,"area_id":450100,"type":1,"delete":true,"temprownumber":1,"status":1},{"tempcolumn":0,"edit":true,"open_month":9,"name":"天桥一中","sort":0,"id":100008,"area_id":370105,"type":1,"delete":true,"temprownumber":2,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"中小学服务学校","sort":0,"id":100010,"area_id":0,"type":0,"delete":true,"temprownumber":3,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"济南第十三中学","sort":0,"id":100011,"area_id":0,"type":0,"delete":true,"temprownumber":4,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"实验中学","sort":0,"id":100012,"area_id":0,"type":0,"delete":true,"temprownumber":5,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"试验","sort":0,"id":100013,"area_id":0,"type":0,"delete":true,"temprownumber":6,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"测试学校123","sort":0,"id":100016,"area_id":0,"type":0,"delete":true,"temprownumber":7,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"PT0001","sort":0,"id":100029,"area_id":0,"type":0,"delete":true,"temprownumber":8,"status":0},{"tempcolumn":0,"edit":true,"open_month":null,"name":"南宁三中（新建测试）","sort":0,"id":100030,"area_id":0,"type":0,"delete":true,"temprownumber":9,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"四中","sort":0,"id":100032,"area_id":0,"type":0,"delete":true,"temprownumber":10,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"新学校测试","sort":0,"id":100033,"area_id":0,"type":0,"delete":true,"temprownumber":11,"status":1},{"tempcolumn":0,"edit":true,"open_month":null,"name":"八中","sort":0,"id":100034,"area_id":0,"type":0,"delete":true,"temprownumber":12,"status":1}]}
-        let datas=resData.list;
-        let data=[];
-        datas.map((item,index)=>{
-            item.xh=index+1;
-            data.push(item)
-        });
-        this.setState({
-            loading:false,
-            data,
-            total:resData.totalRow
-        })
     }
 
     //获取权限
-    getPermission=(callback)=>{
+    getPermission=()=>{
         //1.9: 查询权限符（前端调用，判断按钮是否显示）
         let utoken =store.get(storekeyname.TOKEN);
         let personal=store.get(storekeyname.PERSONALINFO);
         let permissions = [
-            storekeyname.teacher_card_add,
+            storekeyname.schoolInfo_baseInfo_add,storekeyname.schoolInfo_baseInfo_edit,
         ]
         let access = [];
         permissions.map(item => {
-            access.push(item)
+            access.push(personal.app_code +item)
         });
         let paramsPermissions = {
             platform_code: personal.platform_code, //平台代码
             app_code: personal.app_code, //应用系统代码
-            grd_id: 0, //年级id，全部年级则传-1,不需要判断年级则传0
-            cls_id: 0, //班级id，年级下全部班级则传-1，不需要判断班级则传0
-            stu_id: 0, //学生id，全部学生则传-1，不需要判断学生则传0
+            grd_code: 0, //年级id，全部年级则传-1,不需要判断年级则传0
+            cls_code: 0, //班级id，年级下全部班级则传-1，不需要判断班级则传0
+            stu_code: 0, //学生id，全部学生则传-1，不需要判断学生则传0
             sub_code: 0, //科目代码，全部科目则传“-1”，不需要判断年级则传“0”
             access: access.join(","), //权限符，需要判断权限的权限符，多个则用逗号拼接
             access_token: utoken //用户令牌
@@ -249,9 +243,25 @@ class BasicInfo extends Component {
                     }
                 });
                 this.setState({
-                    add_edit:permissionsObj.get(storekeyname.teacher_card_add),
+                    add:permissionsObj.get(storekeyname.schoolInfo_baseInfo_add),
+                    edit:permissionsObj.get(storekeyname.schoolInfo_baseInfo_edit),
                 })
-                callback();
+            } else {
+                message.error(res.msg)
+            }
+        });
+    }
+
+    //数据字典
+    getDictList=()=>{
+        let utoken =store.get(storekeyname.TOKEN);
+        let params = {
+            access_token: utoken //用户令牌
+        };
+        myUtils.post(storekeyname.INTERFACEMENG+"api/dict", params, res => {
+            console.log(JSON.stringify(res))
+            if (res.code == 0) {
+                console.log(JSON.stringify(res.data.list));
             } else {
                 message.error(res.msg)
             }
@@ -311,13 +321,10 @@ class BasicInfo extends Component {
     }
 
     componentDidMount() {
-        // this.getPersionalInfo(()=>{
-        //     this.getArea();
-        //     this.getTableData();
-        // });
-            this.getArea();
-            // this.getPermission(()=>{})
-            this.getTableData(this.state.searchData,this.state.pageindex);
+        this.getArea();
+        this.getDictList();
+        this.getPermission()
+        this.getTableData(this.state.searchData,this.state.pageindex);
     }
 
     render() {
@@ -336,9 +343,8 @@ class BasicInfo extends Component {
                            dataSource={this.state.data}
                            bordered
                            size='middle'
-                           rowKey={record=>record.id}
+                           rowKey={record=>record.code}
                            loading={this.state.loading}
-                           rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
                            pagination={{
                                current:this.state.pageindex,
                                onChange: page => {

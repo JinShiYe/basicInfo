@@ -342,7 +342,7 @@ import {Button, Input, Avatar, Icon} from "antd";
                         className:"ant-table-column-inputImg",
                         render: (record) => {
                             let input =null;
-                            if(that.state.add_edit){
+                            if(that.state.edit){
                                 input=<Input placeholder="请输入序号" defaultValue={0} onChange={event => {that.onValueChange(event,record)}}/>
                             }else{
                                 input=<div>{0}</div>
@@ -358,11 +358,14 @@ import {Button, Input, Avatar, Icon} from "antd";
                         title: '序号',
                         align:"center",
                         dataIndex: 'xh',
-                        width:100,
+                        width:80,
+                        render: (...obj) =>{
+                            return obj[2]+1
+                        }
                     },
                     {
                         title: '学校代码',
-                        dataIndex: 'id',
+                        dataIndex: 'code',
                         width: 100,
                     },
                     {
@@ -372,10 +375,10 @@ import {Button, Input, Avatar, Icon} from "antd";
                     },
                     {
                         title: '所属地区',
-                        dataIndex: 'area_id',
+                        dataIndex: 'area_code',
                         // width: 250,
-                        render: (area_id,record) => {
-                            let area =area_id+"";
+                        render: (area_code,record) => {
+                            let area =area_code+"";
                             let province=area.substr(0,2)+"0000";
                             let city=area.substr(0,4)+"00";
                             let province_name="";
@@ -413,7 +416,9 @@ import {Button, Input, Avatar, Icon} from "antd";
                         dataIndex: 'status',
                         width: 100,
                         align:"center",
-                        render: (stat) => (<span>{stat===1?"正常":"禁用"}</span>),
+                        render: (stat) => {
+                            return stat === 0 ? <Icon type="close-circle" style={{ fontSize: '16px' }}/> : <Icon type="check-circle" theme="twoTone" twoToneColor="#09c" style={{ fontSize: '16px' }}/>
+                        },
                     },
                 ]
                 if(that.state.add_edit){
