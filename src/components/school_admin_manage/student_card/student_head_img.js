@@ -437,7 +437,6 @@ class StudentHeadImg extends Component {
                                size='middle'
                                rowKey={record=>record.uid}
                                loading={this.state.loading}
-                               rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
                                pagination={{
                                    current:this.state.pageindex,
                                    onChange: page => {

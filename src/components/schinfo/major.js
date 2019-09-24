@@ -390,7 +390,6 @@ class Major extends Component {
                                size='middle'
                                rowKey={record=>record.id}
                                loading={this.state.loading}
-                               rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
                                pagination={{
                                    onChange: page => {
                                        this.setState({

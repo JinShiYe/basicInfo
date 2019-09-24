@@ -13,7 +13,8 @@ class Test extends Component {
         this.state={
             name:'',
             password:'',
-            encryptKey:''
+            encryptKey:'',
+            qxf:'support#',
         }
     }
 
@@ -43,13 +44,17 @@ class Test extends Component {
             password:e.target.value
         })
     }
+
+    saveQxf=(e)=>{
+        this.setState({
+            qxf:e.target.value
+        })
+    }
+
     login=()=>{
-        console.log(this.state.name);
-        console.log(this.state.password);
-        console.log(this.state.encryptKey);
         let paramsPermissions = {
             platform_code: 'PT0001',
-            app_code: 'support#',
+            app_code: this.state.qxf,
             login_name: this.state.name,
             password: MD5(this.state.encryptKey + this.state.password).toString()
         };
@@ -108,6 +113,13 @@ class Test extends Component {
                     size="large"
                     style={{width:350}}
                     onChange={this.savePsw}
+                />
+                <Input
+                    placeholder="权限符"
+                    size="large"
+                    style={{width:350}}
+                    onChange={this.saveQxf}
+                    defaultValue={'support#'}
                 />
                 <Button className="create-notice-btn" type="primary" icon="form" onClick={this.login}>登录</Button>
                 <br/><br/><br/>

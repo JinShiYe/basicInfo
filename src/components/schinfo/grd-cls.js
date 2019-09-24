@@ -617,7 +617,6 @@ class GrdAndCls extends Component {
                                size='middle'
                                loading={this.state.loading}
                                rowKey={record=>record.id}
-                               rowClassName={(record,index)=>index %2 ===0 ? "odd":"even"}
                                pagination={{
                                    onChange: page => {
                                        this.setState({
