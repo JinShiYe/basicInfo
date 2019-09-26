@@ -492,7 +492,7 @@ import {Button, Input, Avatar, Icon} from "antd";
                         align:"center",
                         render: (record) => {
                             // return <Button type="primary" onClick={()=>that.showModal_edit(record)}>修改</Button>
-                            return  <Icon type="form" style={{color:"#1890ff"}} onClick={()=>that.showModal_edit(record)}/>
+                            return  <Icon type="form" style={{color:"#1890ff"}} />
                         }
                     }
                     system_name_icon.push(col);

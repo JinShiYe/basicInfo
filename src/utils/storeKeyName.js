@@ -22,16 +22,16 @@ const storeKeyName={
     common_add:"Baseinfo:add",//添加
     common_edit:"Baseinfo:edit",//编辑
     //学校后台管理
-    student_card_add:"School:Card:Student:Operation:add",
-    student_card_edit:"School:Card:Student:Operation:edit",
-    student_card_delete:"School:Card:Student:Operation:delete",
-    teacher_card_add:"School:Card:Teacher:Operation:add",
-    teacher_card_edit:"School:Card:Teacher:Operation:edit",
-    teacher_card_delete:"School:Card:Teacher:Operation:delete",
+    student_card_add:"SchoolCard:Student:Operation:add",
+    student_card_edit:"SchoolCard:Student:Operation:edit",
+    student_card_delete:"SchoolCard:Student:Operation:delete",
+    teacher_card_add:"SchoolCard:Teacher:Operation:add",
+    teacher_card_edit:"SchoolCard:Teacher:Operation:edit",
+    teacher_card_delete:"SchoolCard:Teacher:Operation:delete",
     //中小学支撑
-    schoolInfo_baseInfo_add:'SchoolInfo:BaseInfo:add',//
-    schoolInfo_baseInfo_edit:'SchoolInfo:BaseInfo:edit',//
-    schoolInfo_baseInfo_delete:'SchoolInfo:BaseInfo:delete',//
+    schoolInfo_baseInfo_add:'School:Operation:add',//
+    schoolInfo_baseInfo_edit:'School:Operation:edit',//
+    schoolInfo_baseInfo_delete:'School:Operation:delete',//
 
     //七牛
     QINIUAPPID:4,//七牛APPID 由管理员分配

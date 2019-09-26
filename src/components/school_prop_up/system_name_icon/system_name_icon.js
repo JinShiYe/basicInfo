@@ -25,7 +25,7 @@ class AdvancedSearchForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <div className='divSearch'>
+            <div className='common-search-form'>
                 <Form layout="inline" onSubmit={this.handleSearch}>
                     <Form.Item label={"关键字"}>
                         {getFieldDecorator("keywords", {
