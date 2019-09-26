@@ -20,8 +20,9 @@ const storeKeyName={
 
     //权限
     //统一信息
-    common_add:"Baseinfo:add",//添加
-    common_edit:"Baseinfo:edit",//编辑
+    common_add:"Baseinfo:Operation:add",//添加
+    common_edit:"Baseinfo:Operation:edit",//编辑
+    common_delete:"Baseinfo:Operation:delete",//删除
     //学校后台管理
     student_card_add:"SchCard:Student:Operation:add",
     student_card_edit:"SchCard:Student:Operation:edit",
