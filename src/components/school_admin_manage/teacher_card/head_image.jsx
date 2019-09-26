@@ -146,7 +146,7 @@ class PicturesWall extends React.Component {
                                     console.log(JSON.stringify(res))
                                     if (res.code == 0) {
                                         that.props.onRefreshTable();
-                                        message.error("人脸信息上传成功")
+                                        message.success("人脸信息上传成功")
                                     }else{
                                         message.error(res.msg)
                                     }

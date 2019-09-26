@@ -1,8 +1,9 @@
 import React from "react";
-
+import store from "../utils/store";
 //公共参数
 const storeKeyName={
     build:"release",//是否console.log  单独测试( debug )：true  发布联调( joint )：true  正式发布( release )：false            ******************
+    // build:store.get("build")===null?'release':'debug' ,//
     INTERFACEZENG:"http://develop.jiaobaowang.net/sup/",//顾工新发接口 单点登录系统接口
     INTERFACEMENG:"http://139.129.252.49:8080/sys_new/",//广西接口 人事系统
     INTERFACEGU : 'http://develop.jiaobaowang.net/baseapi/api/Data/', //顾工 统一信息、中小学校园卡接口
@@ -22,12 +23,12 @@ const storeKeyName={
     common_add:"Baseinfo:add",//添加
     common_edit:"Baseinfo:edit",//编辑
     //学校后台管理
-    student_card_add:"SchoolCard:Student:Operation:add",
-    student_card_edit:"SchoolCard:Student:Operation:edit",
-    student_card_delete:"SchoolCard:Student:Operation:delete",
-    teacher_card_add:"SchoolCard:Teacher:Operation:add",
-    teacher_card_edit:"SchoolCard:Teacher:Operation:edit",
-    teacher_card_delete:"SchoolCard:Teacher:Operation:delete",
+    student_card_add:"SchCard:Student:Operation:add",
+    student_card_edit:"SchCard:Student:Operation:edit",
+    student_card_delete:"SchCard:Student:Operation:delete",
+    teacher_card_add:"SchCard:Teacher:Operation:add",
+    teacher_card_edit:"SchCard:Teacher:Operation:edit",
+    teacher_card_delete:"SchCard:Teacher:Operation:delete",
     //中小学支撑
     schoolInfo_baseInfo_add:'School:Operation:add',//
     schoolInfo_baseInfo_edit:'School:Operation:edit',//

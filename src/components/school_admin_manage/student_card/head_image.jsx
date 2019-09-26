@@ -140,11 +140,11 @@ class PicturesWall extends React.Component {
                                     cardtp:parseInt(rowData.cardtp),
                                 }
                                 console.log(JSON.stringify(comData1))
-                                myUtils.post(storekeyname.INTERFACEGU+"HrTecVCardAorE", comData1, res => {
+                                myUtils.post(storekeyname.INTERFACEGU+"HrStuVCardAorE", comData1, res => {
                                     console.log(JSON.stringify(res))
                                     if (res.code == 0) {
                                         that.props.onRefreshTable();
-                                        message.error("人脸信息上传成功")
+                                        message.success("人脸信息上传成功")
                                     }else{
                                         message.error(res.msg)
                                     }

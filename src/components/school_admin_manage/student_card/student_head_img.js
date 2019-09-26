@@ -6,7 +6,7 @@ import myUtils from '../../../utils/myUtils';
 import {Table, Modal, Button, Icon, Form, Input, Select, message, Row, Col,} from 'antd';
 import {withRouter} from 'react-router-dom';
 import {getColumns} from "../../../utils/commom-colums";
-import PicturesWall from "../teacher_card/head_image";
+import PicturesWall from "../student_card/head_image";
 import Container from "../../../common_from_baseframe/Container";
 import Header from "../../../common_from_baseframe/Header";
 import {ContentDark} from "../../../common_from_baseframe/Content";
