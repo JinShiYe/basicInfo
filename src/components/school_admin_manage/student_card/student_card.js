@@ -333,7 +333,7 @@ class StudentCard extends Component {
         let utoken =store.get(storekeyname.TOKEN);
         let personal=store.get(storekeyname.PERSONALINFO);
         let permissions = [
-            storekeyname.student_card_add,
+            storekeyname.card_add,
         ]
         let access = [];
         permissions.map(item => {
@@ -362,7 +362,7 @@ class StudentCard extends Component {
                     }
                 });
                 this.setState({
-                    add_edit:permissionsObj.get(storekeyname.student_card_add),
+                    add_edit:permissionsObj.get(storekeyname.card_add),
                 })
                 callback();
             } else {

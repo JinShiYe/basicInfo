@@ -24,12 +24,9 @@ const storeKeyName={
     common_edit:"Baseinfo:Operation:edit",//编辑
     common_delete:"Baseinfo:Operation:delete",//删除
     //学校后台管理
-    student_card_add:"SchCard:Student:Operation:add",
-    student_card_edit:"SchCard:Student:Operation:edit",
-    student_card_delete:"SchCard:Student:Operation:delete",
-    teacher_card_add:"SchCard:Teacher:Operation:add",
-    teacher_card_edit:"SchCard:Teacher:Operation:edit",
-    teacher_card_delete:"SchCard:Teacher:Operation:delete",
+    card_add:"SchCard:Operation:add",
+    card_edit:"SchCard:Operation:edit",
+    card_delete:"SchCard:Operation:delete",
     //中小学支撑
     schoolInfo_baseInfo_add:'School:Operation:add',//
     schoolInfo_baseInfo_edit:'School:Operation:edit',//
