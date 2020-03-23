@@ -2,7 +2,7 @@ import React from "react";
 import store from "../utils/store";
 //公共参数
 const storeKeyName={
-    build:"release",//是否console.log  单独测试( debug )：true  发布联调( joint )：true  正式发布( release )：false            ******************
+    build:"debug",//是否console.log  单独测试( debug )：true  发布联调( joint )：true  正式发布( release )：false            ******************
     // build:store.get("build")===null?'release':'debug' ,//
     INTERFACEZENG:"http://develop.jiaobaowang.net/sup/",//顾工新发接口 单点登录系统接口
     INTERFACEMENG:"http://139.129.252.49:8080/sys_new/",//广西接口 人事系统
